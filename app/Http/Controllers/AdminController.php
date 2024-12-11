@@ -47,6 +47,15 @@ class AdminController extends Controller
         // $User->role = '1';  // 1:Admin, 2:User
         // $User->status = '1';
         // $User->save();
+
+//         MAIL_MAILER=smtp
+// MAIL_HOST=smtp.gmail.com
+// MAIL_PORT=587
+// MAIL_USERNAME=5ddeveloper247@gmail.com
+// MAIL_PASSWORD='ncks ifti vkzm npoe'
+// MAIL_ENCRYPTION=tls
+// MAIL_FROM_ADDRESS="noreply@irm.com"
+// MAIL_FROM_NAME="${APP_NAME}"
         
         // $mailData = [];
         // $mailData['otp'] = $otp;
