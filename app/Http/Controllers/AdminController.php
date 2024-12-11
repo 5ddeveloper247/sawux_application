@@ -48,6 +48,13 @@ class AdminController extends Controller
         // $User->status = '1';
         // $User->save();
         
+        // $mailData = [];
+        // $mailData['otp'] = $otp;
+        // $mailData['username'] = $User->name;
+        // $body = view('email.forget_otp_template', $mailData);
+        // // sendMail($User->first_name, $User->email, 'Password Reset Request', $body);
+        // sendMail($User->first_name, 'hamza@5dsolutions.ae', 'Password Reset Request', $body);
+
         // return 'User Created Successfully...';
     }
 
