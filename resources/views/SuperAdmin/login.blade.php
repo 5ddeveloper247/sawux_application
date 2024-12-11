@@ -1,4 +1,4 @@
-@extends('layouts.admin.admin_master')
+@extends('layouts.super_admin.master')
 
 @push('css')
 <style>
@@ -96,7 +96,7 @@
             <div class="col-md-6 col-12  p-5 h-100 text-center d-flex flex-column justify-content-center">
                 <div class="text-start ">
                     <h1 class="text-center" style="color:#65cb02;">
-                        LOGIN
+                       SUPER ADMIN LOGIN
                     </h1>
                     @if(session('error'))
                         <div class="alert alert-danger">
@@ -110,7 +110,7 @@
                         </div>
                     @endif
 
-                    <form action="{{route('loginSubmit')}}" method="POST">
+                    <form action="{{route('superadmin.loginSubmit')}}" method="POST">
                         @csrf
                         <div class="mt-4">
                             <label for="">Username</label>
@@ -126,6 +126,11 @@
                             <div class="remember-me d-flex gap-1">
                                 <!-- <input type="checkbox" id="remember-me">
                                 <label class="form-label mb-1" for="remember-me">Remember me</label> -->
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <div>
+                            <a href="#">forget password</a>
                             </div>
                         </div>
                         <button class="py-2 px-4 mt-4 mb-3 w-100" type="submit" style="background-color:#65cb02; color: #fff;">

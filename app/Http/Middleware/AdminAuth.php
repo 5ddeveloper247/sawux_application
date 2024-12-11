@@ -17,18 +17,13 @@ class AdminAuth
      */
     public function handle(Request $request, Closure $next)
     {
-    	if(!Auth::user()){
-    		 
-    		$request->session()->flash('error', 'Access Denied');
-    		return redirect('login');
-    		 
-    	}
-    	// else if(session('user')->role != '1'){
-    		 
-        //     $request->session()->flash('error', 'Access Denied');
-    	// 	return redirect('admin/login');
-    	
-    	// }
-        return $next($request);
+        if (Auth::check() && (Auth::user()->role === 1 || Auth::user()->role === 2) ) {
+            return $next($request);
+        }
+
+        // Redirect to a specific page if the user is not a Super Admin
+        return redirect()->route('login')->with('error', 'Unauthorized access');
+
+
     }
 }

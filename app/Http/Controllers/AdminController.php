@@ -53,7 +53,7 @@ class AdminController extends Controller
 
     public function loginSubmit(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('username', 'password');
 
         // Attempt to authenticate the user
         if (Auth::attempt($credentials)) {
@@ -63,7 +63,7 @@ class AdminController extends Controller
         }
         // Authentication failed, redirect back to the login page with error message
         return redirect('login')->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'username' => 'The provided credentials do not match our records.',
         ]);
     }
 

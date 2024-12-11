@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-
+use App\Http\Controllers\SuperAdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +18,17 @@ Route::get('/', [AdminController::class, 'index']);
 Route::get('/login', [AdminController::class, 'index'])->name('login');
 Route::post('/loginSubmit', [AdminController::class, 'loginSubmit'])->name('loginSubmit');
 Route::get('/logout', [AdminController::class, 'logout'])->name('logout');
+
+//  super admin
+
+Route::get('/admin', [SuperAdminController::class, 'index'])->name('superadmin.login');
+Route::post('/adminloginSubmit', [SuperAdminController::class, 'loginSubmit'])->name('superadmin.loginSubmit');
+
+
+Route::group(['middleware' => ['SuperAdminAuth']], function () {
+Route::get('/admin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
+});
+
 
 Route::group(['middleware' => ['AdminAuth']], function () {
 
