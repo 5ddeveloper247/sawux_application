@@ -130,7 +130,7 @@
                         </div>
                         <div class="d-flex justify-content-end">
                             <div>
-                            <a href="#">forget password</a>
+                            <a href="{{route('superadmin.forgetpassword')}}">forget password</a>
                             </div>
                         </div>
                         <button class="py-2 px-4 mt-4 mb-3 w-100" type="submit" style="background-color:#65cb02; color: #fff;">

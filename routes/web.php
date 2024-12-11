@@ -23,7 +23,11 @@ Route::get('/logout', [AdminController::class, 'logout'])->name('logout');
 
 Route::get('/admin', [SuperAdminController::class, 'index'])->name('superadmin.login');
 Route::post('/adminloginSubmit', [SuperAdminController::class, 'loginSubmit'])->name('superadmin.loginSubmit');
-
+// forget password
+Route::get('/forget-password', [SuperAdminController::class, 'forgetPassword'])->name('superadmin.forgetpassword');
+Route::post('/email-verified', [SuperAdminController::class, 'emailverified'])->name('superadmin.email.verified');
+Route::post('/otp-verified', [SuperAdminController::class, 'otpverified'])->name('superadmin.otp.verified');
+Route::post('/update-password', [SuperAdminController::class, 'updatePassword'])->name('superadmin.updatePassword');
 
 Route::group(['middleware' => ['SuperAdminAuth']], function () {
 Route::get('/admin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');

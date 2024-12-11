@@ -8,7 +8,7 @@
 <body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #F4F4F4;">
     <div style="max-width: 600px; margin: auto; background-color: #FFFFFF; border: 1px solid #DDDDDD;">
         <div style="background-color: #359f3a; color: #333333; padding: 20px; text-align: center;">
-            <h2 style="max-width: 100%;"> IRM Notification</h2>
+            <h2 style="max-width: 100%;"> SAWUX Notification</h2>
         </div>
         <div style="padding: 20px;">
             <h2 style="color: #333333;">Password Reset Request</h2>
@@ -21,7 +21,7 @@
             <p style="color: #555555;">Best regards,<br>Admin Team</p>
         </div>
         <div style="background-color: #F4F4F4; padding: 10px; text-align: center; color: #999999;">
-            &copy; {{ date('Y') }} IRM System. All rights reserved.
+            &copy; {{ date('Y') }} SAWUX System. All rights reserved.
         </div>
     </div>
 </body>
