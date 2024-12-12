@@ -39,3 +39,15 @@ if (!function_exists('sendMail')) {
         }
     }
 }
+if (!function_exists('getUserSidebarMenus')) {
+    function getUserSidebarMenus()
+    {
+        if (Auth::check() && Auth()->user()->role === 1) {
+            return Auth::user()->sidebarMenus; // Assuming the relationship is defined
+        }
+        if (Auth::check() && Auth()->user()->role === 0) {
+            return \App\Models\SidebarMenu::all();
+        }
+        return collect(); // Return an empty collection if not logged in
+    }
+}

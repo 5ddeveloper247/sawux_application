@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SuperAdminController;
+use App\Http\Controllers\SubAdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,8 +30,16 @@ Route::post('/email-verified', [SuperAdminController::class, 'emailverified'])->
 Route::post('/otp-verified', [SuperAdminController::class, 'otpverified'])->name('superadmin.otp.verified');
 Route::post('/update-password', [SuperAdminController::class, 'updatePassword'])->name('superadmin.updatePassword');
 
+
+
 Route::group(['middleware' => ['SuperAdminAuth']], function () {
 Route::get('/admin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
+
+// sub admin
+Route::get('/admin/sub-admin', [SubAdminController::class, 'index'])->name('superadmin.subAdmin');
+Route::post('/admin/sub-admin/listAll', [SubAdminController::class, 'listAll'])->name('superadmin.subAdmin.listAll');
+Route::post('/admin/sub-admin/creat', [SubAdminController::class, 'create'])->name('superadmin.subAdmin.create');
+Route::post('/admin/sub-admin/edit', [SubAdminController::class, 'edit'])->name('superadmin.subAdmin.edit');
 });
 
 

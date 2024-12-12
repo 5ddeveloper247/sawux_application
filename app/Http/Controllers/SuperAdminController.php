@@ -31,7 +31,7 @@ class SuperAdminController extends Controller
         ]);
     }
     public function dashboard(){
-        return 'sdf';
+        return view ('SuperAdmin.dashboard');
     }
 
     public function forgetPassword(){
