@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\SubAdminController;
+use App\Http\Controllers\CustomerController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,9 +31,10 @@ Route::post('/email-verified', [SuperAdminController::class, 'emailverified'])->
 Route::post('/otp-verified', [SuperAdminController::class, 'otpverified'])->name('superadmin.otp.verified');
 Route::post('/update-password', [SuperAdminController::class, 'updatePassword'])->name('superadmin.updatePassword');
 
+/************** Super Admin ******************/
 
+Route::group(['middleware' => ['SuperAdminAuth', 'check.sidebar.permission']], function () {
 
-Route::group(['middleware' => ['SuperAdminAuth']], function () {
 Route::get('/admin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
 
 // sub admin
@@ -40,6 +42,14 @@ Route::get('/admin/sub-admin', [SubAdminController::class, 'index'])->name('supe
 Route::post('/admin/sub-admin/listAll', [SubAdminController::class, 'listAll'])->name('superadmin.subAdmin.listAll');
 Route::post('/admin/sub-admin/creat', [SubAdminController::class, 'create'])->name('superadmin.subAdmin.create');
 Route::post('/admin/sub-admin/edit', [SubAdminController::class, 'edit'])->name('superadmin.subAdmin.edit');
+Route::post('/admin/sub-admin/delete', [SubAdminController::class, 'delete'])->name('superadmin.subAdmin.delete');
+// customers
+Route::get('/admin/customers', [CustomerController::class, 'index'])->name('superadmin.customers');
+Route::post('/admin/customers/listAll', [CustomerController::class, 'listAll'])->name('superadmin.customers.listAll');
+Route::post('/admin/customers/creat', [CustomerController::class, 'create'])->name('superadmin.customers.create');
+Route::post('/admin/customers/edit', [CustomerController::class, 'edit'])->name('superadmin.customers.edit');
+Route::post('/admin/customers/delete', [CustomerController::class, 'delete'])->name('superadmin.customers.delete');
+Route::post('/admin/customers/status', [CustomerController::class, 'status'])->name('superadmin.customers.status');
 });
 
 

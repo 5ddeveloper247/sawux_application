@@ -3,20 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\Customer;
 use App\Models\SidebarMenu;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
-class SubAdminController extends Controller
+use Illuminate\Support\Facades\Auth;
+class CustomerController extends Controller
 {
     //
     public function index(){
         
-        $sidebarMenus = SidebarMenu::all(); // Fetch all sidebar menu items
-        return view('SuperAdmin.SubAdmin.index', compact('sidebarMenus')); // Pass the sidebar menus to the view
-        
-
+        return view('SuperAdmin.Customer.index'); 
     }
     
     public function listAll(Request $request)
@@ -33,10 +31,12 @@ class SubAdminController extends Controller
             $page = ($start / $length) + 1;
             
             // Get data with pagination and filtering
-            $data = User::where('name', 'like', '%' . $searchTerm . '%')
-                        ->where('role','=',1)
+          
+            $data = Customer::with('creator')
+            ->where('name', 'like', '%' . $searchTerm . '%')
                         ->latest()
                         ->paginate($length, ['*'], 'page', $page);
+                       
             
             // Format data for DataTables response
             $formattedData = $data->items(); // Get current page items
@@ -44,10 +44,19 @@ class SubAdminController extends Controller
                 return [
                     'DT_RowIndex' => $start + $index + 1, // Adjust index for pagination
                     'name' => $row->name,
-                    'username' => $row->username,
+                    'company_name' => $row->company_name,
                     'email' => $row->email,
-                    'action' => '<button  class="btn btn-sm btn-primary edit-btn" data-id="'.$row->id.'">Edit</button>
-                                 <button class="btn btn-sm btn-danger delete-btn" data-id="'.$row->id.'">Delete</button>'
+                    'phone_number' => $row->phone_number,
+                    'address' => $row->address,
+                    'date' => $row->date,
+                    'establish_date' => $row->establish_date,
+                    'status' => '<div class="form-check form-switch pt-1">
+                                 <input class="form-check-input pointer" type="checkbox" role="switch" 
+                                 id="'.$row->id.'" 
+                                ' . (isset($row->status) && $row->status == 1 ? 'checked' : '') . '>
+                                </div>',
+                    'created_by' => $row->creator ? $row->creator->name : 'N/A',
+                    'action' => '<button  class="btn btn-sm btn-primary edit-btn" data-id="'.$row->id.' m-2">Edit</button>'
                 ];
             });
             
@@ -66,14 +75,16 @@ class SubAdminController extends Controller
     public function create(Request $request){
 
         $id = $request->id;
-        $selectedMenus = json_decode($request->selectedMenus);
         
         // Validation rules
         $rules = [
             'name' => 'required',
-            'username' => 'required|unique:users,username' . ($id ? ",$id" : ''),
-            'email' => 'required|email|unique:users,email' . ($id ? ",$id" : ''),
-            'password' => $id ? 'nullable|min:6' : 'required|min:6', // Password is required for new user but optional for update
+            'company_name' => 'required',
+            'email' => 'required|email|unique:customers,email' . ($id ? ",$id" : ''),
+            'phone_number' =>  'required', 
+            'address' =>  'required', 
+            'date' =>  'required', 
+            'establish_date' =>  'required', 
         ];
         
         // Validate request
@@ -90,18 +101,16 @@ class SubAdminController extends Controller
         // Handle create or update logic
         if ($id == '') {
             // Create new user
-            $user = new User;
-            $user->name = $request->name;
-            $user->username = $request->username;
-            $user->email = $request->email;
-            $user->password = Hash::make($request->password);
-            $user->role = 1;
-            $user->save();
-        
-            // Attach selected menus
-            foreach ($selectedMenus as $MenuId) {
-                $user->sidebarMenus()->attach($MenuId);
-            }
+            $customer = new Customer;
+            $customer->name = $request->name;
+            $customer->company_name = $request->company_name;
+            $customer->email = $request->email;
+            $customer->phone_number = $request->phone_number;
+            $customer->address = $request->address;
+            $customer->date = $request->date;
+            $customer->establish_date = $request->establish_date;
+            $customer->created_by = Auth::user()->id;
+            $customer->save();
         
             return response()->json([
                 'status' => 200,
@@ -109,21 +118,18 @@ class SubAdminController extends Controller
             ], 200);
         } else {
             // Update existing user
-            $user = User::find($id);
-            if ($user) {
-                $user->name = $request->name;
-                $user->username = $request->username;
-                $user->email = $request->email;
+            $customer = Customer::find($id);
+            if ($customer) {
+                $customer->name = $request->name;
+                $customer->company_name = $request->company_name;
+                $customer->email = $request->email;
+                $customer->phone_number = $request->phone_number;
+                $customer->address = $request->address;
+                $customer->date = $request->date;
+                $customer->establish_date = $request->establish_date;
+                $customer->created_by = Auth::user()->id;
         
-                // Update password only if provided
-                if (!empty($request->password)) {
-                    $user->password = Hash::make($request->password);
-                }
-        
-                $user->save();
-        
-                // Sync selected menus
-                $user->sidebarMenus()->sync($selectedMenus);
+                $customer->save();
         
                 return response()->json([
                     'status' => 200,
@@ -142,19 +148,11 @@ class SubAdminController extends Controller
     public function edit(Request $request){
         $id = $request->id;
         $records =array();
-        $user = User::where('id',$id)->first();
-
-     $pivotData = DB::table('user_sidebar_menu')
-        ->select('sidebar_menu_id')
-        ->where('user_id', $id)
-        ->get();
-        
-        $records['user'] = $user;
-        $records['pivotData'] = $pivotData;
+        $customer = Customer::where('id',$id)->first();
 
         return response()->json([
             'status' => 200,
-            'data' => $records,
+            'data' => $customer,
         ], 200);
     }
 
@@ -162,7 +160,7 @@ class SubAdminController extends Controller
         $id = $request->id;
 
         // Find the record by ID
-        $record = User::find($id);
+        $record = Customer::find($id);
     
         // Check if the record exists
         if ($record) {
@@ -170,6 +168,25 @@ class SubAdminController extends Controller
             $record->delete();
     
             // Return a success message
+            return response()->json([
+                'status' => 200,
+            ], 200);
+        } else {
+            // Return an error message if record not found
+            return response()->json([
+                'status' => 404,
+            ], 200);
+        }
+    }
+    public function status(Request $request)
+    {
+        $id = $request->id;
+        $status = $request->status;
+        $data = Customer::find($id);
+        
+        if($data){
+            $data->status = $status;
+            $data->save();
             return response()->json([
                 'status' => 200,
             ], 200);
