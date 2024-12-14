@@ -46,7 +46,11 @@ class User extends Authenticatable
         return $this->belongsToMany(SidebarMenu::class, 'user_sidebar_menu', 'user_id', 'sidebar_menu_id');
     }
 
-    public function customers(){
+    public function customersCreated(){
         return $this->hasMany(Customer::class, 'created_by'); 
+    }
+
+    public function customer(){
+        return $this->belongsTo(Customer::class,'customer_id');
     }
 }

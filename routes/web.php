@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\SubAdminController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerUserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -50,6 +51,15 @@ Route::post('/admin/customers/creat', [CustomerController::class, 'create'])->na
 Route::post('/admin/customers/edit', [CustomerController::class, 'edit'])->name('superadmin.customers.edit');
 Route::post('/admin/customers/delete', [CustomerController::class, 'delete'])->name('superadmin.customers.delete');
 Route::post('/admin/customers/status', [CustomerController::class, 'status'])->name('superadmin.customers.status');
+
+// customer user
+Route::get('/admin/customer-users', [CustomerUserController::class, 'index'])->name('superadmin.customer.users');
+Route::post('/admin/customer-users/listAll', [CustomerUserController::class, 'listAll'])->name('superadmin.customer.users.listAll');
+Route::post('/admin/customer-users/creat', [CustomerUserController::class, 'create'])->name('superadmin.customer.users.create');
+Route::post('/admin/customer-users/edit', [CustomerUserController::class, 'edit'])->name('superadmin.customer.users.edit');
+Route::post('/admin/customer-users/delete', [CustomerUserController::class, 'delete'])->name('superadmin.customer.users.delete');
+
+
 });
 
 
