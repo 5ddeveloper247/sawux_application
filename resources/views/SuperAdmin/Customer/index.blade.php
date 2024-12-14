@@ -65,15 +65,12 @@
                                 <tr>
 
                                     <th scope="col">NAME</th>
-                                    <th scope="col">Co. Name</th>
+                                    <th scope="col">Company Name</th>
                                     <th scope="col">EMAIL</th>
                                     <th scope="col">NUMBER</th>
-                                    <th scope="col">ADDRESS</th>
-                                    <th scope="col">DATE</th>
                                     <th scope="col">ESTABLISH</th>
                                     <th scope="col">STATUS</th>
-                                    <th scope="col">Cr. By</th>
-                                    <th class="text-end" scope="col">ACTIONS</th>
+                                    <th  scope="col">ACTIONS</th>
                                 </tr>
                             </thead>
                         </table>
@@ -98,14 +95,14 @@
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Name</label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="Name">
+                                        placeholder="Name" maxlength="50">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Company Name</label>
                                     <input type="text" class="form-control" id="company_name" name="company_name"
-                                        placeholder="company_name">
+                                        placeholder="company_name" maxlength="50">
                                 </div>
                             </div>
                             <div class="col-6">
@@ -119,7 +116,7 @@
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Phone Number</label>
                                     <input type="text" class="form-control" id="phone_number" name="phone_number"
-                                        placeholder="Phone Number">
+                                        placeholder="Phone Number" maxlength="16">
                                 </div>
                             </div>
                             <div class="col-6">
@@ -188,24 +185,12 @@
                             name: 'phone_number'
                         },
                         {
-                            data: 'address',
-                            name: 'address'
-                        },
-                        {
-                            data: 'date',
-                            name: 'date'
-                        },
-                        {
                             data: 'establish_date',
                             name: 'establish_date'
                         },
                         {
                             data: 'status',
                             name: 'status'
-                        },
-                        {
-                            data: 'created_by',
-                            name: 'created_by'
                         },
                         {
                             data: 'action',

@@ -92,14 +92,14 @@
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Name</label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="Name">
+                                        placeholder="Name" maxlength="50">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">User Name</label>
                                     <input type="text" class="form-control" id="username" name="username"
-                                        placeholder="User Name">
+                                        placeholder="User Name" maxlength="50">
                                 </div>
                             </div>
                             <div class="col-6">
@@ -113,7 +113,7 @@
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Password</label>
                                     <input type="text" class="form-control" id="password" name="password"
-                                        placeholder="Password">
+                                        placeholder="Password" maxlength="20">
                                 </div>
                             </div>
                         </div>
@@ -121,7 +121,7 @@
                             <h3>Menu List</h3>
                             <div class="row">
                                 @foreach ($sidebarMenus as $sidebarMenu)
-                                    <div class="col-4">
+                                    <div class="col-4 mt-3">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox"
                                                 value="{{ $sidebarMenu->id }}">

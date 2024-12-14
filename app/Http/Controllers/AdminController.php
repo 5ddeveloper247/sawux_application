@@ -25,7 +25,7 @@ class AdminController extends Controller
     public function dashboard(Request $request){
         
         $user = Auth::user();
-        if($user->role == 1){
+        if($user->role == 2){
             $data['api_settings'] = ApiSetting::find(1);
             return view('dashboard')->with($data);
         }else{

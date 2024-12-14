@@ -14,7 +14,18 @@ class SuperAdminController extends Controller
         Auth::logout();
         return view('SuperAdmin.login');
     }
+    public function logout(Request $request)
+    {
+        // Log out the currently authenticated user
+        Auth::logout();
 
+        // Invalidate the session and regenerate the CSRF token
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        // Redirect to the admin login page
+        return redirect('/admin');
+    }
     public function loginSubmit(Request $request)
     {
         $credentials = $request->only('username', 'password');

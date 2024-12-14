@@ -56,17 +56,6 @@
                         </div>
                     </a>
                 </div>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown button
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </div>
 
                 <div id="products">
                     <div class="px-4 pt-4 pb-5 bg-white shadow">
@@ -103,14 +92,14 @@
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Name</label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="Name">
+                                        placeholder="Name" maxlength="50">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">User Name</label>
                                     <input type="text" class="form-control" id="username" name="username"
-                                        placeholder="User Name">
+                                        placeholder="User Name" maxlength="50">
                                 </div>
                             </div>
                             <div class="col-6">
@@ -144,9 +133,6 @@
 @endsection
 @push('script')
     <script>
-          const dropdownElement = document.getElementById('dropdownMenuButton1');
-  const dropdown = new bootstrap.Dropdown(dropdownElement);
-  dropdown.show(); // To test if Bootstrap is working
         $(document).ready(function() {
             pageLoader();
 
@@ -281,7 +267,7 @@
 
             // delete record
 
-            $("#exam-listing").on('click', '.delete-btn', function(e) {
+            $("#exam-listing").on('click', '.delete_record', function(e) {
                 e.preventDefault();
                 let id = $(this).attr("data-id");
                 let type = 'POST';

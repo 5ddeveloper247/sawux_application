@@ -26,6 +26,7 @@ Route::get('/logout', [AdminController::class, 'logout'])->name('logout');
 
 Route::get('/admin', [SuperAdminController::class, 'index'])->name('superadmin.login');
 Route::post('/adminloginSubmit', [SuperAdminController::class, 'loginSubmit'])->name('superadmin.loginSubmit');
+Route::get('/admin/logout', [SuperAdminController::class, 'logout'])->name('superadmin.logout');
 // forget password
 Route::get('/forget-password', [SuperAdminController::class, 'forgetPassword'])->name('superadmin.forgetpassword');
 Route::post('/email-verified', [SuperAdminController::class, 'emailverified'])->name('superadmin.email.verified');
@@ -34,18 +35,25 @@ Route::post('/update-password', [SuperAdminController::class, 'updatePassword'])
 
 /************** Super Admin ******************/
 
-Route::group(['middleware' => ['SuperAdminAuth', 'check.sidebar.permission']], function () {
+Route::group(['middleware' => ['SuperAdminAuth']], function () {
+
+    Route::group(['middleware' => ['check.sidebar.permission']], function () {
+        Route::get('/admin/sub-admin', [SubAdminController::class, 'index'])->name('superadmin.subAdmin');
+        Route::get('/admin/customers', [CustomerController::class, 'index'])->name('superadmin.customers');
+        Route::get('/admin/customer-users', [CustomerUserController::class, 'index'])->name('superadmin.customer.users');
+
+    });
 
 Route::get('/admin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
 
 // sub admin
-Route::get('/admin/sub-admin', [SubAdminController::class, 'index'])->name('superadmin.subAdmin');
+
 Route::post('/admin/sub-admin/listAll', [SubAdminController::class, 'listAll'])->name('superadmin.subAdmin.listAll');
 Route::post('/admin/sub-admin/creat', [SubAdminController::class, 'create'])->name('superadmin.subAdmin.create');
 Route::post('/admin/sub-admin/edit', [SubAdminController::class, 'edit'])->name('superadmin.subAdmin.edit');
 Route::post('/admin/sub-admin/delete', [SubAdminController::class, 'delete'])->name('superadmin.subAdmin.delete');
 // customers
-Route::get('/admin/customers', [CustomerController::class, 'index'])->name('superadmin.customers');
+
 Route::post('/admin/customers/listAll', [CustomerController::class, 'listAll'])->name('superadmin.customers.listAll');
 Route::post('/admin/customers/creat', [CustomerController::class, 'create'])->name('superadmin.customers.create');
 Route::post('/admin/customers/edit', [CustomerController::class, 'edit'])->name('superadmin.customers.edit');
@@ -53,7 +61,6 @@ Route::post('/admin/customers/delete', [CustomerController::class, 'delete'])->n
 Route::post('/admin/customers/status', [CustomerController::class, 'status'])->name('superadmin.customers.status');
 
 // customer user
-Route::get('/admin/customer-users', [CustomerUserController::class, 'index'])->name('superadmin.customer.users');
 Route::post('/admin/customer-users/listAll', [CustomerUserController::class, 'listAll'])->name('superadmin.customer.users.listAll');
 Route::post('/admin/customer-users/creat', [CustomerUserController::class, 'create'])->name('superadmin.customer.users.create');
 Route::post('/admin/customer-users/edit', [CustomerUserController::class, 'edit'])->name('superadmin.customer.users.edit');

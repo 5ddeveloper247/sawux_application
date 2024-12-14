@@ -47,16 +47,22 @@ class CustomerController extends Controller
                     'company_name' => $row->company_name,
                     'email' => $row->email,
                     'phone_number' => $row->phone_number,
-                    'address' => $row->address,
-                    'date' => $row->date,
                     'establish_date' => $row->establish_date,
                     'status' => '<div class="form-check form-switch pt-1">
                                  <input class="form-check-input pointer" type="checkbox" role="switch" 
                                  id="'.$row->id.'" 
                                 ' . (isset($row->status) && $row->status == 1 ? 'checked' : '') . '>
                                 </div>',
-                    'created_by' => $row->creator ? $row->creator->name : 'N/A',
-                    'action' => '<button  class="btn btn-sm btn-primary edit-btn" data-id="'.$row->id.' m-2">Edit</button>'
+                    'action' => '<div class="btn-reveal-trigger position-static">
+                    <button class="btn btn-sm dropdown-toggle" id="dropdown" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <svg class="svg-inline--fa fa-ellipsis" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <path fill="currentColor" d="M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z"></path>
+                        </svg>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item edit-btn" data-id="'.$row->id.' type="button">Edit</a>
+                    </div>
+                </div>'
                 ];
             });
             

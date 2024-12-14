@@ -46,8 +46,18 @@ class SubAdminController extends Controller
                     'name' => $row->name,
                     'username' => $row->username,
                     'email' => $row->email,
-                    'action' => '<button  class="btn btn-sm btn-primary edit-btn" data-id="'.$row->id.'">Edit</button>
-                                 <button class="btn btn-sm btn-danger delete-btn" data-id="'.$row->id.'">Delete</button>'
+                    'action' => '<div class="btn-reveal-trigger position-static">
+                    <button class="btn btn-sm dropdown-toggle" id="dropdown" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <svg class="svg-inline--fa fa-ellipsis" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <path fill="currentColor" d="M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z"></path>
+                        </svg>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item edit-btn" data-id="'.$row->id.' type="button">Edit</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-danger del delete-btn" data-id="'.$row->id.'" type="button" >Remove</a>
+                    </div>
+                </div>'
                 ];
             });
             

@@ -17,7 +17,7 @@ class AdminAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && (Auth::user()->role === 1 || Auth::user()->role === 2) ) {
+        if (Auth::check() && (Auth::user()->role === 2 && Auth::user()->customer_id !== null)) {
             return $next($request);
         }
 

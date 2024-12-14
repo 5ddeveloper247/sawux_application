@@ -45,7 +45,8 @@ class CustomerUserController extends Controller
                     'DT_RowIndex' => $start + $index + 1, // Adjust index for pagination
                     'name' => $row->name,
                     'email' => $row->email,
-                    'customer' =>  $row->customer ? $row->customer->name : '',
+                    'customer' => $row->customer ? '<span style="font-size:1rem !important"> <b>Name: </b> ' . $row->customer->name . '</span><br><span style="font-size:1rem !important"> <b> Company Name: </b>'. $row->customer->company_name . '</span><br><span style="font-size:1rem !important" > <b> Email: </b> '. $row->customer->email .'</span>' : '',
+
                     'username' => $row->username,
                     'action' => '<div class="btn-reveal-trigger position-static">
                                         <button class="btn btn-sm dropdown-toggle" id="dropdown" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -54,12 +55,12 @@ class CustomerUserController extends Controller
                                             </svg>
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-end">
-                                            <a class="dropdown-item" href=#">Edit</a>
+                                            <a class="dropdown-item edit-btn" data-id="'.$row->id.' type="button">Edit</a>
                                             <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item text-danger del delete_record" type="button" >Remove</a>
+                                            <a class="dropdown-item text-danger del delete_record" data-id="'.$row->id.'" type="button" >Remove</a>
                                         </div>
                                     </div>'
-                    // 'action' => '<button  class="btn btn-sm btn-primary edit-btn" data-id="'.$row->id.' m-2">Edit</button> <button class="btn btn-sm btn-danger delete-btn" data-id="'.$row->id.'">Delete</button>'
+                   
                 ];
             });
             
