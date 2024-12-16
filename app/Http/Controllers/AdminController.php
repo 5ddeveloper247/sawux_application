@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Type;
@@ -26,8 +27,15 @@ class AdminController extends Controller
         
         $user = Auth::user();
         if($user->role == 2){
-            $data['api_settings'] = ApiSetting::find(1);
-            return view('dashboard')->with($data);
+            if($user->is_verified == 0)
+            {
+                $id = Auth::user()->id;
+                $data = User::where('id',$id)->first();
+                return view('profile',compact('data'));
+            }else{   
+                $data['api_settings'] = ApiSetting::find(1);
+                return view('dashboard')->with($data);
+            }
         }else{
             $data['api_settings'] = ApiSetting::find(1);
             return view('dashboard_user')->with($data);
@@ -538,6 +546,126 @@ class AdminController extends Controller
 
         // Close cURL session
         curl_close($ch);
+
+    }
+    public function forgetPassword(){
+        
+        return view('forget_password');
+    }
+
+    public function emailverified(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|exists:users,email',
+        ]);
+        
+        // Check if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+        $email = $request->email;
+        $data = User::where('email','=', $email)
+                ->where('role','=',2)
+                ->orwhere('role','=',3)
+                ->first();
+
+        if($data){
+                $otp = rand(100000, 999999);
+                    // Save OTP in the database
+                $data->otp = $otp;
+                $data->save();
+                $mailData['otp'] = $otp;
+                $mailData['username'] = $data->name;
+                 $body = view('email.forget_otp_template', $mailData);
+                sendMail($data->name, $data->email, 'Password Reset Request', $body);
+
+                return response()->json([
+                                    'status' => 200,
+                                    'data' => $data
+                                ], 200);
+            }
+               
+        return response()->json([
+                    'status' => 402,
+                    'message' => 'This is not authentic user',
+                ], 200);
+            
+
+    }
+    public function otpverified(Request $request){
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|exists:users,email',
+            'otp' => 'required|exists:users,otp',
+        ]);
+        
+        // Check if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+        $email = $request->email;
+        $otp = $request->otp;
+        $data = User::where('email','=', $email)
+                ->where('role','=',2)
+                ->orwhere('role','=',3)
+                ->where('otp','=',$otp)
+                ->first();
+
+        if($data){
+
+                return response()->json([
+                                    'status' => 200,
+                                    'data' => $data
+                                ], 200);
+            }
+               
+        return response()->json([
+                    'status' => 402,
+                    'message' => 'This is not authentic user',
+                ], 200);
+    }
+
+    public function updatePassword(Request $request){
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|exists:users,email',
+            'otp' => 'required|exists:users,otp',
+            'password' => [
+                'required',
+                'string',
+                'min:8', // Minimum length of 8 characters
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/',
+                'confirmed',
+            ],
+        ], [
+            'password.regex' => 'The new password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+        $email = $request->email;
+        $otp = $request->otp;
+        $data = User::where('email','=', $email)
+                ->where('role','=',2)
+                ->orwhere('role','=',3)
+                ->where('otp','=',$otp)
+                ->first();
+        if($data){
+                $password = hash::make($request->password);
+                $data->password = $password;
+                $data->save();
+                return response()->json([
+                                    'status' => 200,
+                                    'data' => $data
+                                ], 200);
+        }
 
     }
 }

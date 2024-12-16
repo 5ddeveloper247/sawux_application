@@ -94,7 +94,7 @@
                 <div class="col-md-6 col-12  p-5 h-100 text-center d-flex flex-column justify-content-center">
                     <div class="text-start ">
                         <h1 class="text-center" style="color:#65cb02;">
-                            SUPER ADMIN LOGIN
+                            FORGET PASSWORD
                         </h1>
 
 
@@ -106,6 +106,7 @@
                                 <input class="w-100 p-2 mt-1" id="email" type="text"
                                     placeholder="Enter your email address" name="email">
                             </div>
+
                             <div class="mt-4" id="otpField">
                                 <label for="">OTP</label>
                                 <br>
@@ -204,7 +205,7 @@
             e.preventDefault();
             $("#resend-otp").prop("disabled", true);
             let type = 'POST';
-            let url = '/email-verified';
+            let url = '/customer/email-verified';
             let message = '';
             let form = $('#emailVerifyForm');
             let data = new FormData(form[0]);
@@ -216,7 +217,7 @@
         function emailVerified(event) {
             event.preventDefault();
             let type = 'POST';
-            let url = '/email-verified';
+            let url = '/customer/email-verified';
             let message = '';
             let form = $('#emailVerifyForm');
             let data = new FormData(form[0]);
@@ -239,7 +240,6 @@
                 });
                 $("#otp-container").show();
                 startTimer();
-
             } else {
 
                 if (response.status == 402) {
@@ -266,7 +266,7 @@
         function OTPVerified(event) {
             event.preventDefault();
             let type = 'POST';
-            let url = '/otp-verified';
+            let url = '/customer/otp-verified';
             let message = '';
             let form = $('#emailVerifyForm');
             let data = new FormData(form[0]);
@@ -318,7 +318,7 @@
         function updatePassword(event) {
             event.preventDefault();
             let type = 'POST';
-            let url = '/update-password';
+            let url = '/customer/update-password';
             let message = '';
             let form = $('#emailVerifyForm');
             let data = new FormData(form[0]);
@@ -337,7 +337,7 @@
                 });
 
                 setTimeout(() => {
-                    window.location.href = "/admin";
+                    window.location.href = "/login";
                 }, 1000); // Adjust the delay as neede
             } else {
 

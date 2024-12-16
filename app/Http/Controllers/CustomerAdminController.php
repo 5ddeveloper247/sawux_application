@@ -3,17 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-
-class CustomerUserController extends Controller
+use App\Models\User;
+use App\Models\Customer;
+class CustomerAdminController extends Controller
 {
+    //
     public function index(){
-        
-        return view('customer_user'); 
+        $customers = Customer::where('status',1)->get();
+        return view('SuperAdmin.CustomerUser.index',compact('customers')); 
     }
     
     public function listAll(Request $request)
@@ -30,9 +31,8 @@ class CustomerUserController extends Controller
             $page = ($start / $length) + 1;
             
             // Get data with pagination and filtering
-            $loginId = Auth::user()->id;
-            $data = User::where('role','=',3)
-                        ->where('created_by','=',$loginId)
+          
+            $data = User::with('customer')->where('role','=',2)
                         ->where('name', 'like', '%' . $searchTerm . '%')
                         ->latest()
                         ->paginate($length, ['*'], 'page', $page);
@@ -44,25 +44,23 @@ class CustomerUserController extends Controller
                 return [
                     'DT_RowIndex' => $start + $index + 1, // Adjust index for pagination
                     'name' => $row->name,
-                    'username' => $row->username,
                     'email' => $row->email,
-                    'status' => '<div class="form-check form-switch pt-1">
-                                 <input class="form-check-input pointer" type="checkbox" role="switch" 
-                                 id="'.$row->id.'" 
-                                ' . (isset($row->status) && $row->status == 1 ? 'checked' : '') . '>
-                                </div>',
+                    'customer' => $row->customer ? '<span style="font-size:1rem !important"> <b>Name: </b> ' . $row->customer->name . '</span><br><span style="font-size:1rem !important"> <b> Company Name: </b>'. $row->customer->company_name . '</span><br><span style="font-size:1rem !important" > <b> Email: </b> '. $row->customer->email .'</span>' : '',
+
+                    'username' => $row->username,
                     'action' => '<div class="btn-reveal-trigger position-static">
-                    <button class="btn btn-sm dropdown-toggle" id="dropdown" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <svg class="svg-inline--fa fa-ellipsis" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                            <path fill="currentColor" d="M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z"></path>
-                        </svg>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-end">
-                        <a class="dropdown-item edit-btn" data-id="'.$row->id.' type="button">Edit</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-danger del delete-btn" data-id="'.$row->id.'" type="button" >Remove</a>
-                    </div>
-                </div>'
+                                        <button class="btn btn-sm dropdown-toggle" id="dropdown" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <svg class="svg-inline--fa fa-ellipsis" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                                <path fill="currentColor" d="M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z"></path>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a class="dropdown-item edit-btn" data-id="'.$row->id.' type="button">Edit</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item text-danger del delete_record" data-id="'.$row->id.'" type="button" >Remove</a>
+                                        </div>
+                                    </div>'
+                   
                 ];
             });
             
@@ -85,8 +83,9 @@ class CustomerUserController extends Controller
         // Validation rules
         $rules = [
             'name' => 'required',
+            'email' => 'required|email|unique:users,email' . ($id ? ",$id" : ''), 
             'username' => 'required|unique:users,username' . ($id ? ",$id" : ''),
-            'email' => 'required|email|unique:customers,email' . ($id ? ",$id" : ''),
+            'customer_id' => 'required|not_in:0',
         ];
         
         // Validate request
@@ -109,14 +108,16 @@ class CustomerUserController extends Controller
             $user->username = $request->username;
             $user->email = $request->email;
             $user->password = $hashPassword;
-            $user->created_by = Auth::user()->id;
-            $user->customer_id = Auth::user()->customer_id;
-            $user->role = 3;
+            $user->customer_id = $request->customer_id;
+            $user->role = 2;
             $user->save();
+
             $mailData['password'] = $password;
             $mailData['username'] = $request->username;
              $body = view('email.send_user_credentials_template', $mailData);
             sendMail($request->name, $request->email, 'Your Account Credentials', $body);
+
+
 
             return response()->json([
                 'status' => 200,
@@ -129,6 +130,7 @@ class CustomerUserController extends Controller
                 $user->name = $request->name;
                 $user->username = $request->username;
                 $user->email = $request->email;
+                $user->customer_id = $request->customer_id;
                 $user->save();
         
                 return response()->json([
@@ -178,23 +180,23 @@ class CustomerUserController extends Controller
             ], 200);
         }
     }
-    public function status(Request $request)
-    {
-        $id = $request->id;
-        $status = $request->status;
-        $data = User::find($id);
+    // public function status(Request $request)
+    // {
+    //     $id = $request->id;
+    //     $status = $request->status;
+    //     $data = Customer::find($id);
         
-        if($data){
-            $data->status = $status;
-            $data->save();
-            return response()->json([
-                'status' => 200,
-            ], 200);
-        } else {
-            // Return an error message if record not found
-            return response()->json([
-                'status' => 404,
-            ], 200);
-        }
-    }
+    //     if($data){
+    //         $data->status = $status;
+    //         $data->save();
+    //         return response()->json([
+    //             'status' => 200,
+    //         ], 200);
+    //     } else {
+    //         // Return an error message if record not found
+    //         return response()->json([
+    //             'status' => 404,
+    //         ], 200);
+    //     }
+    // }
 }

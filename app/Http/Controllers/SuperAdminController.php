@@ -64,7 +64,10 @@ class SuperAdminController extends Controller
             ], 422);
         }
         $email = $request->email;
-        $data = User::where('email','=', $email)->where('role','=',0)->first();
+        $data = User::where('email','=', $email)
+                ->where('role','=',0)
+                ->orwhere('role','=',1)
+                ->first();
 
 
 
@@ -106,7 +109,11 @@ class SuperAdminController extends Controller
         }
         $email = $request->email;
         $otp = $request->otp;
-        $data = User::where('email','=', $email)->where('role','=',0)->where('otp','=',$otp)->first();
+        $data = User::where('email','=', $email)
+                ->where('role','=',0)
+                ->orwhere('role','=',1)
+                ->where('otp','=',$otp)
+                ->first();
 
         if($data){
 
@@ -144,7 +151,11 @@ class SuperAdminController extends Controller
         }
         $email = $request->email;
         $otp = $request->otp;
-        $data = User::where('email','=', $email)->where('role','=',0)->where('otp','=',$otp)->first();
+        $data = User::where('email','=', $email)
+                ->where('role','=',0)
+                ->orwhere('role','=',1)
+                ->where('otp','=',$otp)
+                ->first();
         if($data){
                 $password = hash::make($request->password);
                 $data->password = $password;

@@ -5,7 +5,12 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\SubAdminController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerAdminController;
+use App\Http\Controllers\ApiConfigurationController;
+use App\Http\Controllers\ParameterController;
+use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\CustomerUserController;
+use App\Http\Controllers\ProfileController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,6 +26,12 @@ Route::get('/', [AdminController::class, 'index']);
 Route::get('/login', [AdminController::class, 'index'])->name('login');
 Route::post('/loginSubmit', [AdminController::class, 'loginSubmit'])->name('loginSubmit');
 Route::get('/logout', [AdminController::class, 'logout'])->name('logout');
+// forget password
+Route::get('/customer/forget-password', [AdminController::class, 'forgetPassword'])->name('forgetpassword');
+Route::post('/customer/email-verified', [AdminController::class, 'emailverified'])->name('email.verified');
+Route::post('/customer/otp-verified', [AdminController::class, 'otpverified'])->name('otp.verified');
+Route::post('/customer/update-password', [AdminController::class, 'updatePassword'])->name('updatePassword');
+
 
 //  super admin
 
@@ -40,7 +51,7 @@ Route::group(['middleware' => ['SuperAdminAuth']], function () {
     Route::group(['middleware' => ['check.sidebar.permission']], function () {
         Route::get('/admin/sub-admin', [SubAdminController::class, 'index'])->name('superadmin.subAdmin');
         Route::get('/admin/customers', [CustomerController::class, 'index'])->name('superadmin.customers');
-        Route::get('/admin/customer-users', [CustomerUserController::class, 'index'])->name('superadmin.customer.users');
+        Route::get('/admin/customer-admin', [CustomerAdminController::class, 'index'])->name('superadmin.customer.admin');
 
     });
 
@@ -61,10 +72,10 @@ Route::post('/admin/customers/delete', [CustomerController::class, 'delete'])->n
 Route::post('/admin/customers/status', [CustomerController::class, 'status'])->name('superadmin.customers.status');
 
 // customer user
-Route::post('/admin/customer-users/listAll', [CustomerUserController::class, 'listAll'])->name('superadmin.customer.users.listAll');
-Route::post('/admin/customer-users/creat', [CustomerUserController::class, 'create'])->name('superadmin.customer.users.create');
-Route::post('/admin/customer-users/edit', [CustomerUserController::class, 'edit'])->name('superadmin.customer.users.edit');
-Route::post('/admin/customer-users/delete', [CustomerUserController::class, 'delete'])->name('superadmin.customer.users.delete');
+Route::post('/admin/customer-admin/listAll', [CustomerAdminController::class, 'listAll'])->name('superadmin.customer.admin.listAll');
+Route::post('/admin/customer-admin/creat', [CustomerAdminController::class, 'create'])->name('superadmin.customer.admin.create');
+Route::post('/admin/customer-admin/edit', [CustomerAdminController::class, 'edit'])->name('superadmin.customer.admin.edit');
+Route::post('/admin/customer-admin/delete', [CustomerAdminController::class, 'delete'])->name('superadmin.customer.admin.delete');
 
 
 });
@@ -87,7 +98,23 @@ Route::group(['middleware' => ['AdminAuth']], function () {
     Route::post('/updateSubType', [AdminController::class, 'updateSubType'])->name('updateSubType');
     Route::post('/updateParameter', [AdminController::class, 'updateParameter'])->name('updateParameter');
     
+
+    Route::get('/api-configuration', [ApiConfigurationController::class, 'index'])->name('api.configuration');
+    Route::get('/parameters', [ParameterController::class, 'index'])->name('parameter');
+    Route::get('/device', [DeviceController::class, 'index'])->name('device');
+
+    // customer users
+    Route::get('/customer-users', [CustomerUserController::class, 'index'])->name('customer.users');
+    Route::post('/customer-users/listAll', [CustomerUserController::class, 'listAll'])->name('customer.users.listAll');
+    Route::post('/customer-users/creat', [CustomerUserController::class, 'create'])->name('customer.users.create');
+    Route::post('/customer-users/edit', [CustomerUserController::class, 'edit'])->name('customer.users.edit');
+    Route::post('/customer-users/delete', [CustomerUserController::class, 'delete'])->name('customer.users.delete');
+    Route::post('/customer-users/status', [CustomerUserController::class, 'status'])->name('customer.users.status');
     
+    //profile
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::post('/update-profile', [ProfileController::class, 'updateProfile'])->name('update-profile');
+
 });
 
 // Route::get('/', function () {

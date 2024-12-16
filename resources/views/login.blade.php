@@ -128,6 +128,11 @@
                                 <label class="form-label mb-1" for="remember-me">Remember me</label> -->
                             </div>
                         </div>
+                        <div class="d-flex justify-content-end">
+                            <div>
+                            <a href="{{route('forgetpassword')}}">forget password</a>
+                            </div>
+                        </div>
                         <button class="py-2 px-4 mt-4 mb-3 w-100" type="submit" style="background-color:#65cb02; color: #fff;">
                             SIGN IN
                         </button>
