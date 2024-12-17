@@ -219,27 +219,49 @@
                                         <p class="sub-heading"><b>${subtype.title}:</b></p>
 
                                         <ul id="parameter_list1">`;
-                        if (subtype.id == 3) {
-                            $.each(subtype.parameters, function(index, param) {
+
+                        $.each(subtype.parameters, function(index, param) {
+                            if (param.is_switch == 1) {
                                 html += `<li class="d-flex align-items-center">${param.pre_title}:&nbsp;&nbsp;&nbsp;
                                                             ${param.on_off_flag == '1' ? 
                                                                 `<span class="form-check form-switch pt-1">
-                                                                        <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" checked disabled>
-                                                                    </span>` 
+                                                                            <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" checked disabled>
+                                                                        </span>` 
                                                                 : 
                                                                 `<span class="form-check form-switch pt-1">
-                                                                        <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" disabled>
-                                                                    </span>`}
+                                                                            <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" disabled>
+                                                                        </span>`}
                                                             - ${param.post_title}&nbsp;
                                                             <i class="fa fa-pencil pointer" onclick="addParameterValue(${param.id}, '${param.parameter!=null?param.parameter:''}', '${param.parameter_id!=null?param.parameter_id:''}')"></i>
                                                         </li>`;
-                            });
-                        } else {
-                            $.each(subtype.parameters, function(index, param) {
+                            } else {
                                 html +=
-                                    `<li>${param.pre_title}: <i>[<span>${param.parameter != null ? param.parameter : 'værdi'}</span>]</i> - ${param.post_title} <i class="fa fa-pencil pointer" onclick="addParameterValue(${param.id}, '${param.parameter!=null?param.parameter:''}', '${param.parameter_id!=null?param.parameter_id:''}')"></i></li>`;
-                            });
-                        }
+                                `<li>${param.pre_title}: <i>[<span>${param.parameter != null ? param.parameter : 'værdi'}</span>]</i> - ${param.post_title} <i class="fa fa-pencil pointer" onclick="addParameterValue(${param.id}, '${param.parameter!=null?param.parameter:''}', '${param.parameter_id!=null?param.parameter_id:''}')"></i></li>`;
+                            }
+                        });
+                        // if (subtype.id == 3) {
+                        //     $.each(subtype.parameters, function(index, param) {
+                        //         html += `<li class="d-flex align-items-center">${param.pre_title}:&nbsp;&nbsp;&nbsp;
+                        //                                     ${param.on_off_flag == '1' ? 
+                        //                                         `<span class="form-check form-switch pt-1">
+                        //                                                     <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" checked disabled>
+                        //                                                 </span>` 
+                        //                                         : 
+                        //                                         `<span class="form-check form-switch pt-1">
+                        //                                                     <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" disabled>
+                        //                                                 </span>`}
+                        //                                     - ${param.post_title}&nbsp;
+                        //                                     <i class="fa fa-pencil pointer" onclick="addParameterValue(${param.id}, '${param.parameter!=null?param.parameter:''}', '${param.parameter_id!=null?param.parameter_id:''}')"></i>
+                        //                                 </li>`;
+                        //     });
+                        // } else {
+                        //     $.each(subtype.parameters, function(index, param) {
+                        //         html +=
+                        //             `<li>${param.pre_title}: <i>[<span>${param.parameter != null ? param.parameter : 'værdi'}</span>]</i> - ${param.post_title} <i class="fa fa-pencil pointer" onclick="addParameterValue(${param.id}, '${param.parameter!=null?param.parameter:''}', '${param.parameter_id!=null?param.parameter_id:''}')"></i></li>`;
+                        //     });
+                        // }
+
+
                         html += `</ul>
                                     </div>`;
                     });

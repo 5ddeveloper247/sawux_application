@@ -26,18 +26,19 @@ class AdminController extends Controller
     public function dashboard(Request $request){
         
         $user = Auth::user();
+        $id = Auth::user()->id;
+        $customerId = Auth::user()->customer_id;
         if($user->role == 2){
             if($user->is_verified == 0)
             {
-                $id = Auth::user()->id;
                 $data = User::where('id',$id)->first();
                 return view('profile',compact('data'));
             }else{   
-                $data['api_settings'] = ApiSetting::find(1);
+                $data['api_settings'] = ApiSetting::where('customer_id', $customerId)->first(); 
                 return view('dashboard')->with($data);
             }
         }else{
-            $data['api_settings'] = ApiSetting::find(1);
+            $data['api_settings'] = ApiSetting::where('customer_id', $customerId)->first();
             return view('dashboard_user')->with($data);
         }
         
@@ -95,66 +96,15 @@ class AdminController extends Controller
         return redirect('login');
     }
 
-    public function saveApiSettings(Request $request)
-    {
-        // Define validation rules
-        $validator = Validator::make($request->all(), [
-            'api_url' => 'required|url',
-            'system_api_url' => 'required|url',
-            'api_refresh_time' => 'required|integer',
-            'image' => 'nullable|image|mimes:jpeg,png,gif|max:5120', // max 5MB
-        ]);
-        
-        // Check if validation fails
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        try {
-
-            $ApiSetting = ApiSetting::find(1);
-            if($ApiSetting == null){
-                $ApiSetting = new ApiSetting();
-            }
-            $ApiSetting->api_url = $request->input('api_url');
-            $ApiSetting->system_api_url = $request->input('system_api_url');
-            $ApiSetting->api_refresh_time = $request->input('api_refresh_time');
-            // $ApiSetting->api_key = $request->input('api_key');
-            $ApiSetting->status = '1';
-            $ApiSetting->save();
-
-            // Handle the image upload
-            if ($request->hasFile('image')) {
-                $file = $request->file('image');
-                $fileName = time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('uploads'), $fileName);
-                
-                $filePath = 'uploads/' . $fileName;
-                $ApiSetting->image = $filePath;
-                $ApiSetting->save();
-            }
-            
-            return response()->json([
-                'success' => true,
-                'message' => 'Configurations Saved successfully'
-            ], 200);
-        } catch (\Exception $e) {
-            // Log the error for debugging purposes
-            Log::error('Error storing info: ' . $e->getMessage());
-
-            return response()->json([
-                'success' => false,
-                'message' => "Oops! Network Error",
-            ], 500);
-        }
-    }
+  
 
     public function getDashboardPageData(Request $request)
     {
-        $data['types_list'] = Type::with(['subTypes','subTypes.parameters'])->where('status', '1')->get();
+        $customer_id = Auth::user()->customer_id;
+        $data['types_list'] = Type::with(['subTypes','subTypes.parameters'])
+                              ->where('status', '1')
+                               ->where('customer_id', $customer_id) // Add the condition for customer_id
+                              ->get();
         
         return response()->json([
             'success' => true,
@@ -408,118 +358,11 @@ class AdminController extends Controller
     }
 
 
-    public function updateType(Request $request)
-    {
-        // Define validation rules
-        $validator = Validator::make($request->all(), [
-            'type_id' => 'required|integer',
-            'title' => 'required|string',
-        ]);
-        
-        // Check if validation fails
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ], 422);
-        }
+   
 
-        try {
+    
 
-            $type = Type::find($request->type_id);
-            $type->title = $request->input('title');
-            $type->save();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Type Updated successfully'
-            ], 200);
-        } catch (\Exception $e) {
-            // Log the error for debugging purposes
-            Log::error('Error storing info: ' . $e->getMessage());
-
-            return response()->json([
-                'success' => false,
-                'message' => "Oops! Network Error",
-            ], 500);
-        }
-    }
-
-    public function updateSubType(Request $request)
-    {
-        // Define validation rules
-        $validator = Validator::make($request->all(), [
-            'sub_type_id' => 'required|integer',
-            'title' => 'required|string',
-        ]);
-        
-        // Check if validation fails
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        try {
-
-            $SubType = SubType::find($request->sub_type_id);
-            $SubType->title = $request->input('title');
-            $SubType->save();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Sub Type Updated successfully'
-            ], 200);
-        } catch (\Exception $e) {
-            // Log the error for debugging purposes
-            Log::error('Error storing info: ' . $e->getMessage());
-
-            return response()->json([
-                'success' => false,
-                'message' => "Oops! Network Error",
-            ], 500);
-        }
-    }
-
-    public function updateParameter(Request $request)
-    {
-        // Define validation rules
-        $validator = Validator::make($request->all(), [
-            'parameter_id' => 'required|integer',
-            'pre_title' => 'required|string',
-            'post_title' => 'required|string',
-        ]);
-        
-        // Check if validation fails
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        try {
-
-            $DynamicParameter = DynamicParameter::find($request->parameter_id);
-            $DynamicParameter->pre_title = $request->input('pre_title');
-            $DynamicParameter->post_title = $request->input('post_title');
-            $DynamicParameter->save();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Parameter Updated successfully'
-            ], 200);
-        } catch (\Exception $e) {
-            // Log the error for debugging purposes
-            Log::error('Error storing info: ' . $e->getMessage());
-
-            return response()->json([
-                'success' => false,
-                'message' => "Oops! Network Error",
-            ], 500);
-        }
-    }
+  
 
     public function callApi($url){
 

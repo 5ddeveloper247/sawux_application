@@ -16,6 +16,7 @@
                     </div>
                 </div>
             </a>
+            @if(Auth::check() && Auth::user()->role == 2)
             <!-- Additional Buttons -->
             <div class="button-list d-flex ms-auto">
                 <a href="{{route('dashboard')}}" class="me-2">Dashboard</a>
@@ -25,6 +26,7 @@
                 <a href="{{route('customer.users')}}" class="me-2">Users</a>
                 <a href="{{route('profile')}}" class="me-2">Profile</a>
             </div>
+            @endif
         </div>
 
         <div class="navbar-logo d-flex align-items-center">

@@ -36,6 +36,11 @@
 @section('content')
     <div>
         <div class="p-md-4 p-3" data-page="exam">
+            <div class="d-flex justify-content-start">
+                <button type="button" class="btn btn-primary mx-2 add-device">Add Device</button>
+                <button type="button" class="btn btn-secondary mx-2 add-type">Add Type</button>
+                <button type="button" class="btn btn-success mx-2 add-parameter">Add Parameter</button>
+            </div>
             <div id="products">
                 <div class="px-4 pt-4 pb-5 bg-white mb-3 shadow">
                     <div class="row" id="mainContentEdit_section">
@@ -46,42 +51,6 @@
     </div>
     <div>
 
-
-        <div class="modal fade" id="deviceKeyModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-sm modal-dialog-centered">
-                <div class="modal-content border">
-                    <form id="addDeviceKey_form">
-                        <input type="hidden" id="type_id" name="type_id" value="">
-                        <div class="modal-header justify-content-between border-0 px-4 py-3">
-                            <h5 class="modal-title text-white">Device Key Details</h5>
-                            <button class="btn p-1 btn-outline-light closeModal1" type="button">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em"
-                                    viewBox="0 0 15 15">
-                                    <path fill="currentColor"
-                                        d="M3.64 2.27L7.5 6.13l3.84-3.84A.92.92 0 0 1 12 2a1 1 0 0 1 1 1a.9.9 0 0 1-.27.66L8.84 7.5l3.89 3.89A.9.9 0 0 1 13 12a1 1 0 0 1-1 1a.92.92 0 0 1-.69-.27L7.5 8.87l-3.85 3.85A.92.92 0 0 1 3 13a1 1 0 0 1-1-1a.9.9 0 0 1 .27-.66L6.16 7.5L2.27 3.61A.9.9 0 0 1 2 3a1 1 0 0 1 1-1c.24.003.47.1.64.27" />
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="modal-body pt-4 pb-2 px-4">
-                            <div class="row align-items-center">
-                                <div class="form-floating col-md-12 mb-3">
-                                    <input type="text" class="form-control" id="device_key" name="device_key"
-                                        placeholder="Title" maxlenght="200">
-                                    <label class="ms-2" for="device_key">Device Key</label>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="modal-footer d-flex justify-content-center align-items-center px-4 pb-4 pt-3">
-                            <button type="button" class="btn btn-cancel px-4 closeModal1">Cancel</button>
-                            <button type="button" class="btn btn-done px-4 view-exam-matrix-main-content"
-                                id="saveDeviceKey_btn" onclick="saveDeviceKeyValue();">Save</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
         <div class="modal fade" id="editTypeModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-sm modal-dialog-centered">
                 <div class="modal-content border">
@@ -90,8 +59,7 @@
                         <div class="modal-header justify-content-between border-0 px-4 py-3">
                             <h5 class="modal-title text-white">Type Details</h5>
                             <button class="btn p-1 btn-outline-light closeModal2" type="button">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em"
-                                    viewBox="0 0 15 15">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 15 15">
                                     <path fill="currentColor"
                                         d="M3.64 2.27L7.5 6.13l3.84-3.84A.92.92 0 0 1 12 2a1 1 0 0 1 1 1a.9.9 0 0 1-.27.66L8.84 7.5l3.89 3.89A.9.9 0 0 1 13 12a1 1 0 0 1-1 1a.92.92 0 0 1-.69-.27L7.5 8.87l-3.85 3.85A.92.92 0 0 1 3 13a1 1 0 0 1-1-1a.9.9 0 0 1 .27-.66L6.16 7.5L2.27 3.61A.9.9 0 0 1 2 3a1 1 0 0 1 1-1c.24.003.47.1.64.27" />
                                 </svg>
@@ -109,8 +77,8 @@
                         </div>
                         <div class="modal-footer d-flex justify-content-center align-items-center px-4 pb-4 pt-3">
                             <button type="button" class="btn btn-cancel px-4 closeModal2">Cancel</button>
-                            <button type="button" class="btn btn-done px-4 view-exam-matrix-main-content"
-                                id="saveType_btn" onclick="updateType();">Save</button>
+                            <button type="button" class="btn btn-done px-4 view-exam-matrix-main-content" id="saveType_btn"
+                                onclick="updateType();">Save</button>
                         </div>
                     </form>
                 </div>
@@ -125,8 +93,7 @@
                         <div class="modal-header justify-content-between border-0 px-4 py-3">
                             <h5 class="modal-title text-white">Sub Type Details</h5>
                             <button class="btn p-1 btn-outline-light closeModal3" type="button">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em"
-                                    viewBox="0 0 15 15">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 15 15">
                                     <path fill="currentColor"
                                         d="M3.64 2.27L7.5 6.13l3.84-3.84A.92.92 0 0 1 12 2a1 1 0 0 1 1 1a.9.9 0 0 1-.27.66L8.84 7.5l3.89 3.89A.9.9 0 0 1 13 12a1 1 0 0 1-1 1a.92.92 0 0 1-.69-.27L7.5 8.87l-3.85 3.85A.92.92 0 0 1 3 13a1 1 0 0 1-1-1a.9.9 0 0 1 .27-.66L6.16 7.5L2.27 3.61A.9.9 0 0 1 2 3a1 1 0 0 1 1-1c.24.003.47.1.64.27" />
                                 </svg>
@@ -134,6 +101,13 @@
                         </div>
                         <div class="modal-body pt-4 pb-2 px-4">
                             <div class="row align-items-center">
+                                <div class="form-floating col-md-12 mb-3">
+                                    <select class="form-select" aria-label="Default select example" id="subtype_type_id"
+                                        name="type_id">
+                                        <option>Choose Device</option>
+
+                                    </select>
+                                </div>
                                 <div class="form-floating col-md-12 mb-3">
                                     <input type="text" class="form-control" id="subtype_title" name="title"
                                         placeholder="Title" maxlenght="20">
@@ -170,6 +144,28 @@
                         <div class="modal-body pt-4 pb-2 px-4">
                             <div class="row align-items-center">
                                 <div class="form-floating col-md-12 mb-3">
+                                    <select class="form-select" aria-label="Default select example"
+                                        id="parameter_type_id" name="type_id">
+                                        <option>Choose Device</option>
+
+                                    </select>
+                                </div>
+                                <div class="form-floating col-md-12 mb-3">
+                                    <select class="form-select" aria-label="Default select example"
+                                        id="parameter_sub_type_id" name="sub_type_id">
+                                        <option>Choose SubType</option>
+
+                                    </select>
+                                </div>
+                                <div class="form-floating col-md-12 mb-3">
+                                    <select class="form-select" aria-label="Default select example"
+                                        id="parameter_is_switch" name="parameter_is_switch">
+                                        <option value="0">NO</option>
+                                        <option value="1">YES</option>
+                                    </select>
+                                    <label class="ms-2" for="parameter_is_switch">Switch</label>
+                                </div>
+                                <div class="form-floating col-md-12 mb-3">
                                     <input type="text" class="form-control" id="pre_title" name="pre_title"
                                         placeholder="Pre Title" maxlenght="20">
                                     <label class="ms-2" for="device_key">Pre Title</label>
@@ -196,7 +192,6 @@
 
 @push('script')
     <script>
-
         $(document).on('keyup', 'input', function(e) {
             $(this).removeClass('is-invalid');
         });
@@ -245,17 +240,26 @@
                                         <p class="sub-heading"><b>${subtype.title}:</b> <i class="fa fa-pencil pointer" onclick="editSubType(${subtype.id}, '${subtype.title}')"></i></p>
 
                                         <ul id="parameter_list1">`;
-                        if (subtype.id == 3) {
-                            $.each(subtype.parameters, function(index, param) {
-                                html +=
-                                    `<li>${param.pre_title}: <i>[<span>ON/OFF</span>]</i> - ${param.post_title} <i class="fa fa-pencil pointer" onclick="editParameter(${param.id}, '${param.pre_title}', '${param.post_title}')"></i></li>`;
-                            });
-                        } else {
-                            $.each(subtype.parameters, function(index, param) {
-                                html +=
-                                    `<li>${param.pre_title}: <i>[<span>værdi</span>]</i> - ${param.post_title} <i class="fa fa-pencil pointer" onclick="editParameter(${param.id}, '${param.pre_title}', '${param.post_title}')"></i></li>`;
-                            });
-                        }
+
+                        $.each(subtype.parameters, function(index, param) {
+                            if (param.is_switch == 1) {
+                            html +=
+                                `<li>${param.pre_title}: <i>[<span>ON/OFF</span>]</i> - ${param.post_title} <i class="fa fa-pencil pointer" onclick="editParameter(${param.id}, '${param.pre_title}', '${param.post_title}', '${param.is_switch}')"></i></li>`;
+                            }else{
+                                html +=`<li>${param.pre_title}: <i>[<span>værdi</span>]</i> - ${param.post_title} <i class="fa fa-pencil pointer" onclick="editParameter(${param.id}, '${param.pre_title}', '${param.post_title}', '${param.is_switch}')"></i></li>`;
+                            }
+                        });
+                        // if (subtype.id == 3) {
+                        //     $.each(subtype.parameters, function(index, param) {
+                        //         html +=
+                        //             `<li>${param.pre_title}: <i>[<span>ON/OFF</span>]</i> - ${param.post_title} <i class="fa fa-pencil pointer" onclick="editParameter(${param.id}, '${param.pre_title}', '${param.post_title}', '${param.is_switch}')"></i></li>`;
+                        //     });
+                        // } else {
+                        //     $.each(subtype.parameters, function(index, param) {
+                        //         html +=
+                        //             `<li>${param.pre_title}: <i>[<span>værdi</span>]</i> - ${param.post_title} <i class="fa fa-pencil pointer" onclick="editParameter(${param.id}, '${param.pre_title}', '${param.post_title}', '${param.is_switch}')"></i></li>`;
+                        //     });
+                        // }
                         html += `</ul>
                                     </div>`;
                     });
@@ -267,65 +271,15 @@
             $("#mainContentEdit_section").html(html);
         }
 
-       
-
-        function addParameterValue(id, parameter, parameterId) {
-            $("#param_id").val(id);
-            $("#parameter").val(parameter);
-            $("#parameter_id").val(parameterId);
-            $("#parameterModal").modal('show');
-        }
-
-        $(document).on('click', '.closeModal', function(e) {
-
-            $("#param_id").val('');
-            $("#parameter").val('');
-            $("#parameter_id").val('');
-            $("#parameterModal").modal('hide');
-        });
-
-        
-
-        function changeParameterValueOnOff(id) {
-
-            let type = 'POST';
-            let url = '/changeParameterValueOnOff';
-            let message = '';
-            let form = '';
-            let data = new FormData();
-            data.append('param_id', id);
-            // PASSING DATA TO FUNCTION
-            $('input').removeClass('is-invalid');
-            SendAjaxRequestToServer(type, url, data, '', changeParameterValueOnOffResponse, '', '');
-        }
-
-        function changeParameterValueOnOffResponse(response) {
-
-            // SHOWING MESSAGE ACCORDING TO RESPONSE
-            if (response.success == true || response.success == 'true') {
-                toastr.success(response.message, '', {
-                    timeOut: 3000
-                });
-            } else {
-                toastr.error(response.message, '', {
-                    timeOut: 3000
-                });
-            }
-        }
-
-        function addDeviceKeyValue(id, deviceKey) {
-            $("#type_id").val(id);
-            $("#device_key").val(deviceKey);
-            $("#deviceKeyModal").modal('show');
-        }
-
-        $(document).on('click', '.closeModal1', function(e) {
-            $("#type_id").val('');
-            $("#device_key").val('');
-            $("#deviceKeyModal").modal('hide');
-        });
 
         // ------------------------------ UPDATE TYPE JS CODE ---------------------------
+
+        $(document).on('click', '.add-device', function(e) {
+            e.preventDefault();
+            $("#edit_type_id").val('');
+            $("#editTypeModal").modal('show');
+        });
+
         function editType(typeId, title) {
             $("#edit_type_id").val(typeId);
             $("#type_title").val(title);
@@ -349,6 +303,8 @@
             // PASSING DATA TO FUNCTION
             $('input').removeClass('is-invalid');
             SendAjaxRequestToServer(type, url, data, '', updateTypeResponse, '', '#saveType_btn');
+
+
         }
 
         function updateTypeResponse(response) {
@@ -365,6 +321,9 @@
                 toastr.success(response.message, '', {
                     timeOut: 3000
                 });
+
+                // after add get all devices
+                getDevices();
 
             } else {
 
@@ -388,12 +347,79 @@
                 });
             }
         }
+        getDevices();
+
+        function getDevices() {
+            let type = 'POST';
+            let url = '/getDevices';
+            let message = '';
+            // PASSING DATA TO FUNCTION
+            $('input').removeClass('is-invalid');
+            SendAjaxRequestToServer(type, url, '', '', deviceResponse, '', '');
+        }
+
+        function deviceResponse(response) {
+
+            $("#parameter_type_id").empty();
+            $("#subtype_type_id").empty();
+            // SHOWING MESSAGE ACCORDING TO RESPONSE
+            if (response.success == true || response.success == 'true') {
+
+                if (response.data.length > 0) {
+
+                    for (let i = 0; i < response.data.length; i++) {
+                        if (i == 0) {
+                            $("#parameter_type_id").append('<option>Choose Device</option>');
+                            $("#subtype_type_id").append('<option>Choose Device</option>');
+                        }
+                        let option = '<option value="' + response.data[i].id + '">' + response.data[i].title + '</option>';
+                        $("#parameter_type_id").append(option);
+                        $("#subtype_type_id").append(option);
+                    }
+
+                }
+
+            } else {
+
+                if (response.status == 402) {
+
+                    error = response.message;
+
+                } else {
+                    error = response.responseJSON.message;
+                    var is_invalid = response.responseJSON.errors;
+
+                    $.each(is_invalid, function(key) {
+                        // Assuming 'key' corresponds to the form field name
+                        var inputField = $('[name="' + key + '"]');
+
+                        // Add the 'is-invalid' class to the input field's parent or any desired container
+                        inputField.closest('.form-control').addClass('is-invalid');
+                    });
+                }
+                $("#parameter_sub_type_id").append('<option>Choose Sub Type</option>');
+                $("#subtype_type_id").append('<option>Choose Sub Type</option>');
+                toastr.error(error, '', {
+                    timeOut: 3000
+                });
+            }
+        }
 
         // ------------------------------ UPDATE SUB TYPE JS CODE ---------------------------
+        $(document).on('click', '.add-type', function(e) {
+            e.preventDefault();
+            $("#edit_subtype_id").val('');
+            $("#editSubType_form").trigger('reset');
+            $("#subtype_type_id").show();
+            $("#editSubTypeModal").modal('show');
+        });
+
+
+
         function editSubType(subTypeId, title) {
+            $("#subtype_type_id").hide();
             $("#edit_subtype_id").val(subTypeId);
             $("#subtype_title").val(title);
-
             $("#editSubTypeModal").modal('show');
         }
 
@@ -454,10 +480,82 @@
         }
 
         // ------------------------------ UPDATE PARAMETER JS CODE ---------------------------
-        function editParameter(paramId, title1, title2) {
+
+        $(document).on('change', '#parameter_type_id', function(e) {
+            let id = $(this).val();
+            let type = 'POST';
+            let url = '/getSubTpes';
+            let message = '';
+            let data = new FormData();
+            data.append('id', id);
+            // PASSING DATA TO FUNCTION
+            $('input').removeClass('is-invalid');
+            SendAjaxRequestToServer(type, url, data, '', subTypeResponse, '', '#parameter_type_id');
+        });
+
+        function subTypeResponse(response) {
+
+            $("#parameter_sub_type_id").empty();
+            // SHOWING MESSAGE ACCORDING TO RESPONSE
+            if (response.success == true || response.success == 'true') {
+
+                if (response.data.length > 0) {
+                    toastr.success(response.message, '', {
+                        timeOut: 3000
+                    });
+
+                    for (let i = 0; i < response.data.length; i++) {
+                        if (i == 0) {
+                            $("#parameter_sub_type_id").append('<option>Choose Sub Type</option>');
+                        }
+                        let option = '<option value="' + response.data[i].id + '">' + response.data[i].title + '</option>';
+                        $("#parameter_sub_type_id").append(option);
+                    }
+
+                }
+
+            } else {
+
+                if (response.status == 402) {
+
+                    error = response.message;
+
+                } else {
+                    error = response.responseJSON.message;
+                    var is_invalid = response.responseJSON.errors;
+
+                    $.each(is_invalid, function(key) {
+                        // Assuming 'key' corresponds to the form field name
+                        var inputField = $('[name="' + key + '"]');
+
+                        // Add the 'is-invalid' class to the input field's parent or any desired container
+                        inputField.closest('.form-control').addClass('is-invalid');
+                    });
+                }
+                $("#parameter_sub_type_id").append('<option>Choose Sub Type</option>');
+                toastr.error(error, '', {
+                    timeOut: 3000
+                });
+            }
+        }
+
+        $(document).on('click', '.add-parameter', function(e) {
+            $("#edit_parameter_id").val('');
+            $("#parameter_type_id").show();
+            $("#parameter_sub_type_id").show();
+            $("#parameter_sub_type_id").empty();
+            $("#parameter_sub_type_id").append('<option>Choose Sub Type</option>');
+            $("#editParameter_form").trigger('reset');
+            $("#editParameterModal").modal('show');
+        });
+
+        function editParameter(paramId, title1, title2, is_switch) {
+            $("#parameter_type_id").hide();
+            $("#parameter_sub_type_id").hide();
             $("#edit_parameter_id").val(paramId);
             $("#pre_title").val(title1);
             $("#post_title").val(title2);
+            $("#parameter_is_switch").val(is_switch);
 
             $("#editParameterModal").modal('show');
         }

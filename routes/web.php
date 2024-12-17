@@ -26,7 +26,7 @@ Route::get('/', [AdminController::class, 'index']);
 Route::get('/login', [AdminController::class, 'index'])->name('login');
 Route::post('/loginSubmit', [AdminController::class, 'loginSubmit'])->name('loginSubmit');
 Route::get('/logout', [AdminController::class, 'logout'])->name('logout');
-// forget password
+// staff forget password
 Route::get('/customer/forget-password', [AdminController::class, 'forgetPassword'])->name('forgetpassword');
 Route::post('/customer/email-verified', [AdminController::class, 'emailverified'])->name('email.verified');
 Route::post('/customer/otp-verified', [AdminController::class, 'otpverified'])->name('otp.verified');
@@ -86,7 +86,9 @@ Route::group(['middleware' => ['AdminAuth']], function () {
     /************** PAGE ROUTES ******************/
     Route::get('/createStaticUser', [AdminController::class, 'createStaticUser'])->name('createStaticUser');
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    Route::post('/saveApiSettings', [AdminController::class, 'saveApiSettings'])->name('saveApiSettings');
+    
+    
+
     Route::post('/getDashboardPageData', [AdminController::class, 'getDashboardPageData'])->name('getDashboardPageData');
     Route::post('/saveParameterValues', [AdminController::class, 'saveParameterValues'])->name('getDsaveParameterValuesashboardPageData');
     Route::post('/changeParameterValueOnOff', [AdminController::class, 'changeParameterValueOnOff'])->name('changeParameterValueOnOff');
@@ -94,14 +96,23 @@ Route::group(['middleware' => ['AdminAuth']], function () {
     Route::post('/refreshParameterValuesTypeWise', [AdminController::class, 'refreshParameterValuesTypeWise'])->name('refreshParameterValuesTypeWise');
     Route::post('/updateSystemStatus', [AdminController::class, 'updateSystemStatus'])->name('updateSystemStatus');
     
-    Route::post('/updateType', [AdminController::class, 'updateType'])->name('updateType');
-    Route::post('/updateSubType', [AdminController::class, 'updateSubType'])->name('updateSubType');
-    Route::post('/updateParameter', [AdminController::class, 'updateParameter'])->name('updateParameter');
+   
+   
+   
     
 
     Route::get('/api-configuration', [ApiConfigurationController::class, 'index'])->name('api.configuration');
+    Route::post('/saveApiSettings', [ApiConfigurationController::class, 'saveApiSettings'])->name('saveApiSettings');
+
     Route::get('/parameters', [ParameterController::class, 'index'])->name('parameter');
     Route::get('/device', [DeviceController::class, 'index'])->name('device');
+    Route::post('/updateType', [DeviceController::class, 'updateType'])->name('updateType');
+    Route::post('/updateSubType', [DeviceController::class, 'updateSubType'])->name('updateSubType');
+
+    Route::post('/getDevices', [DeviceController::class, 'getDevices'])->name('getDevices');
+    
+    Route::post('/getSubTpes', [DeviceController::class, 'getSubTpes'])->name('getSubTpes');
+    Route::post('/updateParameter', [DeviceController::class, 'updateParameter'])->name('updateParameter');
 
     // customer users
     Route::get('/customer-users', [CustomerUserController::class, 'index'])->name('customer.users');

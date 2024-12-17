@@ -55,11 +55,6 @@
                                     maxlenght="200" required>
                                 <label class="mx-2" for="system_api_url">System API URL</label>
                             </div>
-                            <div class="form-floating col-md-6 mb-3 d-none">
-                                <input type="text" class="form-control" id="api_key" name="api_key" maxlength="100"
-                                    placeholder="API KEY" value="{{ @$api_settings->api_key }}" maxlenght="200" required>
-                                <label class="mx-2" for="api_key">API KEY</label>
-                            </div>
                             <div class="form-floating col-md-6 col-12 mb-3">
                                 <input type="number" class="form-control" id="api_refresh_time" name="api_refresh_time"
                                     placeholder="API Refresh Time" value="{{ @$api_settings->api_refresh_time }}"
@@ -92,11 +87,30 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @push('script')
     <script>
+        $(document).ready(function() {
+            $('#image').on('change', function() {
+                const file = this.files[0]; // Get the selected file
+                const preview = $('#previewImage'); // Image preview element
+
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        preview.html(
+                            `<img class="w-100 h-100" src="${e.target.result}" alt="image" style="height:150px;">`
+                            );
+                    };
+
+                    reader.readAsDataURL(file); // Read the file as a data URL
+                } else {
+                    preview.html(`<p>No Image Uploaded</p>`);
+                }
+            });
+        });
 
         function saveApiSettings() {
             let type = 'POST';
@@ -140,6 +154,5 @@
                 });
             }
         }
-
     </script>
 @endpush
