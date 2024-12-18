@@ -42,15 +42,26 @@
             <li>
 
                 @if (Auth::user())
-                    <a href="{{ route('logout') }}" style="font-size:16px !important;" title="Logout">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="feather feather-log-out me-2">
-                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                            <polyline points="16 17 21 12 16 7"></polyline>
-                            <line x1="21" y1="12" x2="9" y2="12"></line>
-                        </svg>
-                    </a>
+                <div class="collapse navbar-collapse me-10" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                      <!-- Dropdown Menu (opens left) -->
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                           <img class="rounded-circle " src="{{asset('assets/images/user_placeholder.png')}}"
+                          alt="" width="30"> 
+                          <span class="ms-2">{{ Auth::user()->username }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                          <li class="dropdown-item disabled" aria-disabled="true">
+                            <strong>{{ Auth::user()->name }}</strong><br>
+                            <small>{{ Auth::user()->email }}</small>
+                          </li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li><a class="dropdown-item" href="{{ route('logout') }}" id="signOutBtn">Sign Out</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
                 @endif
             </li>
             <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!"

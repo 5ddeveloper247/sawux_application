@@ -28,7 +28,7 @@ class AdminController extends Controller
         $user = Auth::user();
         $id = Auth::user()->id;
         $customerId = Auth::user()->customer_id;
-        if($user->role == 2){
+        
             if($user->is_verified == 0)
             {
                 $data = User::where('id',$id)->first();
@@ -37,10 +37,7 @@ class AdminController extends Controller
                 $data['api_settings'] = ApiSetting::where('customer_id', $customerId)->first(); 
                 return view('dashboard')->with($data);
             }
-        }else{
-            $data['api_settings'] = ApiSetting::where('customer_id', $customerId)->first();
-            return view('dashboard_user')->with($data);
-        }
+        
         
     }
 
@@ -75,7 +72,11 @@ class AdminController extends Controller
         if (Auth::attempt($credentials)) {
             // Authentication passed
             $user = Auth::user();
+            if($user->role == 2){
             return redirect()->intended('/dashboard');
+            }else{
+                return redirect()->intended('/customer/dashboard'); 
+            }
         }
         // Authentication failed, redirect back to the login page with error message
         return redirect('login')->withErrors([
@@ -103,7 +104,7 @@ class AdminController extends Controller
         $customer_id = Auth::user()->customer_id;
         $data['types_list'] = Type::with(['subTypes','subTypes.parameters'])
                               ->where('status', '1')
-                               ->where('customer_id', $customer_id) // Add the condition for customer_id
+                              ->where('customer_id', $customer_id) // Add the condition for customer_id
                               ->get();
         
         return response()->json([
@@ -265,11 +266,12 @@ class AdminController extends Controller
 
     public function getSpecificParametersResult($typeId){
 
-        $apiSettings = ApiSetting::where('id', '1')->where('status', '1')->first();
+        $customerId = Auth::user()->customer_id;
+        $apiSettings = ApiSetting::where('customer_id', $customerId)->where('status', '1')->first();
         $type = Type::where('id', $typeId)->with(['subTypes','subTypes.parameters'])->first();
-        
+     
         if($type != null && $apiSettings != null){
-            
+           
             $parameterArray = [];
             $api_url = $apiSettings->api_url;
 
@@ -284,13 +286,14 @@ class AdminController extends Controller
                         if($param->parameter != null && $param->parameter_id != null){
                             
                             $url = $api_url.''.$api_key.'&'.$param->parameter.'='.$param->parameter_id;
-                            
+                          
                             $result = $this->callApi($url);
 
                             $tempArray['id'] = $param->id;
                             $tempArray['result'] = $result;
                             $tempArray['type_id'] = $param->type_id;
                             $tempArray['sub_type_id'] = $param->sub_type_id;
+                            $tempArray['is_switch'] = $param->is_switch;
 
                             $parameterArray[] = $tempArray;
                         }else{
@@ -365,7 +368,7 @@ class AdminController extends Controller
   
 
     public function callApi($url){
-
+    
         $ch = curl_init();
 
         // Set cURL options
@@ -374,15 +377,19 @@ class AdminController extends Controller
 
         // Execute cURL request
         $response = curl_exec($ch);
-
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($httpCode === 404) {
+            return false;
+        }
         // Check for errors
         if (curl_errno($ch)) {
+        
             // echo 'cURL Error: ' . curl_error($ch);
             return false;
         } else {
             // Decode JSON response
             $data = json_decode($response, true); // true converts JSON to associative array
-
+         
             // Output or process the data
             return $response;
         }

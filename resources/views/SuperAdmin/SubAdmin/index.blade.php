@@ -16,7 +16,7 @@
                         </svg>
                         <div class="ms-3">
                             <h3 class="mb-0 text-center">
-                                <span class="fw-bold fs-2">4</span>
+                                <span class="fw-bold fs-2" id="activeSubAdmin">0</span>
                             </h3>
                             <small>Active Sub Admin</small>
                         </div>
@@ -28,7 +28,7 @@
                         </svg>
                         <div class="ms-3">
                             <h3 class="mb-0 text-center">
-                                <span class="fw-bold fs-2">4</span>
+                                <span class="fw-bold fs-2" id="inActiveSubAdmin">0</span>
                             </h3>
                             <small>InActive Sub Admin</small>
                         </div>
@@ -40,7 +40,7 @@
                         </svg>
                         <div class="ms-3">
                             <h3 class="mb-0 text-center">
-                                <span class="fw-bold fs-2">0</span>
+                                <span class="fw-bold fs-2" id="totalSubAdmin">0</span>
                             </h3>
                             <small>Total Sub Admin</small>
                         </div>
@@ -67,6 +67,7 @@
                                     <th scope="col">NAME</th>
                                     <th scope="col">USER NAME</th>
                                     <th scope="col">EMAIL</th>
+                                    <th scope="col">Status</th>
                                     <th class="text-end" scope="col">ACTIONS</th>
                                 </tr>
                             </thead>
@@ -146,11 +147,32 @@
 @push('script')
     <script>
         $(document).ready(function() {
+
+            getCardData();
+            function getCardData(){
+                let type = 'POST';
+                let url = '/admin/sub-admin/card';
+                SendAjaxRequestToServer(type, url, '', '', cardDataResponse, '', '');
+
+            }
+
+
+            function cardDataResponse(response) {
+                console.log(response.status);
+                // SHOWING MESSAGE ACCORDING TO RESPONSE
+                if (response.status == 200 || response.status == '200') {
+
+                   $("#totalSubAdmin").text(response.data.total_customer);
+                   $("#activeSubAdmin").text(response.data.active_customer);
+                   $("#inActiveSubAdmin").text(response.data.inactive_customer);
+
+                } 
+            }
             pageLoader();
 
 
             function pageLoader() {
-
+                getCardData();
 
                 var table = $('#exam-listing').DataTable({
                     processing: true,
@@ -171,6 +193,10 @@
                         {
                             data: 'email',
                             name: 'email'
+                        },
+                        {
+                            data: 'status',
+                            name: 'status'
                         },
                         {
                             data: 'action',
@@ -303,6 +329,35 @@
                         timeOut: 3000
                     });
                     pageLoader();
+
+                } else {
+
+                    toastr.error('An error is being encountered.', {
+                        timeOut: 3000
+                    });
+                }
+            }
+            $("#exam-listing").on('change', '.form-check-input', function(e) {
+                let id = $(this).attr('id');
+                let status =0;
+                if ($(this).is(':checked')) {
+                    status=1;
+                } else {
+                    status=0
+                }
+                let type = 'POST';
+                let url = '/admin/sub-admin/status';
+                let data = new FormData();
+                data.append('id', id);
+                data.append('status', status);
+                SendAjaxRequestToServer(type, url, data, '', statusResponse, '', '');
+            });
+            function statusResponse(response) {
+                if (response.status == 200) {
+                    pageLoader();
+                    toastr.success('Status changed successfully.', {
+                        timeOut: 3000
+                    });
 
                 } else {
 

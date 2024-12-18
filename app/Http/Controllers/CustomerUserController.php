@@ -86,7 +86,7 @@ class CustomerUserController extends Controller
         $rules = [
             'name' => 'required',
             'username' => 'required|unique:users,username' . ($id ? ",$id" : ''),
-            'email' => 'required|email|unique:customers,email' . ($id ? ",$id" : ''),
+            'email' => 'required|email|unique:users,email' . ($id ? ",$id" : ''),
         ];
         
         // Validate request
@@ -196,5 +196,21 @@ class CustomerUserController extends Controller
                 'status' => 404,
             ], 200);
         }
+    }
+    public function card(){
+        $records = array();
+        $loginId = Auth::user()->id;
+        $totalUser = User::where('role','=','3')->where('created_by','=',$loginId)->count();
+        $activeUser = User::where('role','=','3')->where('created_by','=',$loginId)->where('status','=','1')->count();
+        $inActiceUser = User::where('role','=','3')->where('created_by','=',$loginId)->where('status','=','0')->count();
+
+        $records['total_user'] = $totalUser;
+        $records['active_user'] = $activeUser;
+        $records['inactive_user'] = $inActiceUser;
+
+        return response()->json([
+            'status' => 200,
+            'data' =>$records
+        ], 200);
     }
 }

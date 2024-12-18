@@ -16,7 +16,7 @@
                         </svg>
                         <div class="ms-3">
                             <h3 class="mb-0 text-center">
-                                <span class="fw-bold fs-2">4</span>
+                                <span class="fw-bold fs-2" id="activeCustomer">0</span>
                             </h3>
                             <small>Active Customers</small>
                         </div>
@@ -28,7 +28,7 @@
                         </svg>
                         <div class="ms-3">
                             <h3 class="mb-0 text-center">
-                                <span class="fw-bold fs-2">4</span>
+                                <span class="fw-bold fs-2" id="inActiveCustomer">0</span>
                             </h3>
                             <small>InActive Customers</small>
                         </div>
@@ -40,7 +40,7 @@
                         </svg>
                         <div class="ms-3">
                             <h3 class="mb-0 text-center">
-                                <span class="fw-bold fs-2">0</span>
+                                <span class="fw-bold fs-2" id="totalCustomer">0</span>
                             </h3>
                             <small>Total Customers</small>
                         </div>
@@ -154,9 +154,29 @@
 @push('script')
     <script>
         $(document).ready(function() {
+            getCardData();
+            function getCardData(){
+                let type = 'POST';
+                let url = '/admin/customers/card';
+                SendAjaxRequestToServer(type, url, '', '', cardDataResponse, '', '');
+
+            }
+
+
+            function cardDataResponse(response) {
+                console.log(response.status);
+                // SHOWING MESSAGE ACCORDING TO RESPONSE
+                if (response.status == 200 || response.status == '200') {
+
+                   $("#totalCustomer").text(response.data.total_customer);
+                   $("#activeCustomer").text(response.data.active_customer);
+                   $("#inActiveCustomer").text(response.data.inactive_customer);
+
+                } 
+            }
+
+
             pageLoader();
-
-
             function pageLoader() {
 
 
@@ -233,6 +253,7 @@
                     $("#staticBackdrop").modal('toggle');
                     $('form').trigger('reset');
                     pageLoader();
+                    getCardData();
                     toastr.success('Record create successfully.', {
                         timeOut: 3000
                     });
@@ -310,6 +331,7 @@
                     toastr.success('The record has been successfully deleted.', {
                         timeOut: 3000
                     });
+                    getCardData();
                     pageLoader();
 
                 } else {
@@ -336,7 +358,7 @@
             });
             function statusResponse(response) {
                 if (response.status == 200) {
-
+                    getCardData();
                     toastr.success('Status changed successfully.', {
                         timeOut: 3000
                     });

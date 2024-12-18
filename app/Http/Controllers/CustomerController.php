@@ -203,4 +203,19 @@ class CustomerController extends Controller
             ], 200);
         }
     }
+    public function card(){
+        $records = array();
+        $totalUser = Customer::count();
+        $activeUser = Customer::where('status','=','1')->count();
+        $inActiceUser = Customer::where('status','=','0')->count();
+
+        $records['total_customer'] = $totalUser;
+        $records['active_customer'] = $activeUser;
+        $records['inactive_customer'] = $inActiceUser;
+
+        return response()->json([
+            'status' => 200,
+            'data' =>$records
+        ], 200);
+    }
 }

@@ -120,20 +120,15 @@
                         $.each(subtype.parameters, function(index, param) {
                             if (param.is_switch == 1) {
                                 html += `<li class="d-flex align-items-center">${param.pre_title}:&nbsp;&nbsp;&nbsp;
-                                                            ${param.on_off_flag == '1' ? 
-                                                                `<span class="form-check form-switch pt-1">
-                                                                                <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" checked disabled>
-                                                                            </span>` 
-                                                                : 
-                                                                `<span class="form-check form-switch pt-1">
-                                                                                <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" disabled>
-                                                                            </span>`}
-                                                            - ${param.post_title}&nbsp;
-                                                            <i class="fa fa-pencil pointer" onclick="addParameterValue(${param.id}, '${param.parameter!=null?param.parameter:''}', '${param.parameter_id!=null?param.parameter_id:''}')"></i>
-                                                        </li>`;
+                                                        <span class="form-check form-switch pt-1">
+                                                            <input class="form-check-input" type="checkbox" role="switch" id="paramValue_${param.id}" disabled>
+                                                        </span>
+                                                        - ${param.post_title}
+                                                    </li>`;
                             } else {
                                 html +=
-                                    `<li>${param.pre_title}: <i>[<span>${param.parameter != null ? param.parameter : 'værdi'}</span>]</i> - ${param.post_title} <i class="fa fa-pencil pointer" onclick="addParameterValue(${param.id}, '${param.parameter!=null?param.parameter:''}', '${param.parameter_id!=null?param.parameter_id:''}')"></i></li>`;
+                                    `<li>${param.pre_title}: <i>[<span id="paramValue_${param.id}">værdi</span>]</i> - ${param.post_title}</li>`;
+
                             }
                         });
                         // if (subtype.id == 3) {
@@ -213,7 +208,8 @@
                 $("#refresh_" + typeId).attr('onclick', 'refreshParameterValues(' + typeId + ')').removeClass('fa-spin');
 
                 $.each(paramResults, function(index, value) {
-                    if (value.sub_type_id == 3) {
+                    if (value.is_switch == 1) {
+                        
                         $('#paramValue_' + value.id).prop('checked', value.result == '0' ? false : true);
                     } else {
                         $('#paramValue_' + value.id).html(value.result);
@@ -245,7 +241,7 @@
             // Wait for the current refresh to complete before moving to the next
             setTimeout(() => {
                 refreshTypesRecursively(typeIds, index + 1);
-            }, 1000); // Adjust timeout based on expected response time
+            }, 4000); // Adjust timeout based on expected response time
         }
 
         $(document).ready(function() {

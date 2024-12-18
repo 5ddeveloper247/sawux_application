@@ -34,7 +34,7 @@ class SubAdminController extends Controller
             
             // Get data with pagination and filtering
             $data = User::where('name', 'like', '%' . $searchTerm . '%')
-                        ->where('role','=',1)
+                        ->where('role','=','1')
                         ->latest()
                         ->paginate($length, ['*'], 'page', $page);
             
@@ -46,6 +46,11 @@ class SubAdminController extends Controller
                     'name' => $row->name,
                     'username' => $row->username,
                     'email' => $row->email,
+                    'status' => '<div class="form-check form-switch pt-1">
+                                 <input class="form-check-input pointer" type="checkbox" role="switch" 
+                                 id="'.$row->id.'" 
+                                ' . (isset($row->status) && $row->status == 1 ? 'checked' : '') . '>
+                                </div>',
                     'action' => '<div class="btn-reveal-trigger position-static">
                     <button class="btn btn-sm dropdown-toggle" id="dropdown" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <svg class="svg-inline--fa fa-ellipsis" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -189,5 +194,39 @@ class SubAdminController extends Controller
                 'status' => 404,
             ], 200);
         }
+    }
+    public function status(Request $request)
+    {
+        $id = $request->id;
+        $status = $request->status;
+        $data = User::find($id);
+        
+        if($data){
+            $data->status = $status;
+            $data->save();
+            return response()->json([
+                'status' => 200,
+            ], 200);
+        } else {
+            // Return an error message if record not found
+            return response()->json([
+                'status' => 404,
+            ], 200);
+        }
+    }
+    public function card(){
+        $records = array();
+        $totalUser = User::where('role','=','1')->count();
+        $activeUser = User::where('status','=','1')->where('role','=','1')->count();
+        $inActiceUser = User::where('status','=','0')->where('role','=','1')->count();
+
+        $records['total_customer'] = $totalUser;
+        $records['active_customer'] = $activeUser;
+        $records['inactive_customer'] = $inActiceUser;
+
+        return response()->json([
+            'status' => 200,
+            'data' =>$records
+        ], 200);
     }
 }

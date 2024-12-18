@@ -1,0 +1,149 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Type;
+use App\Models\SubType;
+use App\Models\ApiSetting;
+use App\Models\DynamicParameter;
+
+class CustomerDashboardController extends Controller
+{
+    public function dashboard(Request $request){
+        
+        $user = Auth::user();
+        $id = Auth::user()->id;
+        $customerId = Auth::user()->customer_id;
+        
+        $data['api_settings'] = ApiSetting::where('customer_id', $customerId)->first();
+        return view('dashboard_user')->with($data);
+        
+        
+    }
+    public function refreshParameterValuesTypeWise(Request $request)
+    {
+        
+        // try {
+
+            if($request->typeId != ''){
+                
+                $data['paramResult_list'] = $this->getSpecificParametersResult($request->typeId);
+                $data['type_id'] = $request->typeId;
+
+                return response()->json([
+                    'success' => true,
+                    'data' => $data
+                ], 200);
+
+            }else{
+                return response()->json([
+                    'success' => false,
+                    'message' => "Something went wrong...",
+                ], 500);
+            }
+            
+        // } catch (\Exception $e) {
+        //     // Log the error for debugging purposes
+        //     Log::error('Error storing info: ' . $e->getMessage());
+
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => "Oops! Network Error",
+        //     ], 500);
+        // }
+    }
+    public function getSpecificParametersResult($typeId){
+        $customerId = Auth::user()->customer_id;
+        $apiSettings = ApiSetting::where('customer_id', $customerId)->where('status', '1')->first();
+        $type = Type::where('id', $typeId)->with(['subTypes','subTypes.parameters'])->first();
+        
+        if($type != null && $apiSettings != null){
+            
+            $parameterArray = [];
+            $api_url = $apiSettings->api_url;
+
+            if($type->device_key != null && $type->subTypes != null){
+                
+                $api_key = $type->device_key;
+                
+                foreach($type->subTypes as $key1=>$subtype){
+
+                    foreach($subtype->parameters as $key2=>$param){
+
+                        if($param->parameter != null && $param->parameter_id != null){
+                            
+                            $url = $api_url.''.$api_key.'&'.$param->parameter.'='.$param->parameter_id;
+                            
+                            $result = $this->callApi($url);
+
+                            $tempArray['id'] = $param->id;
+                            $tempArray['result'] = $result;
+                            $tempArray['type_id'] = $param->type_id;
+                            $tempArray['sub_type_id'] = $param->sub_type_id;
+                            $tempArray['is_switch'] = $param->is_switch;
+                            $parameterArray[] = $tempArray;
+                        }else{
+                            $result = '';
+                        }
+
+                    }
+                }
+            }
+
+            return $parameterArray;
+        }else{
+            return array();
+        }
+    }
+    public function callApi($url){
+
+        $ch = curl_init();
+
+        // Set cURL options
+        curl_setopt($ch, CURLOPT_URL, $url);           // API URL
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return the response as a string
+
+        // Execute cURL request
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        if ($httpCode === 404) {
+          return false;
+        }
+        // Check for errors
+        if (curl_errno($ch)) {
+            // echo 'cURL Error: ' . curl_error($ch);
+            return false;
+        } else {
+            // Decode JSON response
+            $data = json_decode($response, true); // true converts JSON to associative array
+
+            // Output or process the data
+            return $response;
+        }
+
+        // Close cURL session
+        curl_close($ch);
+
+    }
+    public function getDashboardPageData(Request $request)
+    {
+        $customer_id = Auth::user()->customer_id;
+        $data['types_list'] = Type::with(['subTypes','subTypes.parameters'])
+                              ->where('status', '1')
+                             ->where('customer_id', $customer_id) // Add the condition for customer_id
+                              ->get();
+        
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ], 200);
+    }
+}

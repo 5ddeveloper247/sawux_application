@@ -231,4 +231,74 @@ class DeviceController extends Controller
             ], 500);
         }
     }
+    public function deleteType(Request $request)
+    {
+        $id = $request->id;
+        $data = SubType::where('type_id', $id)->count();
+        if($data==0)
+        {
+            $record = Type::find($id);
+            if($record)
+            {
+                $record->delete();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Type Delete Successfully'
+                ], 200);
+            }else{
+                return response()->json([
+                    'status' => 402,
+                    'message' => 'Record not found'
+                ], 200);
+            }
+        }else{
+            return response()->json([
+                'status' => 402,
+                'message' => 'First, delete the child items before deleting the parent item'
+            ], 200);
+        }
+    }
+    public function deleteSubType(Request $request){
+        $id = $request->id;
+        $data = DynamicParameter::where('sub_type_id', $id)->count();
+        if($data==0)
+        {
+            $record = SubType::find($id);
+            if($record)
+            {
+                $record->delete();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'SubType Delete Successfully'
+                ], 200);
+            }else{
+                return response()->json([
+                    'status' => 402,
+                    'message' => 'Record not found'
+                ], 200);
+            }
+        }else{
+            return response()->json([
+                'status' => 402,
+                'message' => 'First, delete the child items before deleting the parent item'
+            ], 200);
+        }
+    }
+    public function deleteParameter(Request $request){
+        $id = $request->id;
+        $data = DynamicParameter::find($id);
+        if($data)
+        {
+            $data->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'Parameter Delete Successfully'
+            ], 200);
+        }else{
+            return response()->json([
+                'status' => 402,
+                'message' => 'Record not found'
+            ], 200);
+        }
+    }
 }

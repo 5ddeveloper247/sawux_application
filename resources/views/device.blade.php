@@ -187,6 +187,28 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                        <input type="hidden" id="deleteId" />
+                        <input type="hidden" id="deleteUrl" />
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        Are you sure you want to delete this item?
+                    </div>
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger confirm-delete" onclick="confirmDelete()">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -231,22 +253,30 @@
                             <div class="col-12">
                                 <h5 class="heading-1">${type.title}&nbsp;
                                     <i class="fa fa-pencil pointer" onclick="editType(${type.id}, '${type.title}')"></i>
+                                    <i class="fa fa-trash pointer"  onclick="deleteType(${type.id})"></i>
                                 </h5>
                             </div>
                             <div class="row">`;
 
                     $.each(type.sub_types, function(index, subtype) {
                         html += `<div class="col-md-4 col-12 mb-2">
-                                        <p class="sub-heading"><b>${subtype.title}:</b> <i class="fa fa-pencil pointer" onclick="editSubType(${subtype.id}, '${subtype.title}')"></i></p>
+                                        <p class="sub-heading"><b>${subtype.title}:</b> 
+                                            <i class="fa fa-pencil pointer" onclick="editSubType(${subtype.id}, '${subtype.title}')"></i>
+                                            <i class="fa fa-trash pointer"  onclick="deleteSubType(${subtype.id})"></i>
+                                        </p>
 
                                         <ul id="parameter_list1">`;
 
                         $.each(subtype.parameters, function(index, param) {
                             if (param.is_switch == 1) {
-                            html +=
-                                `<li>${param.pre_title}: <i>[<span>ON/OFF</span>]</i> - ${param.post_title} <i class="fa fa-pencil pointer" onclick="editParameter(${param.id}, '${param.pre_title}', '${param.post_title}', '${param.is_switch}')"></i></li>`;
-                            }else{
-                                html +=`<li>${param.pre_title}: <i>[<span>værdi</span>]</i> - ${param.post_title} <i class="fa fa-pencil pointer" onclick="editParameter(${param.id}, '${param.pre_title}', '${param.post_title}', '${param.is_switch}')"></i></li>`;
+                                html +=
+                                    `<li>${param.pre_title}: <i>[<span>ON/OFF</span>]</i> - ${param.post_title} <i class="fa fa-pencil pointer" onclick="editParameter(${param.id}, '${param.pre_title}', '${param.post_title}', '${param.is_switch}')"></i>
+                                <i class="fa fa-trash pointer"  onclick="deleteParameter(${param.id})"></i>
+                                </li>`;
+                            } else {
+                                html +=
+                                    `<li>${param.pre_title}: <i>[<span>værdi</span>]</i> - ${param.post_title} <i class="fa fa-pencil pointer" onclick="editParameter(${param.id}, '${param.pre_title}', '${param.post_title}', '${param.is_switch}')"></i>
+                                        <i class="fa fa-trash pointer"  onclick="deleteParameter(${param.id})"></i></li>`;
                             }
                         });
                         // if (subtype.id == 3) {
@@ -347,6 +377,70 @@
                 });
             }
         }
+
+        // ===================== delete function =========================//
+
+        function deleteType(id) {
+            $("#deleteId").val(id);
+            $("#deleteUrl").val('/deleteType');
+            $("#deleteModal").modal('toggle');
+        }
+        function deleteSubType(id) {
+            $("#deleteId").val(id);
+            $("#deleteUrl").val('/deleteSubType');
+            $("#deleteModal").modal('toggle');
+        }
+        function deleteParameter(id) {
+            $("#deleteId").val(id);
+            $("#deleteUrl").val('/deleteParameter');
+            $("#deleteModal").modal('toggle');
+        }
+
+        function confirmDelete() {
+            let deleteId = $("#deleteId").val();
+            let deleteUrl = $("#deleteUrl").val();
+            let type = 'POST';
+            let url = deleteUrl;
+            let data = new FormData();
+            data.append('id', deleteId);
+            let message = '';
+            SendAjaxRequestToServer(type, url, data, '', deleteResponse, '', '.confirm-delete');
+        }
+
+        function deleteResponse(response) {
+
+           
+            // SHOWING MESSAGE ACCORDING TO RESPONSE
+            if (response.success == true || response.success == 'true') {
+                toastr.success(response.message, '', {
+                    timeOut: 3000
+                });
+                getDashboardPageData();
+            } else {
+
+                if (response.status == 402) {
+
+                    error = response.message;
+
+                } else {
+                    error = response.responseJSON.message;
+                    var is_invalid = response.responseJSON.errors;
+
+                    $.each(is_invalid, function(key) {
+                        // Assuming 'key' corresponds to the form field name
+                        var inputField = $('[name="' + key + '"]');
+
+                        // Add the 'is-invalid' class to the input field's parent or any desired container
+                        inputField.closest('.form-control').addClass('is-invalid');
+                    });
+                }
+                toastr.error(error, '', {
+                    timeOut: 3000
+                });
+            }
+            $("#deleteModal").modal('toggle');
+        }
+        //======================== end =============================//
         getDevices();
 
         function getDevices() {

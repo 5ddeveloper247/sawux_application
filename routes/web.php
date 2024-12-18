@@ -10,6 +10,7 @@ use App\Http\Controllers\ApiConfigurationController;
 use App\Http\Controllers\ParameterController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\CustomerUserController;
+use App\Http\Controllers\CustomerDashboardController;
 use App\Http\Controllers\ProfileController;
 /*
 |--------------------------------------------------------------------------
@@ -63,6 +64,8 @@ Route::post('/admin/sub-admin/listAll', [SubAdminController::class, 'listAll'])-
 Route::post('/admin/sub-admin/creat', [SubAdminController::class, 'create'])->name('superadmin.subAdmin.create');
 Route::post('/admin/sub-admin/edit', [SubAdminController::class, 'edit'])->name('superadmin.subAdmin.edit');
 Route::post('/admin/sub-admin/delete', [SubAdminController::class, 'delete'])->name('superadmin.subAdmin.delete');
+Route::post('/admin/sub-admin/status', [SubAdminController::class, 'status'])->name('superadmin.subAdmin.status');
+Route::post('/admin/sub-admin/card', [SubAdminController::class, 'card'])->name('superadmin.subAdmin.card');
 // customers
 
 Route::post('/admin/customers/listAll', [CustomerController::class, 'listAll'])->name('superadmin.customers.listAll');
@@ -70,14 +73,15 @@ Route::post('/admin/customers/creat', [CustomerController::class, 'create'])->na
 Route::post('/admin/customers/edit', [CustomerController::class, 'edit'])->name('superadmin.customers.edit');
 Route::post('/admin/customers/delete', [CustomerController::class, 'delete'])->name('superadmin.customers.delete');
 Route::post('/admin/customers/status', [CustomerController::class, 'status'])->name('superadmin.customers.status');
+Route::post('/admin/customers/card', [CustomerController::class, 'card'])->name('superadmin.customers.card');
 
 // customer user
 Route::post('/admin/customer-admin/listAll', [CustomerAdminController::class, 'listAll'])->name('superadmin.customer.admin.listAll');
 Route::post('/admin/customer-admin/creat', [CustomerAdminController::class, 'create'])->name('superadmin.customer.admin.create');
 Route::post('/admin/customer-admin/edit', [CustomerAdminController::class, 'edit'])->name('superadmin.customer.admin.edit');
 Route::post('/admin/customer-admin/delete', [CustomerAdminController::class, 'delete'])->name('superadmin.customer.admin.delete');
-
-
+Route::post('/admin/customer-admin/status', [CustomerAdminController::class, 'status'])->name('superadmin.customer.admin.status');
+Route::post('/admin/customer-admin/card', [CustomerAdminController::class, 'card'])->name('superadmin.customer.admin.card');
 });
 
 
@@ -89,11 +93,11 @@ Route::group(['middleware' => ['AdminAuth']], function () {
     
     
 
-    Route::post('/getDashboardPageData', [AdminController::class, 'getDashboardPageData'])->name('getDashboardPageData');
+     Route::post('/getDashboardPageData', [AdminController::class, 'getDashboardPageData'])->name('getDashboardPageData');
     Route::post('/saveParameterValues', [AdminController::class, 'saveParameterValues'])->name('getDsaveParameterValuesashboardPageData');
     Route::post('/changeParameterValueOnOff', [AdminController::class, 'changeParameterValueOnOff'])->name('changeParameterValueOnOff');
     Route::post('/saveDeviceKeyValue', [AdminController::class, 'saveDeviceKeyValue'])->name('saveDeviceKeyValue');
-    Route::post('/refreshParameterValuesTypeWise', [AdminController::class, 'refreshParameterValuesTypeWise'])->name('refreshParameterValuesTypeWise');
+   Route::post('/refreshParameterValuesTypeWise', [AdminController::class, 'refreshParameterValuesTypeWise'])->name('refreshParameterValuesTypeWise');
     Route::post('/updateSystemStatus', [AdminController::class, 'updateSystemStatus'])->name('updateSystemStatus');
     
    
@@ -106,14 +110,18 @@ Route::group(['middleware' => ['AdminAuth']], function () {
 
     Route::get('/parameters', [ParameterController::class, 'index'])->name('parameter');
     Route::get('/device', [DeviceController::class, 'index'])->name('device');
+
     Route::post('/updateType', [DeviceController::class, 'updateType'])->name('updateType');
+    Route::post('/deleteType', [DeviceController::class, 'deleteType'])->name('deleteType');
+
     Route::post('/updateSubType', [DeviceController::class, 'updateSubType'])->name('updateSubType');
+    Route::post('/deleteSubType', [DeviceController::class, 'deleteSubType'])->name('deleteSubType');
 
     Route::post('/getDevices', [DeviceController::class, 'getDevices'])->name('getDevices');
     
     Route::post('/getSubTpes', [DeviceController::class, 'getSubTpes'])->name('getSubTpes');
     Route::post('/updateParameter', [DeviceController::class, 'updateParameter'])->name('updateParameter');
-
+    Route::post('/deleteParameter', [DeviceController::class, 'deleteParameter'])->name('deleteParameter');
     // customer users
     Route::get('/customer-users', [CustomerUserController::class, 'index'])->name('customer.users');
     Route::post('/customer-users/listAll', [CustomerUserController::class, 'listAll'])->name('customer.users.listAll');
@@ -121,12 +129,19 @@ Route::group(['middleware' => ['AdminAuth']], function () {
     Route::post('/customer-users/edit', [CustomerUserController::class, 'edit'])->name('customer.users.edit');
     Route::post('/customer-users/delete', [CustomerUserController::class, 'delete'])->name('customer.users.delete');
     Route::post('/customer-users/status', [CustomerUserController::class, 'status'])->name('customer.users.status');
-    
+    Route::post('/card-customer-user', [CustomerUserController::class, 'card'])->name('card.customer.user');
     //profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::post('/update-profile', [ProfileController::class, 'updateProfile'])->name('update-profile');
 
 });
+Route::group(['middleware' => ['CustomerUser']], function () {
+    Route::get('/customer/dashboard', [CustomerDashboardController::class, 'dashboard'])->name('customer.dashboard');
+    Route::post('/customer/refreshParameterValuesTypeWise', [CustomerDashboardController::class, 'refreshParameterValuesTypeWise'])->name('customer.refreshParameterValuesTypeWise');
+    Route::post('/customer/getDashboardPageData', [CustomerDashboardController::class, 'getDashboardPageData'])->name('customer.getDashboardPageData');
+
+});
+
 
 // Route::get('/', function () {
 //     return view('welcome');

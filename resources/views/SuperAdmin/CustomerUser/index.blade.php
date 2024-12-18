@@ -16,9 +16,9 @@
                         </svg>
                         <div class="ms-3">
                             <h3 class="mb-0 text-center">
-                                <span class="fw-bold fs-2">4</span>
+                                <span class="fw-bold fs-2" id="activeCustomerAdmin">0</span>
                             </h3>
-                            <small>Active Sub Admin</small>
+                            <small>Active Customer Admin</small>
                         </div>
                     </div>
                     <div class="col-3 d-flex justify-content-center gap-2 align-items-center d-card py-3 px-3">
@@ -28,9 +28,9 @@
                         </svg>
                         <div class="ms-3">
                             <h3 class="mb-0 text-center">
-                                <span class="fw-bold fs-2">4</span>
+                                <span class="fw-bold fs-2" id="inActiveCustomerAdmin">0</span>
                             </h3>
-                            <small>InActive Sub Admin</small>
+                            <small>InActive Customer Admin</small>
                         </div>
                     </div>
                     <div class="col-3 d-flex justify-content-center gap-2 align-items-center d-card py-3 px-3">
@@ -40,9 +40,9 @@
                         </svg>
                         <div class="ms-3">
                             <h3 class="mb-0 text-center">
-                                <span class="fw-bold fs-2">0</span>
+                                <span class="fw-bold fs-2" id="totalCustomerAdmin">0</span>
                             </h3>
-                            <small>Total Sub Admin</small>
+                            <small>Total Customer Admin</small>
                         </div>
                     </div>
                     <a href="#"
@@ -52,7 +52,7 @@
                                 <path fill="currentColor"
                                     d="M16 3C8.832 3 3 8.832 3 16s5.832 13 13 13s13-5.832 13-13S23.168 3 16 3m0 2c6.087 0 11 4.913 11 11s-4.913 11-11 11S5 22.087 5 16S9.913 5 16 5m-1 5v5h-5v2h5v5h2v-5h5v-2h-5v-5z" />
                             </svg>
-                            <small class="text-center">Add Sub Admin</small>
+                            <small class="text-center">Add Customer Admin</small>
                         </div>
                     </a>
                 </div>
@@ -67,6 +67,7 @@
                                     <th scope="col">USER NAME</th>
                                     <th scope="col">EMAIL</th>
                                     <th scope="col">CUSTOMER</th>
+                                    <th scope="col">STATUS</th>
                                     <th class="text-end" scope="col">ACTIONS</th>
                                 </tr>
                             </thead>
@@ -134,12 +135,32 @@
 @push('script')
     <script>
         $(document).ready(function() {
+            getCardData();
+            function getCardData(){
+                let type = 'POST';
+                let url = '/admin/customer-admin/card';
+                SendAjaxRequestToServer(type, url, '', '', cardDataResponse, '', '');
+
+            }
+
+
+            function cardDataResponse(response) {
+                console.log(response.status);
+                // SHOWING MESSAGE ACCORDING TO RESPONSE
+                if (response.status == 200 || response.status == '200') {
+
+                   $("#totalCustomerAdmin").text(response.data.total_customer);
+                   $("#activeCustomerAdmin").text(response.data.active_customer);
+                   $("#inActiveCustomerAdmin").text(response.data.inactive_customer);
+
+                } 
+            }
             pageLoader();
 
 
             function pageLoader() {
 
-
+                getCardData();
                 var table = $('#exam-listing').DataTable({
                     processing: true,
                     serverSide: true,
@@ -163,6 +184,10 @@
                         {
                             data: 'customer',
                             name: 'customer'
+                        },
+                        {
+                            data: 'status',
+                            name: 'status'
                         },
                         {
                             data: 'action',
@@ -284,6 +309,36 @@
                         timeOut: 3000
                     });
                     pageLoader();
+
+                } else {
+
+                    toastr.error('An error is being encountered.', {
+                        timeOut: 3000
+                    });
+                }
+            }
+            $("#exam-listing").on('change', '.form-check-input', function(e) {
+                let id = $(this).attr('id');
+                let status =0;
+                if ($(this).is(':checked')) {
+                    status=1;
+                } else {
+                    status=0
+                }
+                let type = 'POST';
+                let url = '/admin/customer-admin/status';
+                let data = new FormData();
+                data.append('id', id);
+                data.append('status', status);
+                SendAjaxRequestToServer(type, url, data, '', statusResponse, '', '');
+            });
+            function statusResponse(response) {
+                if (response.status == 200) {
+                    //getCardData();
+                    pageLoader();
+                    toastr.success('Status changed successfully.', {
+                        timeOut: 3000
+                    });
 
                 } else {
 
