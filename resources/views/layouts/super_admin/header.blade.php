@@ -47,6 +47,7 @@
                   <small>{{ Auth::user()->email }}</small>
                 </li>
                 <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{{route('superadmin.profile')}}">Profile</a></li>
                 <li><a class="dropdown-item" href="{{route('superadmin.logout')}}" id="signOutBtn">Sign Out</a></li>
               </ul>
             </li>

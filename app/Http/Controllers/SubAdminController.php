@@ -58,7 +58,7 @@ class SubAdminController extends Controller
                         </svg>
                     </button>
                     <div class="dropdown-menu dropdown-menu-end">
-                        <a class="dropdown-item edit-btn" data-id="'.$row->id.' type="button">Edit</a>
+                        <a class="dropdown-item edit-btn" data-id="'.$row->id.'" type="button">Edit</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item text-danger del delete-btn" data-id="'.$row->id.'" type="button" >Remove</a>
                     </div>
@@ -79,7 +79,6 @@ class SubAdminController extends Controller
     }
 
     public function create(Request $request){
-
         $id = $request->id;
         $selectedMenus = json_decode($request->selectedMenus);
         
@@ -117,7 +116,8 @@ class SubAdminController extends Controller
             foreach ($selectedMenus as $MenuId) {
                 $user->sidebarMenus()->attach($MenuId);
             }
-        
+            $userId = $user->id;
+            record_audit_trail('SubAdmin','users',$userId,'ADD','Create a new sub-admin.'); 
             return response()->json([
                 'status' => 200,
                 'message' => 'User created successfully',
@@ -139,7 +139,8 @@ class SubAdminController extends Controller
         
                 // Sync selected menus
                 $user->sidebarMenus()->sync($selectedMenus);
-        
+                record_audit_trail('SubAdmin','users',$id,'Update','Update sub-admin.'); 
+
                 return response()->json([
                     'status' => 200,
                     'message' => 'User updated successfully',
@@ -183,7 +184,7 @@ class SubAdminController extends Controller
         if ($record) {
             // Delete the record
             $record->delete();
-    
+            record_audit_trail('SubAdmin','users',$id,'Delete','Delete sub-admin.'); 
             // Return a success message
             return response()->json([
                 'status' => 200,
@@ -204,6 +205,7 @@ class SubAdminController extends Controller
         if($data){
             $data->status = $status;
             $data->save();
+            record_audit_trail('SubAdmin','users',$id,'Status','Change the status of the sub-admin.');
             return response()->json([
                 'status' => 200,
             ], 200);

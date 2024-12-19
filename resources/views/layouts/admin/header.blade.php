@@ -24,7 +24,6 @@
                 <a href="{{route('parameter')}}" class="me-2">Parameters</a>
                 <a href="{{route('device')}}" class="me-2">Devices</a>
                 <a href="{{route('customer.users')}}" class="me-2">Users</a>
-                <a href="{{route('profile')}}" class="me-2">Profile</a>
             </div>
             @endif
         </div>
@@ -57,7 +56,12 @@
                             <small>{{ Auth::user()->email }}</small>
                           </li>
                           <li><hr class="dropdown-divider"></li>
-                          <li><a class="dropdown-item" href="{{ route('logout') }}" id="signOutBtn">Sign Out</a></li>
+                          @if (@Auth::user()->role == 2)
+                          <li><a class="dropdown-item" href="{{route('profile')}}">Profile</a></li>
+                          @elseif(@Auth::user()->role == 3)
+                          <li><a class="dropdown-item" href="{{route('customer.profile')}}">Profile</a></li>
+                          @endif
+                        <li><a class="dropdown-item" href="{{ route('logout') }}" id="signOutBtn">Sign Out</a></li>
                         </ul>
                       </li>
                     </ul>

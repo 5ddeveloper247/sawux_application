@@ -60,7 +60,8 @@
 
                 <div id="products">
                     <div class="px-4 pt-4 pb-5 bg-white shadow">
-                        <table id="exam-listing" class="listing_table table table-responsive">
+                        <div class="table-responsive">
+                        <table id="exam-listing" style="width: 100%" class="listing_table table table-responsive">
                             <thead>
                                 <tr>
 
@@ -74,6 +75,7 @@
                                 </tr>
                             </thead>
                         </table>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -284,7 +286,7 @@
             $("#exam-listing").on('click', '.edit-btn', function(e) {
                 e.preventDefault();
                 $("#staticBackdropLabel").text('Update Record');
-                $('form').trigger('reset');
+                $('#saveFormData').trigger('reset');
                 $('#saveFormData').find('.is-invalid').removeClass('is-invalid');
                 let id = $(this).data("id");
                 $("#id").val(id);

@@ -60,7 +60,7 @@ class CustomerAdminController extends Controller
                                             </svg>
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-end">
-                                            <a class="dropdown-item edit-btn" data-id="'.$row->id.' type="button">Edit</a>
+                                            <a class="dropdown-item edit-btn" data-id="'.$row->id.'" type="button">Edit</a>
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item text-danger del delete_record" data-id="'.$row->id.'" type="button" >Remove</a>
                                         </div>
@@ -122,8 +122,8 @@ class CustomerAdminController extends Controller
              $body = view('email.send_user_credentials_template', $mailData);
             sendMail($request->name, $request->email, 'Your Account Credentials', $body);
 
-
-
+            $userId = $user->id;
+            record_audit_trail('CustomerAdmin','users',$userId,'ADD','Create a new customer-admin.');
             return response()->json([
                 'status' => 200,
                 'message' => 'User created successfully',
@@ -137,7 +137,7 @@ class CustomerAdminController extends Controller
                 $user->email = $request->email;
                 $user->customer_id = $request->customer_id;
                 $user->save();
-        
+                record_audit_trail('CustomerAdmin','users',$id,'Update','Update the customer-admin.');
                 return response()->json([
                     'status' => 200,
                     'message' => 'User updated successfully',
@@ -173,7 +173,7 @@ class CustomerAdminController extends Controller
         if ($record) {
             // Delete the record
             $record->delete();
-    
+            record_audit_trail('CustomerAdmin','users',$id,'Delete','Delete the customer-admin.');
             // Return a success message
             return response()->json([
                 'status' => 200,
@@ -194,6 +194,7 @@ class CustomerAdminController extends Controller
         if($data){
             $data->status = $status;
             $data->save();
+            record_audit_trail('CustomerAdmin','users',$id,'Status','Change the status of the customer-admin.');
             return response()->json([
                 'status' => 200,
             ], 200);

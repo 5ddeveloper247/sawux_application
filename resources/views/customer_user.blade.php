@@ -60,18 +60,20 @@
 
                 <div id="products">
                     <div class="px-4 pt-4 pb-5 bg-white shadow">
-                        <table id="exam-listing" class="listing_table table table-responsive">
-                            <thead>
-                                <tr>
+                        <div class="table-responsive">
+                            <table id="exam-listing" style="width: 100%" class="listing_table table table-responsive">
+                                <thead>
+                                    <tr>
 
-                                    <th scope="col">NAME</th>
-                                    <th scope="col">USER Name</th>
-                                    <th scope="col">EMAIL</th>
-                                    <th scope="col">STATUS</th>
-                                    <th  scope="col">ACTIONS</th>
-                                </tr>
-                            </thead>
-                        </table>
+                                        <th scope="col">NAME</th>
+                                        <th scope="col">USER Name</th>
+                                        <th scope="col">EMAIL</th>
+                                        <th scope="col">STATUS</th>
+                                        <th scope="col" >ACTIONS</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -125,7 +127,8 @@
     <script>
         $(document).ready(function() {
             getCardData();
-            function getCardData(){
+
+            function getCardData() {
                 let type = 'POST';
                 let url = '/card-customer-user';
                 SendAjaxRequestToServer(type, url, '', '', cardDataResponse, '', '');
@@ -138,11 +141,11 @@
                 // SHOWING MESSAGE ACCORDING TO RESPONSE
                 if (response.status == 200 || response.status == '200') {
 
-                   $("#totalUsers").text(response.data.total_user);
-                   $("#activeUsers").text(response.data.active_user);
-                   $("#inActiveUsers").text(response.data.inactive_user);
+                    $("#totalUsers").text(response.data.total_user);
+                    $("#activeUsers").text(response.data.active_user);
+                    $("#inActiveUsers").text(response.data.inactive_user);
 
-                } 
+                }
             }
             pageLoader();
 
@@ -186,7 +189,7 @@
             }
             $(".add-sub-admin").click(function() {
                 $("#staticBackdrop").modal('toggle');
-                $('form').trigger('reset');
+                $('#saveFormData').trigger('reset');
                 $("#staticBackdropLabel").text('Add Record');
                 $("#id").val('');
                 $('#saveFormData').find('.is-invalid').removeClass('is-invalid');
@@ -246,7 +249,7 @@
             $("#exam-listing").on('click', '.edit-btn', function(e) {
                 e.preventDefault();
                 $("#staticBackdropLabel").text('Update Record');
-                $('form').trigger('reset');
+                $('#saveFormData').trigger('reset');
                 $('#saveFormData').find('.is-invalid').removeClass('is-invalid');
                 let id = $(this).data("id");
                 $("#id").val(id);
@@ -301,11 +304,11 @@
             }
             $("#exam-listing").on('change', '.form-check-input', function(e) {
                 let id = $(this).attr('id');
-                let status =0;
+                let status = 0;
                 if ($(this).is(':checked')) {
-                    status=1;
+                    status = 1;
                 } else {
-                    status=0
+                    status = 0
                 }
                 let type = 'POST';
                 let url = '/customer-users/status';
@@ -314,6 +317,7 @@
                 data.append('status', status);
                 SendAjaxRequestToServer(type, url, data, '', statusResponse, '', '');
             });
+
             function statusResponse(response) {
                 if (response.status == 200) {
                     getCardData();

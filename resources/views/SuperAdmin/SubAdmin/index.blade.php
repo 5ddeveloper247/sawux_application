@@ -60,18 +60,20 @@
 
                 <div id="products">
                     <div class="px-4 pt-4 pb-5 bg-white shadow">
-                        <table id="exam-listing" class="listing_table table table-responsive">
-                            <thead>
-                                <tr>
+                        <div class="table-responsive">
+                            <table id="exam-listing" style="width: 100%" class="listing_table table table-responsive">
+                                <thead>
+                                    <tr>
 
-                                    <th scope="col">NAME</th>
-                                    <th scope="col">USER NAME</th>
-                                    <th scope="col">EMAIL</th>
-                                    <th scope="col">Status</th>
-                                    <th class="text-end" scope="col">ACTIONS</th>
-                                </tr>
-                            </thead>
-                        </table>
+                                        <th scope="col">NAME</th>
+                                        <th scope="col">USER NAME</th>
+                                        <th scope="col">EMAIL</th>
+                                        <th scope="col">Status</th>
+                                        <th class="text-end" scope="col">ACTIONS</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -120,7 +122,7 @@
                         </div>
                         <div class="mt-4">
                             <h3>Menu List</h3>
-                            <div class="row">
+                            <div id="menuContainer" class="row">
                                 @foreach ($sidebarMenus as $sidebarMenu)
                                     <div class="col-4 mt-3">
                                         <div class="form-check">
@@ -149,7 +151,8 @@
         $(document).ready(function() {
 
             getCardData();
-            function getCardData(){
+
+            function getCardData() {
                 let type = 'POST';
                 let url = '/admin/sub-admin/card';
                 SendAjaxRequestToServer(type, url, '', '', cardDataResponse, '', '');
@@ -162,11 +165,11 @@
                 // SHOWING MESSAGE ACCORDING TO RESPONSE
                 if (response.status == 200 || response.status == '200') {
 
-                   $("#totalSubAdmin").text(response.data.total_customer);
-                   $("#activeSubAdmin").text(response.data.active_customer);
-                   $("#inActiveSubAdmin").text(response.data.inactive_customer);
+                    $("#totalSubAdmin").text(response.data.total_customer);
+                    $("#activeSubAdmin").text(response.data.active_customer);
+                    $("#inActiveSubAdmin").text(response.data.inactive_customer);
 
-                } 
+                }
             }
             pageLoader();
 
@@ -178,6 +181,7 @@
                     processing: true,
                     serverSide: true,
                     "bDestroy": true,
+                    responsive: true,
                     ajax: {
                         url: "{{ route('superadmin.subAdmin.listAll') }}", // URL to your route
                         type: 'POST', // Specify the HTTP method as POST
@@ -225,9 +229,10 @@
             $(".save-data").click(function() {
                 var data = new FormData($('form#saveFormData')[0]);
                 var selectedMenus = [];
-                $('input[type="checkbox"]:checked').each(function() {
+                $('#menuContainer input[type="checkbox"]:checked').each(function() {
                     selectedMenus.push($(this).val());
                 });
+            //    console.log(JSON.stringify(selectedMenus));
                 if (selectedMenus.length > 0) {
                     data.append('selectedMenus', JSON.stringify(selectedMenus));
                     let type = 'POST';
@@ -309,7 +314,7 @@
                     //  addRecord();
                 }
             }
-            
+
             // delete record
 
             $("#exam-listing").on('click', '.delete-btn', function(e) {
@@ -339,11 +344,11 @@
             }
             $("#exam-listing").on('change', '.form-check-input', function(e) {
                 let id = $(this).attr('id');
-                let status =0;
+                let status = 0;
                 if ($(this).is(':checked')) {
-                    status=1;
+                    status = 1;
                 } else {
-                    status=0
+                    status = 0
                 }
                 let type = 'POST';
                 let url = '/admin/sub-admin/status';
@@ -352,6 +357,7 @@
                 data.append('status', status);
                 SendAjaxRequestToServer(type, url, data, '', statusResponse, '', '');
             });
+
             function statusResponse(response) {
                 if (response.status == 200) {
                     pageLoader();

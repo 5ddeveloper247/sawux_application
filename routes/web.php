@@ -12,6 +12,8 @@ use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\CustomerUserController;
 use App\Http\Controllers\CustomerDashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CustomerDeviceController;
+use App\Http\Controllers\AuditTrailController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,8 +55,15 @@ Route::group(['middleware' => ['SuperAdminAuth']], function () {
         Route::get('/admin/sub-admin', [SubAdminController::class, 'index'])->name('superadmin.subAdmin');
         Route::get('/admin/customers', [CustomerController::class, 'index'])->name('superadmin.customers');
         Route::get('/admin/customer-admin', [CustomerAdminController::class, 'index'])->name('superadmin.customer.admin');
+        Route::get('/admin/customer-devices', [CustomerDeviceController::class, 'index'])->name('superadmin.customer.device');
 
     });
+
+
+  //profile
+Route::get('/admin/profile', [SuperAdminController::class, 'profile'])->name('superadmin.profile');
+Route::post('/admin/update-profile', [SuperAdminController::class, 'updateProfile'])->name('superadmin.update.profile');
+
 
 Route::get('/admin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
 
@@ -82,6 +91,13 @@ Route::post('/admin/customer-admin/edit', [CustomerAdminController::class, 'edit
 Route::post('/admin/customer-admin/delete', [CustomerAdminController::class, 'delete'])->name('superadmin.customer.admin.delete');
 Route::post('/admin/customer-admin/status', [CustomerAdminController::class, 'status'])->name('superadmin.customer.admin.status');
 Route::post('/admin/customer-admin/card', [CustomerAdminController::class, 'card'])->name('superadmin.customer.admin.card');
+
+// customer devices
+Route::post('/admin/customer-devices/getDashboardPageData', [CustomerDeviceController::class, 'getDashboardPageData'])->name('superadmin.customer.device.getDashboardPageData');
+
+//
+Route::get('/admin/audit-trails', [AuditTrailController::class, 'index'])->name('superadmin.audit.trails');
+Route::post('/admin/audit-trails/list', [AuditTrailController::class, 'listAll'])->name('superadmin.audit.trails.list');
 });
 
 
@@ -93,11 +109,11 @@ Route::group(['middleware' => ['AdminAuth']], function () {
     
     
 
-     Route::post('/getDashboardPageData', [AdminController::class, 'getDashboardPageData'])->name('getDashboardPageData');
+    Route::post('/getDashboardPageData', [AdminController::class, 'getDashboardPageData'])->name('getDashboardPageData');
     Route::post('/saveParameterValues', [AdminController::class, 'saveParameterValues'])->name('getDsaveParameterValuesashboardPageData');
     Route::post('/changeParameterValueOnOff', [AdminController::class, 'changeParameterValueOnOff'])->name('changeParameterValueOnOff');
     Route::post('/saveDeviceKeyValue', [AdminController::class, 'saveDeviceKeyValue'])->name('saveDeviceKeyValue');
-   Route::post('/refreshParameterValuesTypeWise', [AdminController::class, 'refreshParameterValuesTypeWise'])->name('refreshParameterValuesTypeWise');
+    Route::post('/refreshParameterValuesTypeWise', [AdminController::class, 'refreshParameterValuesTypeWise'])->name('refreshParameterValuesTypeWise');
     Route::post('/updateSystemStatus', [AdminController::class, 'updateSystemStatus'])->name('updateSystemStatus');
     
    
@@ -131,11 +147,16 @@ Route::group(['middleware' => ['AdminAuth']], function () {
     Route::post('/customer-users/status', [CustomerUserController::class, 'status'])->name('customer.users.status');
     Route::post('/card-customer-user', [CustomerUserController::class, 'card'])->name('card.customer.user');
     //profile
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
     Route::post('/update-profile', [ProfileController::class, 'updateProfile'])->name('update-profile');
 
 });
 Route::group(['middleware' => ['CustomerUser']], function () {
+
+        //profile
+    Route::get('/customer/profile', [CustomerDashboardController::class, 'profile'])->name('customer.profile');
+    Route::post('/customer/update-profile', [CustomerDashboardController::class, 'updateProfile'])->name('customer.update-profile');
+
     Route::get('/customer/dashboard', [CustomerDashboardController::class, 'dashboard'])->name('customer.dashboard');
     Route::post('/customer/refreshParameterValuesTypeWise', [CustomerDashboardController::class, 'refreshParameterValuesTypeWise'])->name('customer.refreshParameterValuesTypeWise');
     Route::post('/customer/getDashboardPageData', [CustomerDashboardController::class, 'getDashboardPageData'])->name('customer.getDashboardPageData');

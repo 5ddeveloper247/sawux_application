@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Models\AuditTrail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -31,6 +32,7 @@ if (!function_exists('sendMail')) {
                 $send->replyto($mail_val['email_from'], $mail_val['email_from_name']);
                 $send->to($mail_val['send_to'], $mail_val['send_to_name'])->subject($mail_val['subject']);
             });
+            
             return true;
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -49,5 +51,20 @@ if (!function_exists('getUserSidebarMenus')) {
             return \App\Models\SidebarMenu::all();
         }
         return collect(); // Return an empty collection if not logged in
+    }
+}
+if (!function_exists('record_audit_trail')) {
+  
+    function record_audit_trail($module, $sourceTable, $sourceId, $action,$shortMessage)
+    {
+        // Record the action to the audit_trails table
+        AuditTrail::create([
+            'module' => $module,
+            'source_table' => $sourceTable,
+            'source_id' => $sourceId,
+            'action' => $action,
+            'short_message' => $shortMessage, 
+            'user_id'=> Auth::id(),
+        ]);
     }
 }

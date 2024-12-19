@@ -10,7 +10,7 @@ use App\Models\User;
 
 class ProfileController extends Controller
 {
-    public function index(){
+    public function profile(){
         $id = Auth::user()->id;
         $data = User::where('id',$id)->first();
         return view('profile',compact('data'));

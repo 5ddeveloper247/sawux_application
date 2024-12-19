@@ -53,6 +53,10 @@ class DeviceController extends Controller
             $type->title = $request->input('title');
             $type->customer_id = Auth::user()->customer_id;
             $type->save();
+            
+            $typeId = $type->id;
+            record_audit_trail('Device','types',$typeId,'ADD','Create a new Device.');
+            
             return response()->json([
                 'success' => true,
                 'message' => 'Type Add successfully'
@@ -64,6 +68,9 @@ class DeviceController extends Controller
             $type->title = $request->input('title');
             $type->save();
 
+            $typeId = $type->id;
+            record_audit_trail('Device','types',$typeId,'Update','Update the Device.');
+            
             return response()->json([
                 'success' => true,
                 'message' => 'Type Updated successfully'
@@ -113,6 +120,10 @@ class DeviceController extends Controller
                 $SubType->title = $request->input('title');
                 $SubType->type_id = $request->type_id;
                 $SubType->save();
+
+                $typeId = $SubType->id;
+                record_audit_trail('Sub Type','sub_types',$typeId,'ADD','Create a new Sub Type.');
+
                 return response()->json([
                     'success' => true,
                     'message' => 'Type Add successfully'
@@ -122,6 +133,9 @@ class DeviceController extends Controller
             $SubType = SubType::find($request->sub_type_id);
             $SubType->title = $request->input('title');
             $SubType->save();
+
+            $typeId = $SubType->id;
+            record_audit_trail('Sub Type','sub_types',$typeId,'Update','Update the Sub Type.');
 
             return response()->json([
                 'success' => true,
@@ -204,6 +218,10 @@ class DeviceController extends Controller
                 $DynamicParameter->post_title = $request->input('post_title');
                 $DynamicParameter->is_switch = $request->parameter_is_switch;
                 $DynamicParameter->save();
+
+                $typeId = $DynamicParameter->id;
+                record_audit_trail('Dynamic Parameter','dynamic_parameters',$typeId,'ADD','Create a new dynamic parameter.');
+
                 return response()->json([
                     'success' => true,
                     'message' => 'Parameter Add successfully'
@@ -215,6 +233,9 @@ class DeviceController extends Controller
                 $DynamicParameter->post_title = $request->input('post_title');
                 $DynamicParameter->is_switch = $request->parameter_is_switch;
                 $DynamicParameter->save();
+
+                $typeId = $DynamicParameter->id;
+                record_audit_trail('Dynamic Parameter','dynamic_parameters',$typeId,'Update','Update the dynamic parameter.');
 
                 return response()->json([
                     'success' => true,
@@ -241,6 +262,10 @@ class DeviceController extends Controller
             if($record)
             {
                 $record->delete();
+
+               
+                record_audit_trail('Device','types',$id,'Delete','Delete the Device.');
+                
                 return response()->json([
                     'success' => true,
                     'message' => 'Type Delete Successfully'
@@ -267,6 +292,10 @@ class DeviceController extends Controller
             if($record)
             {
                 $record->delete();
+
+                
+                record_audit_trail('Sub Type','sub_types',$id,'Delete','Delete the SubType.');
+                
                 return response()->json([
                     'success' => true,
                     'message' => 'SubType Delete Successfully'
@@ -290,6 +319,8 @@ class DeviceController extends Controller
         if($data)
         {
             $data->delete();
+            record_audit_trail('Dynamic Parameter','dynamic_parameters',$id,'Delete','Delete the Dynamic Parameters.');
+
             return response()->json([
                 'success' => true,
                 'message' => 'Parameter Delete Successfully'

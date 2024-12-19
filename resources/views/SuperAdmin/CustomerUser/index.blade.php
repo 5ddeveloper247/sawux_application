@@ -59,19 +59,21 @@
 
                 <div id="products">
                     <div class="px-4 pt-4 pb-5 bg-white shadow">
-                        <table id="exam-listing" class="listing_table table table-responsive">
-                            <thead>
-                                <tr>
+                        <div class="table-responsive">
+                            <table style="width: 100%" id="exam-listing" class="listing_table table table-responsive">
+                                <thead>
+                                    <tr>
 
-                                    <th scope="col">NAME</th>
-                                    <th scope="col">USER NAME</th>
-                                    <th scope="col">EMAIL</th>
-                                    <th scope="col">CUSTOMER</th>
-                                    <th scope="col">STATUS</th>
-                                    <th class="text-end" scope="col">ACTIONS</th>
-                                </tr>
-                            </thead>
-                        </table>
+                                        <th scope="col">NAME</th>
+                                        <th scope="col">USER NAME</th>
+                                        <th scope="col">EMAIL</th>
+                                        <th scope="col">CUSTOMER</th>
+                                        <th scope="col">STATUS</th>
+                                        <th class="text-end" scope="col">ACTIONS</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -136,7 +138,8 @@
     <script>
         $(document).ready(function() {
             getCardData();
-            function getCardData(){
+
+            function getCardData() {
                 let type = 'POST';
                 let url = '/admin/customer-admin/card';
                 SendAjaxRequestToServer(type, url, '', '', cardDataResponse, '', '');
@@ -149,11 +152,11 @@
                 // SHOWING MESSAGE ACCORDING TO RESPONSE
                 if (response.status == 200 || response.status == '200') {
 
-                   $("#totalCustomerAdmin").text(response.data.total_customer);
-                   $("#activeCustomerAdmin").text(response.data.active_customer);
-                   $("#inActiveCustomerAdmin").text(response.data.inactive_customer);
+                    $("#totalCustomerAdmin").text(response.data.total_customer);
+                    $("#activeCustomerAdmin").text(response.data.active_customer);
+                    $("#inActiveCustomerAdmin").text(response.data.inactive_customer);
 
-                } 
+                }
             }
             pageLoader();
 
@@ -165,6 +168,7 @@
                     processing: true,
                     serverSide: true,
                     "bDestroy": true,
+                    responsive: true,
                     ajax: {
                         url: "{{ route('superadmin.customer.admin.listAll') }}", // URL to your route
                         type: 'POST', // Specify the HTTP method as POST
@@ -319,11 +323,11 @@
             }
             $("#exam-listing").on('change', '.form-check-input', function(e) {
                 let id = $(this).attr('id');
-                let status =0;
+                let status = 0;
                 if ($(this).is(':checked')) {
-                    status=1;
+                    status = 1;
                 } else {
-                    status=0
+                    status = 0
                 }
                 let type = 'POST';
                 let url = '/admin/customer-admin/status';
@@ -332,6 +336,7 @@
                 data.append('status', status);
                 SendAjaxRequestToServer(type, url, data, '', statusResponse, '', '');
             });
+
             function statusResponse(response) {
                 if (response.status == 200) {
                     //getCardData();

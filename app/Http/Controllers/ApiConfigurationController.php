@@ -62,7 +62,8 @@ class ApiConfigurationController extends Controller
                 $ApiSetting->image = $filePath;
                 $ApiSetting->save();
             }
-            
+            $apiSettingId = $ApiSetting->id;
+            record_audit_trail('Api Configuration','api_settings',$apiSettingId,'Update','Update the api-configuration.');
             return response()->json([
                 'success' => true,
                 'message' => 'Configurations Saved successfully'

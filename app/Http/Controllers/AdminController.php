@@ -137,6 +137,8 @@ class AdminController extends Controller
             $DynamicParameter->parameter = $request->input('parameter');
             $DynamicParameter->parameter_id = $request->input('parameter_id');
             $DynamicParameter->save();
+            $DynamicParameterId = $DynamicParameter->id;
+            record_audit_trail('Dynamic Parameter','dynamic_parameters',$DynamicParameterId,'Update','Update the dynamic parameter and its parameter ID..');
             
             return response()->json([
                 'success' => true,
@@ -215,7 +217,9 @@ class AdminController extends Controller
            
             $Type->device_key = $request->input('device_key');
             $Type->save();
-            
+            $typeId = $Type->id;
+            record_audit_trail('Device','types',$typeId,'Update','Update the Device.');
+
             return response()->json([
                 'success' => true,
                 'message' => 'Device Key Updated successfully'

@@ -60,7 +60,7 @@ class CustomerController extends Controller
                         </svg>
                     </button>
                     <div class="dropdown-menu dropdown-menu-end">
-                        <a class="dropdown-item edit-btn" data-id="'.$row->id.' type="button">Edit</a>
+                        <a class="dropdown-item edit-btn" data-id="'.$row->id.'" type="button">Edit</a>
                     </div>
                 </div>'
                 ];
@@ -117,7 +117,8 @@ class CustomerController extends Controller
             $customer->establish_date = $request->establish_date;
             $customer->created_by = Auth::user()->id;
             $customer->save();
-        
+            $customerId = $customer->id;
+            record_audit_trail('Customer','customers',$customerId,'ADD','Create a new customer.'); 
             return response()->json([
                 'status' => 200,
                 'message' => 'User created successfully',
@@ -136,7 +137,7 @@ class CustomerController extends Controller
                 $customer->created_by = Auth::user()->id;
         
                 $customer->save();
-        
+                record_audit_trail('Customer','customers',$id,'Update','Update the customer.');
                 return response()->json([
                     'status' => 200,
                     'message' => 'User updated successfully',
@@ -172,7 +173,7 @@ class CustomerController extends Controller
         if ($record) {
             // Delete the record
             $record->delete();
-    
+            record_audit_trail('Customer','customers',$id,'Delete','Delete the customer.');
             // Return a success message
             return response()->json([
                 'status' => 200,
@@ -193,6 +194,7 @@ class CustomerController extends Controller
         if($data){
             $data->status = $status;
             $data->save();
+            record_audit_trail('Customer','customers',$id,'Status','Change the status of the customer.');
             return response()->json([
                 'status' => 200,
             ], 200);
