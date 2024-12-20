@@ -298,6 +298,12 @@
                     </div>`;
                 });
             }
+            else {
+                html += `<div style="text-align: center; margin-top: 50px; color: #555; font-family: Arial, sans-serif;">
+                            
+                            <h4 style="font-size: 20px; font-weight: bold; margin: 10px 0;">No Data Found</h4>
+                        </div>`;
+            }
             $("#mainContentEdit_section").html(html);
         }
 

@@ -37,15 +37,19 @@
     <div>
         <div class="p-md-4 p-3" data-page="exam">
             <div class="px-4 pt-4 pb-5 bg-white mb-3 shadow">
-                <div class="d-flex justify-content-end">
+                <div class="d-flex justify-content-start">
                     <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Choose Customer</label>
                         <select class="form-select" id="customer_id" aria-label="Default select example">
+                            <option value="0">Choose Customer</option>
                             @foreach ($customers as $customer)
                                 <option value="{{ $customer->id }}">{{ $customer->company_name }}</option>
                             @endforeach
                         </select>
                     </div>
+                    <div class="mb-3 mx-5 my-auto">
+                      <button class="btn btn-sm btn-primary data-load">Data load</button>
+                    </div>
+
                 </div>
                 <div class="row" id="mainContent_section">
                 </div>
@@ -58,12 +62,12 @@
     <script>
         let customer_id = $('#customer_id').val();
 
-        getDashboardPageData(customer_id);
 
-        $("#customer_id").change(function() {
-            let customer_id = $(this).val();
+
+        $(".data-load").click(function() {
+            let customer_id = $('#customer_id').val();
             getDashboardPageData(customer_id);
-        })
+        });
 
         function getDashboardPageData(customer_id) {
 
@@ -74,7 +78,7 @@
             let data = new FormData();
             data.append('customer_id', customer_id);
             // PASSING DATA TO FUNCTION
-            SendAjaxRequestToServer(type, url, data, '', getDashboardPageDataResponse, '', '');
+            SendAjaxRequestToServer(type, url, data, '', getDashboardPageDataResponse, '', '.data-load');
         }
 
         function getDashboardPageDataResponse(response) {
@@ -138,10 +142,11 @@
                     </div>`;
                 });
             } else {
-
-                html += `<div style="text-align: center; font-size: 18px; font-weight: bold; color: red; margin-top: 20px;">
-                            Data not found.
-                        </div>`
+                html += `<div style="text-align: center; margin-top: 50px; color: #555; font-family: Arial, sans-serif;">
+                            
+                            <h4 style="font-size: 20px; font-weight: bold; margin: 10px 0;">No Data Found</h4>
+                        </div>`;
+            
             }
             $("#mainContent_section").html(html);
         }

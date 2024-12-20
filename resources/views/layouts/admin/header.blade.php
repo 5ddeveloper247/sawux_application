@@ -24,16 +24,13 @@
                 <a href="{{route('parameter')}}" class="me-2">Parameters</a>
                 <a href="{{route('device')}}" class="me-2">Devices</a>
                 <a href="{{route('customer.users')}}" class="me-2">Users</a>
+                <a href="{{route('locations')}}" class="me-2">Locations</a>
             </div>
             @endif
         </div>
 
         <div class="navbar-logo d-flex align-items-center">
-            @if (@Auth::user()->role == 1)
-                <h4>Administrator</h4>
-            @elseif(@Auth::user()->role == 2)
-                <h4>User</h4>
-            @endif
+            {{Auth::user()->customer->company_name}}
         </div>
 
         <ul class="navbar-nav navbar-nav-icons flex-row align-items-center">

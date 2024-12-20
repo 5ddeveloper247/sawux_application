@@ -13,7 +13,7 @@ class CustomerAdminController extends Controller
 {
     //
     public function index(){
-        $customers = Customer::where('status',1)->get();
+        $customers = Customer::where('status','=','1')->get();
         return view('SuperAdmin.CustomerUser.index',compact('customers')); 
     }
     

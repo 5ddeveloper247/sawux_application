@@ -1,4 +1,4 @@
-@extends('layouts.super_admin.master')
+@extends('layouts.admin.admin_master')
 
 @push('css')
 @endpush
@@ -16,9 +16,9 @@
                         </svg>
                         <div class="ms-3">
                             <h3 class="mb-0 text-center">
-                                <span class="fw-bold fs-2" id="activeCustomer">0</span>
+                                <span class="fw-bold fs-2" id="activeUsers">0</span>
                             </h3>
-                            <small>Active Customers</small>
+                            <small>Active locations</small>
                         </div>
                     </div>
                     <div class="col-3 d-flex justify-content-center gap-2 align-items-center d-card py-3 px-3">
@@ -28,9 +28,9 @@
                         </svg>
                         <div class="ms-3">
                             <h3 class="mb-0 text-center">
-                                <span class="fw-bold fs-2" id="inActiveCustomer">0</span>
+                                <span class="fw-bold fs-2" id="inActiveUsers">0</span>
                             </h3>
-                            <small>InActive Customers</small>
+                            <small>InActive locations</small>
                         </div>
                     </div>
                     <div class="col-3 d-flex justify-content-center gap-2 align-items-center d-card py-3 px-3">
@@ -40,9 +40,9 @@
                         </svg>
                         <div class="ms-3">
                             <h3 class="mb-0 text-center">
-                                <span class="fw-bold fs-2" id="totalCustomer">0</span>
+                                <span class="fw-bold fs-2" id="totalUsers">0</span>
                             </h3>
-                            <small>Total Customers</small>
+                            <small>Total locations</small>
                         </div>
                     </div>
                     <a href="#"
@@ -52,7 +52,7 @@
                                 <path fill="currentColor"
                                     d="M16 3C8.832 3 3 8.832 3 16s5.832 13 13 13s13-5.832 13-13S23.168 3 16 3m0 2c6.087 0 11 4.913 11 11s-4.913 11-11 11S5 22.087 5 16S9.913 5 16 5m-1 5v5h-5v2h5v5h2v-5h5v-2h-5v-5z" />
                             </svg>
-                            <small class="text-center">Add Customer</small>
+                            <small class="text-center">Add locations</small>
                         </div>
                     </a>
                 </div>
@@ -61,20 +61,19 @@
                 <div id="products">
                     <div class="px-4 pt-4 pb-5 bg-white shadow">
                         <div class="table-responsive" style="overflow: visible;">
-                        <table id="exam-listing" style="overflow: visible;width: 100%" class="listing_table table table-responsive">
-                            <thead>
-                                <tr>
-
-                                    <th scope="col">NAME</th>
-                                    <th scope="col">Company Name</th>
-                                    <th scope="col">EMAIL</th>
-                                    <th scope="col">NUMBER</th>
-                                    <th scope="col">ESTABLISH</th>
-                                    <th scope="col">STATUS</th>
-                                    <th  scope="col">ACTIONS</th>
-                                </tr>
-                            </thead>
-                        </table>
+                            <table id="exam-listing" style="overflow: visible;width: 100%" class="listing_table table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">NAME</th>
+                                        <th scope="col">CODE</th>
+                                        <th scope="col">POSTAL CODE</th>
+                                        <th scope="col">ADDRESS</th>
+                                        <th scope="col">DESCRIPTION</th>
+                                        <th scope="col">STATUS</th>
+                                        <th scope="col">ACTION</th>
+                                    </tr>
+                                </thead>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -102,37 +101,30 @@
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Company Name</label>
-                                    <input type="text" class="form-control" id="company_name" name="company_name"
-                                        placeholder="company_name" maxlength="50">
+                                    <label for="exampleInputEmail1" class="form-label">Code</label>
+                                    <input type="number" class="form-control" id="code" name="code"
+                                        placeholder="Code" maxlength="50">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Email address</label>
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        placeholder="Email Address">
+                                    <label for="exampleInputEmail1" class="form-label">Postal Code</label>
+                                    <input type="number" class="form-control" id="postal_code" name="postal_code"
+                                        placeholder="Postal Code" maxlength="50">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Phone Number</label>
-                                    <input type="number" class="form-control" id="phone_number" name="phone_number"
-                                        placeholder="Phone Number" maxlength="16">
+                                    <label for="exampleInputEmail1" class="form-label">Address</label>
+                                    <textarea type="text" rows="2" class="form-control" id="address" name="address"
+                                        placeholder="Address" maxlength="50"></textarea>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">ADDRESS</label>
-                                    <input type="text" class="form-control" id="address" name="address"
-                                        placeholder="ADDRESS">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">ESTABLISH DATE</label>
-                                    <input type="date" class="form-control" id="establish_date" name="establish_date"
-                                        placeholder="ESTABLISH DATE">
+                                    <label for="exampleInputEmail1" class="form-label">Description</label>
+                                    <textarea type="text" rows="2" class="form-control" id="description" name="description"
+                                        placeholder="Description" maxlength="50"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -150,9 +142,10 @@
     <script>
         $(document).ready(function() {
             getCardData();
-            function getCardData(){
+
+            function getCardData() {
                 let type = 'POST';
-                let url = '/admin/customers/card';
+                let url = '/location/card';
                 SendAjaxRequestToServer(type, url, '', '', cardDataResponse, '', '');
 
             }
@@ -163,15 +156,15 @@
                 // SHOWING MESSAGE ACCORDING TO RESPONSE
                 if (response.status == 200 || response.status == '200') {
 
-                   $("#totalCustomer").text(response.data.total_customer);
-                   $("#activeCustomer").text(response.data.active_customer);
-                   $("#inActiveCustomer").text(response.data.inactive_customer);
+                    $("#totalUsers").text(response.data.total_user);
+                    $("#activeUsers").text(response.data.active_user);
+                    $("#inActiveUsers").text(response.data.inactive_user);
 
-                } 
+                }
             }
-
-
             pageLoader();
+
+
             function pageLoader() {
 
 
@@ -180,7 +173,7 @@
                     serverSide: true,
                     "bDestroy": true,
                     ajax: {
-                        url: "{{ route('superadmin.customers.listAll') }}", // URL to your route
+                        url: "{{ route('locations.listAll') }}", // URL to your route
                         type: 'POST', // Specify the HTTP method as POST
                     },
                     columns: [{
@@ -188,20 +181,20 @@
                             name: 'name'
                         },
                         {
-                            data: 'company_name',
-                            name: 'company_name'
+                            data: 'code',
+                            name: 'code'
                         },
                         {
-                            data: 'email',
-                            name: 'email'
+                            data: 'postal_code',
+                            name: 'postal_code'
                         },
                         {
-                            data: 'phone_number',
-                            name: 'phone_number'
+                            data: 'address',
+                            name: 'address'
                         },
                         {
-                            data: 'establish_date',
-                            name: 'establish_date'
+                            data: 'description',
+                            name: 'description'
                         },
                         {
                             data: 'status',
@@ -219,7 +212,7 @@
             }
             $(".add-sub-admin").click(function() {
                 $("#staticBackdrop").modal('toggle');
-                $('form').trigger('reset');
+                $('#saveFormData').trigger('reset');
                 $("#staticBackdropLabel").text('Add Record');
                 $("#id").val('');
                 $('#saveFormData').find('.is-invalid').removeClass('is-invalid');
@@ -235,7 +228,7 @@
                 var data = new FormData($('form#saveFormData')[0]);
 
                 let type = 'POST';
-                let url = '/admin/customers/creat';
+                let url = '/locations/creat';
                 SendAjaxRequestToServer(type, url, data, '', saveDataResponse, '', '.save-data');
 
             });
@@ -284,7 +277,7 @@
                 let id = $(this).data("id");
                 $("#id").val(id);
                 let type = 'POST';
-                let url = '/admin/customers/edit';
+                let url = '/locations/edit';
                 let data = new FormData();
                 data.append('id', id);
                 SendAjaxRequestToServer(type, url, data, '', editDataResponse, '', '.save-data');
@@ -294,12 +287,10 @@
                 if (response.status == 200) {
 
                     $('#name').val(response.data.name);
-                    $('#company_name').val(response.data.company_name);
-                    $('#email').val(response.data.email);
-                    $('#phone_number').val(response.data.phone_number);
+                    $('#code').val(response.data.code);
+                    $('#postal_code').val(response.data.postal_code);
+                    $('#description').val(response.data.description);
                     $('#address').val(response.data.address);
-                    $('#date').val(response.data.date);
-                    $('#establish_date').val(response.data.establish_date);
                     $("#staticBackdrop").modal('toggle');
 
                     // $('#formDiv').removeClass('d-none');
@@ -314,7 +305,7 @@
                 e.preventDefault();
                 let id = $(this).attr("data-id");
                 let type = 'POST';
-                let url = '';
+                let url = '/locations/delete';
                 let data = new FormData();
                 data.append('id', id);
                 SendAjaxRequestToServer(type, url, data, '', deleteDataResponse, '', '');
@@ -326,8 +317,8 @@
                     toastr.success('The record has been successfully deleted.', {
                         timeOut: 3000
                     });
-                    getCardData();
                     pageLoader();
+                    getCardData();
 
                 } else {
 
@@ -338,19 +329,20 @@
             }
             $("#exam-listing").on('change', '.form-check-input', function(e) {
                 let id = $(this).attr('id');
-                let status =0;
+                let status = 0;
                 if ($(this).is(':checked')) {
-                    status=1;
+                    status = 1;
                 } else {
-                    status=0
+                    status = 0
                 }
                 let type = 'POST';
-                let url = '/admin/customers/status';
+                let url = '/locations/status';
                 let data = new FormData();
                 data.append('id', id);
                 data.append('status', status);
                 SendAjaxRequestToServer(type, url, data, '', statusResponse, '', '');
             });
+
             function statusResponse(response) {
                 if (response.status == 200) {
                     getCardData();

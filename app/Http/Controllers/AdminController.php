@@ -29,14 +29,9 @@ class AdminController extends Controller
         $id = Auth::user()->id;
         $customerId = Auth::user()->customer_id;
         
-            if($user->is_verified == 0)
-            {
-                $data = User::where('id',$id)->first();
-                return view('profile',compact('data'));
-            }else{   
-                $data['api_settings'] = ApiSetting::where('customer_id', $customerId)->first(); 
-                return view('dashboard')->with($data);
-            }
+        $data['api_settings'] = ApiSetting::where('customer_id', $customerId)->first(); 
+        return view('dashboard')->with($data);
+            
         
         
     }
@@ -73,7 +68,15 @@ class AdminController extends Controller
             // Authentication passed
             $user = Auth::user();
             if($user->role == 2){
-            return redirect()->intended('/dashboard');
+
+                if($user->is_verified == 0)
+                {
+                    $data = User::where('id',$user->id)->first();
+                    return view('profile',compact('data'));
+                }else{   
+                    return redirect()->intended('/dashboard');
+                }
+           
             }else{
                 return redirect()->intended('/customer/dashboard'); 
             }

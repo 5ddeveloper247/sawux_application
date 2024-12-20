@@ -87,10 +87,9 @@ class CustomerController extends Controller
             'name' => 'required',
             'company_name' => 'required',
             'email' => 'required|email|unique:customers,email' . ($id ? ",$id" : ''),
-            'phone_number' =>  'required', 
-            'address' =>  'required', 
-            'date' =>  'required', 
-            'establish_date' =>  'required', 
+            'phone_number' =>  'required|numeric|digits_between:7,17', 
+            'address' =>  'required',
+            'establish_date' =>  'required|before:today', 
         ];
         
         // Validate request
@@ -113,7 +112,6 @@ class CustomerController extends Controller
             $customer->email = $request->email;
             $customer->phone_number = $request->phone_number;
             $customer->address = $request->address;
-            $customer->date = $request->date;
             $customer->establish_date = $request->establish_date;
             $customer->created_by = Auth::user()->id;
             $customer->save();
@@ -132,7 +130,6 @@ class CustomerController extends Controller
                 $customer->email = $request->email;
                 $customer->phone_number = $request->phone_number;
                 $customer->address = $request->address;
-                $customer->date = $request->date;
                 $customer->establish_date = $request->establish_date;
                 $customer->created_by = Auth::user()->id;
         

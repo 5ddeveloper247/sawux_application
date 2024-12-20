@@ -14,6 +14,7 @@ use App\Http\Controllers\CustomerDashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CustomerDeviceController;
 use App\Http\Controllers\AuditTrailController;
+use App\Http\Controllers\LocationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -56,7 +57,6 @@ Route::group(['middleware' => ['SuperAdminAuth']], function () {
         Route::get('/admin/customers', [CustomerController::class, 'index'])->name('superadmin.customers');
         Route::get('/admin/customer-admin', [CustomerAdminController::class, 'index'])->name('superadmin.customer.admin');
         Route::get('/admin/customer-devices', [CustomerDeviceController::class, 'index'])->name('superadmin.customer.device');
-        Route::get('/admin/audit-trails', [AuditTrailController::class, 'index'])->name('superadmin.audit.trails');
 
     });
 
@@ -97,7 +97,7 @@ Route::post('/admin/customer-admin/card', [CustomerAdminController::class, 'card
 Route::post('/admin/customer-devices/getDashboardPageData', [CustomerDeviceController::class, 'getDashboardPageData'])->name('superadmin.customer.device.getDashboardPageData');
 
 //
-
+Route::get('/admin/audit-trails', [AuditTrailController::class, 'index'])->name('superadmin.audit.trails');
 Route::post('/admin/audit-trails/list', [AuditTrailController::class, 'listAll'])->name('superadmin.audit.trails.list');
 });
 
@@ -150,6 +150,15 @@ Route::group(['middleware' => ['AdminAuth']], function () {
     //profile
     Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
     Route::post('/update-profile', [ProfileController::class, 'updateProfile'])->name('update-profile');
+
+    //locations
+    Route::get('/locations', [LocationController::class, 'index'])->name('locations');
+    Route::post('/locations/listAll', [LocationController::class, 'listAll'])->name('locations.listAll');
+    Route::post('/locations/creat', [LocationController::class, 'create'])->name('locations.create');
+    Route::post('/locations/edit', [LocationController::class, 'edit'])->name('locations.edit');
+    Route::post('/locations/delete', [LocationController::class, 'delete'])->name('locations.delete');
+    Route::post('/locations/status', [LocationController::class, 'status'])->name('locations.status');
+    Route::post('/location/card', [LocationController::class, 'card'])->name('locations.card');
 
 });
 Route::group(['middleware' => ['CustomerUser']], function () {

@@ -60,8 +60,8 @@
 
                 <div id="products">
                     <div class="px-4 pt-4 pb-5 bg-white shadow">
-                        <div class="table-responsive">
-                            <table id="exam-listing" style="width: 100%" class="listing_table table table-responsive">
+                        <div class="table-responsive" style="overflow: visible;">
+                            <table id="exam-listing" style="overflow: visible;width: 100%" class="listing_table table table-responsive">
                                 <thead>
                                     <tr>
 

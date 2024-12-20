@@ -3,19 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Location;
+use Illuminate\Support\Facades\Validator;
 
-class CustomerUserController extends Controller
+class LocationController extends Controller
 {
+    //
     public function index(){
-        
-        return view('customer_user'); 
+        return view('location');
     }
-    
     public function listAll(Request $request)
     {
 
@@ -30,9 +27,8 @@ class CustomerUserController extends Controller
             $page = ($start / $length) + 1;
             
             // Get data with pagination and filtering
-            $loginId = Auth::user()->id;
-            $data = User::where('role','=',3)
-                        ->where('created_by','=',$loginId)
+            $customerId = Auth::user()->customer_id;
+            $data = Location::where('customer_id','=',$customerId)
                         ->where('name', 'like', '%' . $searchTerm . '%')
                         ->latest()
                         ->paginate($length, ['*'], 'page', $page);
@@ -44,8 +40,10 @@ class CustomerUserController extends Controller
                 return [
                     'DT_RowIndex' => $start + $index + 1, // Adjust index for pagination
                     'name' => $row->name,
-                    'username' => $row->username,
-                    'email' => $row->email,
+                    'code' => $row->code,
+                    'postal_code' => $row->postal_code,
+                    'description' => $row->description,
+                    'address' => $row->address,
                     'status' => '<div class="form-check form-switch pt-1">
                                  <input class="form-check-input pointer" type="checkbox" role="switch" 
                                  id="'.$row->id.'" 
@@ -85,8 +83,10 @@ class CustomerUserController extends Controller
         // Validation rules
         $rules = [
             'name' => 'required',
-            'username' => 'required|unique:users,username' . ($id ? ",$id" : ''),
-            'email' => 'required|email|unique:users,email' . ($id ? ",$id" : ''),
+            'code' => 'required',
+            'postal_code' => 'required',
+            'address' => 'required',
+            'description' => 'required',
         ];
         
         // Validate request
@@ -99,51 +99,46 @@ class CustomerUserController extends Controller
                 'errors' => $validator->errors(),
             ], 422);
         }
-        $password  ='12345678';
-        $hashPassword = Hash::make($password);
-        // Handle create or update logic
+
         if ($id == '') {
             // Create new user
-            $user = new User;
-            $user->name = $request->name;
-            $user->username = $request->username;
-            $user->email = $request->email;
-            $user->password = $hashPassword;
-            $user->created_by = Auth::user()->id;
-            $user->customer_id = Auth::user()->customer_id;
-            $user->role = 3;
-            $user->save();
-            $mailData['password'] = $password;
-            $mailData['username'] = $request->username;
-             $body = view('email.send_user_credentials_template', $mailData);
-            sendMail($request->name, $request->email, 'Your Account Credentials', $body);
+            $location = new Location;
+            $location->name = $request->name;
+            $location->code = $request->code;
+            $location->postal_code = $request->postal_code;
+            $location->address = $request->address;
+            $location->description = $request->description;
+            $location->customer_id = Auth::user()->customer_id;
+            $location->save();
 
-            $userId = $user->id;
-            record_audit_trail('Customer User','users',$userId,'ADD','Create a new customer user.');
+            $locationId = $location->id;
+            record_audit_trail('Locations','locations',$locationId,'ADD','Create a new location.');
             
             return response()->json([
                 'status' => 200,
-                'message' => 'User created successfully',
+                'message' => 'Location created successfully',
             ], 200);
         } else {
             // Update existing user
-            $user = User::find($id);
-            if ($user) {
-                $user->name = $request->name;
-                $user->username = $request->username;
-                $user->email = $request->email;
-                $user->save();
+            $location = Location::find($id);
+            if ($location) {
+                $location->name = $request->name;
+                $location->code = $request->code;
+                $location->address = $request->address;
+                $location->description = $request->description;
+                $location->customer_id = Auth::user()->customer_id;
+                $location->save();
         
-                record_audit_trail('Customer User','users',$id,'Update','Update the customer user.');
+                record_audit_trail('Locations','locations',$id,'Update','Update the location.');
 
                 return response()->json([
                     'status' => 200,
-                    'message' => 'User updated successfully',
+                    'message' => 'Location updated successfully',
                 ], 200);
             } else {
                 return response()->json([
                     'status' => 404,
-                    'message' => 'User not found',
+                    'message' => 'Location not found',
                 ], 404);
             }
         }
@@ -153,11 +148,10 @@ class CustomerUserController extends Controller
     public function edit(Request $request){
         $id = $request->id;
         $records =array();
-        $user = User::where('id',$id)->first();
-
+        $location = Location::where('id',$id)->first();
         return response()->json([
             'status' => 200,
-            'data' => $user,
+            'data' => $location,
         ], 200);
     }
 
@@ -165,14 +159,14 @@ class CustomerUserController extends Controller
         $id = $request->id;
 
         // Find the record by ID
-        $record = User::find($id);
+        $record = Location::find($id);
     
         // Check if the record exists
         if ($record) {
             // Delete the record
             $record->delete();
     
-            record_audit_trail('Customer User','users',$id,'Delete','Delete the customer user.');
+            record_audit_trail('Locations','locations',$id,'Delete','Delete the location.');
 
             // Return a success message
             return response()->json([
@@ -189,13 +183,13 @@ class CustomerUserController extends Controller
     {
         $id = $request->id;
         $status = $request->status;
-        $data = User::find($id);
+        $data = Location::find($id);
         
         if($data){
             $data->status = $status;
             $data->save();
             
-            record_audit_trail('Customer User','users',$id,'Status','Change the status of the customer-user.');
+            record_audit_trail('Locations','locations',$id,'Status','Change the status of the location.');
 
             return response()->json([
                 'status' => 200,
@@ -209,10 +203,10 @@ class CustomerUserController extends Controller
     }
     public function card(){
         $records = array();
-        $loginId = Auth::user()->id;
-        $totalUser = User::where('role','=','3')->where('created_by','=',$loginId)->count();
-        $activeUser = User::where('role','=','3')->where('created_by','=',$loginId)->where('status','=','1')->count();
-        $inActiceUser = User::where('role','=','3')->where('created_by','=',$loginId)->where('status','=','0')->count();
+        $loginId = Auth::user()->customer_id;
+        $totalUser = Location::count();
+        $activeUser = Location::where('status','=','1')->count();
+        $inActiceUser = Location::where('status','=','0')->count();
 
         $records['total_user'] = $totalUser;
         $records['active_user'] = $activeUser;

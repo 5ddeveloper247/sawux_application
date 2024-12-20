@@ -104,8 +104,11 @@ class DeviceController extends Controller
             // If sub_type_id is not provided, validate type_id instead
             $rules['type_id'] = 'required|integer';
         }
-        
-        $validator = Validator::make($request->all(), $rules);
+        $messages = [
+            'type_id.required' => 'The Device field is required.',
+            'type_id.integer' => 'The Device field must be selected.',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
         
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
@@ -201,8 +204,13 @@ class DeviceController extends Controller
             $rules['sub_type_id'] = 'required|integer';
             $rules['type_id'] = 'required|integer';
         }
-        
-        $validator = Validator::make($request->all(), $rules);
+        $messages = [
+            'type_id.required' => 'The Device field is required.',
+            'type_id.integer' => 'The Device field must be selected.',
+            'sub_type_id.required' => 'The SubType field is required.',
+            'sub_type_id.integer' => 'The SubType field must be selected.',
+        ];
+        $validator = Validator::make($request->all(), $rules,$messages);
         
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);

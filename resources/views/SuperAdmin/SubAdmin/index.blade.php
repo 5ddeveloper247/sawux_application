@@ -60,8 +60,8 @@
 
                 <div id="products">
                     <div class="px-4 pt-4 pb-5 bg-white shadow">
-                        <div class="table-responsive">
-                            <table id="exam-listing" style="width: 100%" class="listing_table table table-responsive">
+                        <div class="table-responsive"style="overflow: visible;">
+                            <table id="exam-listing" style="overflow: visible;width: 100%" class="listing_table table table-responsive">
                                 <thead>
                                     <tr>
 
@@ -69,7 +69,7 @@
                                         <th scope="col">USER NAME</th>
                                         <th scope="col">EMAIL</th>
                                         <th scope="col">Status</th>
-                                        <th class="text-end" scope="col">ACTIONS</th>
+                                        <th  scope="col">ACTIONS</th>
                                     </tr>
                                 </thead>
                             </table>
