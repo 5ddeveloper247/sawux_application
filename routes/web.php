@@ -56,6 +56,7 @@ Route::group(['middleware' => ['SuperAdminAuth']], function () {
         Route::get('/admin/customers', [CustomerController::class, 'index'])->name('superadmin.customers');
         Route::get('/admin/customer-admin', [CustomerAdminController::class, 'index'])->name('superadmin.customer.admin');
         Route::get('/admin/customer-devices', [CustomerDeviceController::class, 'index'])->name('superadmin.customer.device');
+        Route::get('/admin/audit-trails', [AuditTrailController::class, 'index'])->name('superadmin.audit.trails');
 
     });
 
@@ -96,7 +97,7 @@ Route::post('/admin/customer-admin/card', [CustomerAdminController::class, 'card
 Route::post('/admin/customer-devices/getDashboardPageData', [CustomerDeviceController::class, 'getDashboardPageData'])->name('superadmin.customer.device.getDashboardPageData');
 
 //
-Route::get('/admin/audit-trails', [AuditTrailController::class, 'index'])->name('superadmin.audit.trails');
+
 Route::post('/admin/audit-trails/list', [AuditTrailController::class, 'listAll'])->name('superadmin.audit.trails.list');
 });
 
