@@ -38,11 +38,25 @@
         <div class="p-md-4 p-3" data-page="exam">
             <div id="products">
                 <div class="px-4 pt-4 pb-5 bg-white mb-3 shadow">
+                    <div class="d-flex justify-content-between">
+                        <div class="txt py-4">
+                            <h3>Dashboard</h3>
+                        </div>
+                        <div>
+                            <label>Choose Locations</label>
+                            <select class="form-select" id="location_id" name="location_id" aria-label="Default select example">
+                                @foreach ($locations as $location)
+                                    <option value="{{ $location->id }}">{{ $location->name }}</option>
+                                @endforeach
+
+                            </select>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12 col-12">
-                            @if (@$api_settings->image != null && @$api_settings->image != '')
-                                <img class="w-100 h-100" src="{{ @$api_settings->image }}" alt="image">
-                            @endif
+
+                            <img class="w-100 h-100" id="imageSrc" src="" alt="image">
+
                         </div>
                     </div>
                     <div class="row" id="mainContentResult_section">
@@ -55,6 +69,13 @@
 
 @push('script')
     <script>
+        $(document).ajaxStart(function() {
+            console.log("A backend task has started.");
+        });
+
+        $(document).ajaxStop(function() {
+            console.log("All backend tasks have completed.");
+        });
         var pageFlag = false;
         var refreshTimeInterval = '{{ @$api_settings->api_refresh_time * 1000 ?? 0 }}';
 
@@ -63,14 +84,42 @@
         $(document).on('keyup', 'input', function(e) {
             $(this).removeClass('is-invalid');
         });
+        $("#location_id").change(function() {
+            pageFlag = false;
+            getDashboardPageData();
+
+        });
+
+        function apiconfiguration() {
+            let location_id = $("#location_id").val();
+            let type = 'POST';
+            let url = '/api-configuration/data';
+            let data = new FormData();
+            data.append('location_id', location_id);
+            SendAjaxRequestToServer(type, url, data, '', apiConfigurationDataResponse, '', '.save-data');
+        }
+
+        function apiConfigurationDataResponse(response) {
+            if (response.success == true || response.success == 'true') {
+                if (response.data) {
+                    $("#imageSrc").show();
+                    $("#imageSrc").attr('src', response.data.image);
+                } else {
+                    $("#imageSrc").hide();
+                    $("#imageSrc").attr('src', '');
+                }
+            }
+        }
 
         function getDashboardPageData() {
-
+            apiconfiguration();
+            let location_id = $("#location_id").val();
             let type = 'POST';
             let url = '/getDashboardPageData';
             let message = '';
             let form = '';
             let data = new FormData();
+            data.append('location_id', location_id)
             // PASSING DATA TO FUNCTION
             SendAjaxRequestToServer(type, url, data, '', getDashboardPageDataResponse, '', '');
         }
@@ -192,13 +241,14 @@
         function refreshParameterValues(typeId) {
 
             $("#refresh_" + typeId).attr('onclick', '').addClass('fa-spin');
-
+            let location_id = $("#location_id").val();
             let type = 'POST';
             let url = '/refreshParameterValuesTypeWise';
             let message = '';
             let form = '';
             let data = new FormData();
             data.append('typeId', typeId);
+            data.append('location_id', location_id);
             // PASSING DATA TO FUNCTION
             SendAjaxRequestToServer(type, url, data, '', refreshParameterValuesResponse, '', '#refresh');
         }

@@ -115,3 +115,6 @@ function formatTime(timeString) {
     // Return the formatted time
     return hours + ':' + minutes;
 }
+$('.select2').select2({
+    placeholder: $(this).attr('data-placeholder')
+});

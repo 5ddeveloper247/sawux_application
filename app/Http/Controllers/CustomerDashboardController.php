@@ -13,17 +13,19 @@ use App\Models\Type;
 use App\Models\SubType;
 use App\Models\ApiSetting;
 use App\Models\DynamicParameter;
+use App\Models\Location;
 
 class CustomerDashboardController extends Controller
 {
     public function dashboard(Request $request){
         
         $user = Auth::user();
-        $id = Auth::user()->id;
-        $customerId = Auth::user()->customer_id;
-        
-        $data['api_settings'] = ApiSetting::where('customer_id', $customerId)->first();
-        return view('dashboard_user')->with($data);
+        $locationIds = json_decode($user->location_id); 
+
+        // Fetch the locations manually from the 'locations' table using the 'location_id' values
+        $locations = Location::whereIn('id', $locationIds)->where('status','1')->get();
+
+        return view('dashboard_user',compact('locations'));
         
         
     }
@@ -34,7 +36,7 @@ class CustomerDashboardController extends Controller
 
             if($request->typeId != ''){
                 
-                $data['paramResult_list'] = $this->getSpecificParametersResult($request->typeId);
+                $data['paramResult_list'] = $this->getSpecificParametersResult($request->typeId,$request->location_id);
                 $data['type_id'] = $request->typeId;
 
                 return response()->json([
@@ -59,9 +61,9 @@ class CustomerDashboardController extends Controller
         //     ], 500);
         // }
     }
-    public function getSpecificParametersResult($typeId){
+    public function getSpecificParametersResult($typeId,$locationId){
         $customerId = Auth::user()->customer_id;
-        $apiSettings = ApiSetting::where('customer_id', $customerId)->where('status', '1')->first();
+        $apiSettings = ApiSetting::where('customer_id', $customerId)->where('location_id',$locationId)->where('status', '1')->first();
         $type = Type::where('id', $typeId)->with(['subTypes','subTypes.parameters'])->first();
         
         if($type != null && $apiSettings != null){
@@ -136,9 +138,11 @@ class CustomerDashboardController extends Controller
     public function getDashboardPageData(Request $request)
     {
         $customer_id = Auth::user()->customer_id;
+        $location_id = $request->location_id;
         $data['types_list'] = Type::with(['subTypes','subTypes.parameters'])
                               ->where('status', '1')
-                             ->where('customer_id', $customer_id) // Add the condition for customer_id
+                              ->where('location_id', $location_id)
+                              ->where('customer_id', $customer_id) // Add the condition for customer_id
                               ->get();
         
         return response()->json([
@@ -198,4 +202,16 @@ class CustomerDashboardController extends Controller
     ], 200);
 
   }
+
+  public function data(Request $request){
+            
+    $location_id = $request->location_id;
+    $customer_id = Auth::user()->customer_id;
+    $data = ApiSetting::where('customer_id','=',$customer_id)
+    ->where('location_id','=',$location_id)->first();
+    return response()->json([
+        'success' => true,
+        'data' => $data
+    ], 200);
+}
 }

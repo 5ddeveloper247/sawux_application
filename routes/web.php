@@ -123,6 +123,7 @@ Route::group(['middleware' => ['AdminAuth']], function () {
     
 
     Route::get('/api-configuration', [ApiConfigurationController::class, 'index'])->name('api.configuration');
+    Route::post('/api-configuration/data', [ApiConfigurationController::class, 'data'])->name('api.configuration.data');
     Route::post('/saveApiSettings', [ApiConfigurationController::class, 'saveApiSettings'])->name('saveApiSettings');
 
     Route::get('/parameters', [ParameterController::class, 'index'])->name('parameter');
@@ -171,6 +172,8 @@ Route::group(['middleware' => ['CustomerUser']], function () {
     Route::post('/customer/refreshParameterValuesTypeWise', [CustomerDashboardController::class, 'refreshParameterValuesTypeWise'])->name('customer.refreshParameterValuesTypeWise');
     Route::post('/customer/getDashboardPageData', [CustomerDashboardController::class, 'getDashboardPageData'])->name('customer.getDashboardPageData');
 
+
+    Route::post('/customer/api-configuration/data', [CustomerDashboardController::class, 'data'])->name('customer.api.configuration.data');
 });
 
 

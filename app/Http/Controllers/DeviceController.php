@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Location;
 use App\Models\Type;
 use App\Models\SubType;
 use App\Models\ApiSetting;
@@ -17,8 +18,9 @@ use App\Models\DynamicParameter;
 class DeviceController extends Controller
 {
     public function index(){
-
-        return view('device');
+        $customer_id = Auth::user()->customer_id;
+        $locations = Location::where('customer_id',$customer_id)->where('status','1')->get();
+        return view('device',compact('locations'));
 
     }
     public function updateType(Request $request)
@@ -52,6 +54,7 @@ class DeviceController extends Controller
             $type = new Type;
             $type->title = $request->input('title');
             $type->customer_id = Auth::user()->customer_id;
+            $type->location_id = $request->location_id;
             $type->save();
             
             $typeId = $type->id;
@@ -157,7 +160,8 @@ class DeviceController extends Controller
     }
     public function getDevices(Request $request){
         $customer_id = Auth::user()->customer_id;
-        $types = Type::where('customer_id','=',$customer_id)->get(); 
+        $location_id = $request->location_id;
+        $types = Type::where('customer_id','=',$customer_id)->where('location_id',$location_id)->get(); 
         return response()->json([
             'success' => true,
             'message' => 'The SubType record was successfully retrieved',

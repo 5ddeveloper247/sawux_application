@@ -36,6 +36,17 @@
 @section('content')
     <div>
         <div class="p-md-4 p-3" data-page="exam">
+            <div class="d-flex justify-content-end mb-4">
+                <div>
+                    <label>Choose Locations</label>
+                    <select class="form-select" id="location_id" name="location_id" aria-label="Default select example">
+                        @foreach ($locations as $location)
+                            <option value="{{ $location->id }}">{{ $location->name }}</option>
+                        @endforeach
+
+                    </select>
+                </div>
+            </div>
             <div id="products">
                 <div class="px-4 pt-4 pb-5 bg-white mb-3 shadow">
                     <div class="row" id="mainContent_section">
@@ -174,14 +185,18 @@
         $(document).on('keyup', 'input', function(e) {
             $(this).removeClass('is-invalid');
         });
-
+        $("#location_id").change(function(){
+            getDashboardPageData();
+        });
         function getDashboardPageData() {
 
             let type = 'POST';
             let url = '/getDashboardPageData';
             let message = '';
+            let location_id = $("#location_id").val();
             let form = '';
             let data = new FormData();
+            data.append('location_id',location_id);
             // PASSING DATA TO FUNCTION
             SendAjaxRequestToServer(type, url, data, '', getDashboardPageDataResponse, '', '');
         }

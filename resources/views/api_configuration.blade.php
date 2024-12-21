@@ -38,27 +38,37 @@
         <div class="p-md-4 p-3" data-page="exam">
             <div id="products">
                 <div class="px-4 pt-4 pb-5 bg-white mb-3 shadow">
-                    <div class="txt py-4">
-                        <h3>API DETAILS</h3>
+                    <div class="d-flex justify-content-between">
+                        <div class="txt py-4">
+                            <h3>API DETAILS</h3>
+                        </div>
+                        <div>
+                            <label>Choose Locations</label>
+                            <select class="form-select" id="location_id" name="location_id" aria-label="Default select example">
+                                @foreach ($locations as $location)
+                                    <option value="{{ $location->id }}">{{ $location->name }}</option>
+                                @endforeach
+
+                            </select>
+                        </div>
                     </div>
+
                     <form id="apiSettings_form">
                         @csrf
                         <div class="row">
                             <div class="form-floating col-md-6 col-12 mb-3">
-                                <input type="url" class="form-control" id="api_url" name="api_url" placeholder="API URL"
-                                    value="{{ @$api_settings->api_url }}" maxlenght="200" required>
+                                <input type="url" class="form-control" id="api_url" name="api_url"
+                                    placeholder="API URL" value="" maxlenght="200" required>
                                 <label class="mx-2" for="api_url">API URL</label>
                             </div>
                             <div class="form-floating col-md-6 col-12 mb-3">
                                 <input type="url" class="form-control" id="system_api_url" name="system_api_url"
-                                    placeholder="System API URL" value="{{ @$api_settings->system_api_url }}"
-                                    maxlenght="200" required>
+                                    placeholder="System API URL" value="" maxlenght="200" required>
                                 <label class="mx-2" for="system_api_url">System API URL</label>
                             </div>
                             <div class="form-floating col-md-6 col-12 mb-3">
                                 <input type="number" class="form-control" id="api_refresh_time" name="api_refresh_time"
-                                    placeholder="API Refresh Time" value="{{ @$api_settings->api_refresh_time }}"
-                                    maxlenght="10" required>
+                                    placeholder="API Refresh Time" value="" maxlenght="10" required>
                                 <label class="mx-2" for="api_refresh_time">API Refresh Time (Seconds)</label>
                             </div>
 
@@ -70,11 +80,9 @@
                                 <label class="mx-2" for="">Circuit Image</label>
                             </div>
                             <div class="form-floating col-md-6 col-12 mb-3" id="previewImage">
-                                @if (@$api_settings->image != null)
-                                    <img class="w-100 h-100" src="{{ @$api_settings->image }}" alt="image">
-                                @else
-                                    <p>No Image Uploaded</p>
-                                @endif
+
+                                <img class="w-100 h-100" src="" id="imageSrc" alt="image">
+
 
                             </div>
                         </div>
@@ -102,7 +110,7 @@
                     reader.onload = function(e) {
                         preview.html(
                             `<img class="w-100 h-100" src="${e.target.result}" alt="image" style="height:150px;">`
-                            );
+                        );
                     };
 
                     reader.readAsDataURL(file); // Read the file as a data URL
@@ -110,14 +118,48 @@
                     preview.html(`<p>No Image Uploaded</p>`);
                 }
             });
+            apiconfiguration();
+            $("#location_id").change(function() {
+
+                apiconfiguration();
+            });
+
+            function apiconfiguration() {
+                let location_id = $("#location_id").val();
+                let type = 'POST';
+                let url = '/api-configuration/data';
+                let data = new FormData();
+                data.append('location_id', location_id);
+                SendAjaxRequestToServer(type, url, data, '', apiConfigurationDataResponse, '', '.save-data');
+            }
+
+            function apiConfigurationDataResponse(response) {
+                if (response.success == true || response.success == 'true') {
+                    if (response.data) {
+                        $("#imageSrc").show();
+                        $("#api_url").val(response.data.api_url);
+                        $("#system_api_url").val(response.data.system_api_url);
+                        $("#api_refresh_time").val(response.data.api_refresh_time);
+                        $("#imageSrc").attr('src', response.data.image);
+                    }else{
+                        $("#api_url").val('');
+                        $("#system_api_url").val('');
+                        $("#api_refresh_time").val('');
+                        $("#imageSrc").attr('src', '');  
+                        $("#imageSrc").hide();  
+                    }
+                }
+            }
         });
 
         function saveApiSettings() {
             let type = 'POST';
             let url = '/saveApiSettings';
             let message = '';
+            let location_id = $("#location_id").val();
             let form = $('#apiSettings_form');
             let data = new FormData(form[0]);
+            data.append('location_id', location_id);
             // PASSING DATA TO FUNCTION
             $('input').removeClass('is-invalid');
             SendAjaxRequestToServer(type, url, data, '', saveApiSettingsResponse, '', '#saveApiSettings_btn');

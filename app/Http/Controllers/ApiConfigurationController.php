@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ApiSetting;
+use App\Models\Location;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
@@ -12,8 +13,19 @@ class ApiConfigurationController extends Controller
     //
     public function index(){
         $customer_id = Auth::user()->customer_id;
-        $data['api_settings'] = ApiSetting::where('customer_id',$customer_id)->first();
-        return view('api_configuration')->with($data);
+        $locations = Location::where('customer_id',$customer_id)->where('status','1')->get();
+        return view('api_configuration',compact('locations'));
+    }
+    public function data(Request $request){
+            
+        $location_id = $request->location_id;
+        $customer_id = Auth::user()->customer_id;
+        $data = ApiSetting::where('customer_id','=',$customer_id)
+        ->where('location_id','=',$location_id)->first();
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ], 200);
     }
     public function saveApiSettings(Request $request)
     {
@@ -35,10 +47,11 @@ class ApiConfigurationController extends Controller
 
          try {
 
+            $locationId = $request->location_id;
             $customerId = Auth::user()->customer_id; // Assuming you're using Laravel authentication
 
             // Find the settings record for the specific user
-            $ApiSetting = ApiSetting::where('customer_id', $customerId)->first();
+            $ApiSetting = ApiSetting::where('customer_id', $customerId)->where('location_id',$locationId)->first();
         
             // If the record doesn't exist, create a new one
             if ($ApiSetting === null) {
@@ -50,6 +63,7 @@ class ApiConfigurationController extends Controller
             $ApiSetting->api_refresh_time = $request->input('api_refresh_time');
             // $ApiSetting->api_key = $request->input('api_key');
             $ApiSetting->status = '1';
+            $ApiSetting->location_id = $locationId;
             $ApiSetting->save();
 
             // Handle the image upload

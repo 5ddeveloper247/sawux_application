@@ -1,6 +1,23 @@
 @extends('layouts.admin.admin_master')
 
 @push('css')
+    <style>
+        select2-container {
+            z-index: 2050 !important;
+            height: 200px;
+            /* Ensures it appears above the Bootstrap modal */
+        }
+
+        .select2-dropdown {
+            z-index: 2050 !important;
+        }
+
+        .select2-container--default .select2-selection--multiple {
+            /* padding-bottom: 32px !important; */
+          
+            padding-bottom: 10px !important;
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -61,7 +78,8 @@
                 <div id="products">
                     <div class="px-4 pt-4 pb-5 bg-white shadow">
                         <div class="table-responsive" style="overflow: visible;">
-                            <table id="exam-listing" style="overflow: visible;width: 100%" class="listing_table table table-responsive">
+                            <table id="exam-listing" style="overflow: visible;width: 100%"
+                                class="listing_table table table-responsive">
                                 <thead>
                                     <tr>
 
@@ -69,7 +87,7 @@
                                         <th scope="col">USER Name</th>
                                         <th scope="col">EMAIL</th>
                                         <th scope="col">STATUS</th>
-                                        <th scope="col" >ACTIONS</th>
+                                        <th scope="col">ACTIONS</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -112,7 +130,17 @@
                                         placeholder="Email Address">
                                 </div>
                             </div>
-                        </div>
+                            <div class="col-6">
+                                <label for="exampleInputEmail1" class="form-label">Select Option</label>
+                                <br>
+                                <select class="select2" id="locations" multiple="multiple" name="locations"
+                                    style="width: 100%">
+                                    @foreach ($locations as $location)
+                                        <option value="{{ $location->id }}">{{ $location->name }}</option>
+                                    @endforeach
+
+                                </select </div>
+                            </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -125,6 +153,10 @@
 @endsection
 @push('script')
     <script>
+        $(document).ready(function() {
+
+            //  $('select').selectpicker();
+        });
         $(document).ready(function() {
             getCardData();
 
@@ -202,8 +234,11 @@
             // save and update the records
 
             $(".save-data").click(function() {
-                var data = new FormData($('form#saveFormData')[0]);
 
+                let locations = $("#locations").val();
+                let jsonLocations = JSON.stringify(locations);
+                var data = new FormData($('form#saveFormData')[0]);
+                data.append('jsonLocations', jsonLocations);
                 let type = 'POST';
                 let url = '/customer-users/creat';
                 SendAjaxRequestToServer(type, url, data, '', saveDataResponse, '', '.save-data');
@@ -266,6 +301,21 @@
                     $('#name').val(response.data.name);
                     $('#username').val(response.data.username);
                     $('#email').val(response.data.email);
+                    let location_id = response.data.location_id;
+
+                    // If location_id is a string that looks like an array, parse it first
+                    if (typeof location_id === 'string') {
+                        location_id = JSON.parse(location_id); // Parse it to get the actual array
+                    }
+
+                    console.log(location_id); // Check if location_id is now an array: ["1"]
+
+                    // Now join the array into a comma-separated string
+                    let str = location_id.join(","); // "1"
+
+                    // Set the value to Select2 and trigger the change event
+                    $('#locations').val(str.split(",")).trigger('change');
+
                     $("#staticBackdrop").modal('toggle');
 
                     // $('#formDiv').removeClass('d-none');

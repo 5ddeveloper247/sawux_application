@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Location;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -12,8 +13,9 @@ use Illuminate\Support\Facades\Auth;
 class CustomerUserController extends Controller
 {
     public function index(){
-        
-        return view('customer_user'); 
+        $customer_id = Auth::user()->customer_id;
+        $locations = Location::where('customer_id',$customer_id)->get();
+        return view('customer_user',compact('locations')); 
     }
     
     public function listAll(Request $request)
@@ -59,8 +61,7 @@ class CustomerUserController extends Controller
                     </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item edit-btn" data-id="'.$row->id.'" type="button">Edit</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-danger del delete-btn" data-id="'.$row->id.'" type="button" >Remove</a>
+
                     </div>
                 </div>'
                 ];
@@ -85,6 +86,7 @@ class CustomerUserController extends Controller
         // Validation rules
         $rules = [
             'name' => 'required',
+            'locations' => 'required',
             'username' => 'required|unique:users,username' . ($id ? ",$id" : ''),
             'email' => 'required|email|unique:users,email' . ($id ? ",$id" : ''),
         ];
@@ -99,6 +101,7 @@ class CustomerUserController extends Controller
                 'errors' => $validator->errors(),
             ], 422);
         }
+        $location = json_decode($request->jsonLocations,true);
         $password  ='12345678';
         $hashPassword = Hash::make($password);
         // Handle create or update logic
@@ -109,6 +112,7 @@ class CustomerUserController extends Controller
             $user->username = $request->username;
             $user->email = $request->email;
             $user->password = $hashPassword;
+            $user->location_id = json_encode($location);
             $user->created_by = Auth::user()->id;
             $user->customer_id = Auth::user()->customer_id;
             $user->role = 3;
@@ -132,6 +136,7 @@ class CustomerUserController extends Controller
                 $user->name = $request->name;
                 $user->username = $request->username;
                 $user->email = $request->email;
+                $user->location_id = json_encode($location);
                 $user->save();
         
                 record_audit_trail('Customer User','users',$id,'Update','Update the customer user.');

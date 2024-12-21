@@ -35,11 +35,23 @@
         <div class="p-md-4 p-3">
             <div id="products">
                 <div class="px-4 pt-4 pb-5 bg-white mb-3 shadow">
+                    <div class="d-flex justify-content-between">
+                        <div class="txt py-4">
+                            <h3>Dashboard</h3>
+                        </div>
+                        <div>
+                            <label>Choose Locations</label>
+                            <select class="form-select" id="location_id" name="location_id" aria-label="Default select example">
+                                @foreach ($locations as $location)
+                                    <option value="{{ $location->id }}">{{ $location->name }}</option>
+                                @endforeach
+
+                            </select>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12 col-12">
-                            @if (@$api_settings->image != null && @$api_settings->image != '')
-                                <img class="w-100 h-100" src="{{ url(@$api_settings->image) }}" alt="image">
-                            @endif
+                                <img class="w-100 h-100" src="" id="imageSrc" alt="image">
                         </div>
                     </div>
                     <div class="row" id="mainContentResult_section">
@@ -59,13 +71,40 @@
 
         var typeIds = [];
 
-        function getDashboardPageData() {
+        $("#location_id").change(function() {
+            getDashboardPageData();
 
+        });
+        function apiconfiguration() {
+            let location_id = $("#location_id").val();
+            let type = 'POST';
+            let url = '/customer/api-configuration/data';
+            let data = new FormData();
+            data.append('location_id', location_id);
+            SendAjaxRequestToServer(type, url, data, '', apiConfigurationDataResponse, '', '.save-data');
+        }
+
+        function apiConfigurationDataResponse(response) {
+            if (response.success == true || response.success == 'true') {
+                if (response.data) {
+                    $("#imageSrc").show();
+                    $("#imageSrc").attr('src', `{{ url('${response.data.image}') }}`);
+
+                } else {
+                    $("#imageSrc").hide();
+                    $("#imageSrc").attr('src', '');
+                }
+            }
+        }
+        function getDashboardPageData() {
+            apiconfiguration();
+            let location_id = $("#location_id").val();
             let type = 'POST';
             let url = '/customer/getDashboardPageData';
             let message = '';
             let form = '';
             let data = new FormData();
+            data.append('location_id', location_id)
             // PASSING DATA TO FUNCTION
             SendAjaxRequestToServer(type, url, data, '', getDashboardPageDataResponse, '', '');
         }
@@ -143,6 +182,12 @@
                     </div>`;
                 });
             }
+            else {
+                html += `<div style="text-align: center; margin-top: 50px; color: #555; font-family: Arial, sans-serif;">
+                            
+                            <h4 style="font-size: 20px; font-weight: bold; margin: 10px 0;">No Data Found</h4>
+                        </div>`;
+            }
             $("#mainContentResult_section").html(html);
             refreshAllTypesSequentially();
         }
@@ -150,13 +195,14 @@
         function refreshParameterValues(typeId) {
 
             $("#refresh_" + typeId).attr('onclick', '').addClass('fa-spin');
-
+            let location_id = $("#location_id").val();
             let type = 'POST';
             let url = '/customer/refreshParameterValuesTypeWise';
             let message = '';
             let form = '';
             let data = new FormData();
             data.append('typeId', typeId);
+            data.append('location_id', location_id);
             // PASSING DATA TO FUNCTION
             SendAjaxRequestToServer(type, url, data, '', refreshParameterValuesResponse, '', '#refresh');
         }

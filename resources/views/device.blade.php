@@ -36,10 +36,21 @@
 @section('content')
     <div>
         <div class="p-md-4 p-3" data-page="exam">
-            <div class="d-flex justify-content-start">
-                <button type="button" class="btn btn-primary mx-2 add-device">Add Device</button>
-                <button type="button" class="btn btn-secondary mx-2 add-type">Add Type</button>
-                <button type="button" class="btn btn-success mx-2 add-parameter">Add Parameter</button>
+            <div class="d-flex justify-content-between mb-4">
+                <div class="my-auto">
+                    <button type="button" class="btn btn-primary mx-2 add-device">Add Device</button>
+                    <button type="button" class="btn btn-secondary mx-2 add-type">Add Type</button>
+                    <button type="button" class="btn btn-success mx-2 add-parameter">Add Parameter</button>
+                </div>
+                <div>
+                    <label>Choose Locations</label>
+                    <select class="form-select" id="location_id" name="location_id" aria-label="Default select example">
+                        @foreach ($locations as $location)
+                            <option value="{{ $location->id }}">{{ $location->name }}</option>
+                        @endforeach
+
+                    </select>
+                </div>
             </div>
             <div id="products">
                 <div class="px-4 pt-4 pb-5 bg-white mb-3 shadow">
@@ -204,7 +215,8 @@
                     <!-- Modal Footer -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-danger confirm-delete" onclick="confirmDelete()">Delete</button>
+                        <button type="button" class="btn btn-danger confirm-delete"
+                            onclick="confirmDelete()">Delete</button>
                     </div>
                 </div>
             </div>
@@ -217,14 +229,18 @@
         $(document).on('keyup', 'input', function(e) {
             $(this).removeClass('is-invalid');
         });
-
+        $("#location_id").change(function(){
+            getDashboardPageData();
+        });
         function getDashboardPageData() {
-
+            getDevices();
             let type = 'POST';
             let url = '/getDashboardPageData';
             let message = '';
+            let location_id = $("#location_id").val();
             let form = '';
             let data = new FormData();
+            data.append('location_id',location_id);
             // PASSING DATA TO FUNCTION
             SendAjaxRequestToServer(type, url, data, '', getDashboardPageDataResponse, '', '');
         }
@@ -297,8 +313,7 @@
                         </div>
                     </div>`;
                 });
-            }
-            else {
+            } else {
                 html += `<div style="text-align: center; margin-top: 50px; color: #555; font-family: Arial, sans-serif;">
                             
                             <h4 style="font-size: 20px; font-weight: bold; margin: 10px 0;">No Data Found</h4>
@@ -334,12 +349,19 @@
             let type = 'POST';
             let url = '/updateType';
             let message = '';
-            let form = $('#editType_form');
-            let data = new FormData(form[0]);
-            // PASSING DATA TO FUNCTION
-            $('input').removeClass('is-invalid');
-            SendAjaxRequestToServer(type, url, data, '', updateTypeResponse, '', '#saveType_btn');
-
+            let location_id = $("#location_id").val();
+            if (location_id == '') {
+                toastr.error('You must select a location', '', {
+                    timeOut: 3000
+                });
+            } else {
+                let form = $('#editType_form');
+                let data = new FormData(form[0]);
+                data.append('location_id',location_id);
+                // PASSING DATA TO FUNCTION
+                $('input').removeClass('is-invalid');
+                 SendAjaxRequestToServer(type, url, data, '', updateTypeResponse, '', '#saveType_btn');
+            }
 
         }
 
@@ -359,7 +381,7 @@
                 });
 
                 // after add get all devices
-                getDevices();
+           //     getDevices();
 
             } else {
 
@@ -391,11 +413,13 @@
             $("#deleteUrl").val('/deleteType');
             $("#deleteModal").modal('toggle');
         }
+
         function deleteSubType(id) {
             $("#deleteId").val(id);
             $("#deleteUrl").val('/deleteSubType');
             $("#deleteModal").modal('toggle');
         }
+
         function deleteParameter(id) {
             $("#deleteId").val(id);
             $("#deleteUrl").val('/deleteParameter');
@@ -415,7 +439,7 @@
 
         function deleteResponse(response) {
 
-           
+
             // SHOWING MESSAGE ACCORDING TO RESPONSE
             if (response.success == true || response.success == 'true') {
                 toastr.success(response.message, '', {
@@ -447,15 +471,19 @@
             $("#deleteModal").modal('toggle');
         }
         //======================== end =============================//
-        getDevices();
+       // getDevices();
 
         function getDevices() {
+            let location_id = $("#location_id").val();
             let type = 'POST';
             let url = '/getDevices';
             let message = '';
             // PASSING DATA TO FUNCTION
             $('input').removeClass('is-invalid');
-            SendAjaxRequestToServer(type, url, '', '', deviceResponse, '', '');
+            let data = new FormData();
+            data.append('location_id', location_id);
+
+            SendAjaxRequestToServer(type, url, data, '', deviceResponse, '', '');
         }
 
         function deviceResponse(response) {
@@ -477,6 +505,9 @@
                         $("#subtype_type_id").append(option);
                     }
 
+                }else{
+                    $("#parameter_type_id").append('<option>Choose Device</option>');
+                    $("#subtype_type_id").append('<option>Choose Device</option>'); 
                 }
 
             } else {
@@ -612,6 +643,8 @@
                         $("#parameter_sub_type_id").append(option);
                     }
 
+                }else{
+                    $("#parameter_sub_type_id").append('<option>Choose Sub Type</option>');
                 }
 
             } else {
