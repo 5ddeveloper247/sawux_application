@@ -55,7 +55,7 @@
                     <div class="row">
                         <div class="col-md-12 col-12">
 
-                            <img class="w-100 h-100" id="imageSrc" src="" alt="image">
+                            <img class="w-100 h-100" id="imageSrc" src="" alt="image" style="display: none">
 
                         </div>
                     </div>
@@ -69,11 +69,14 @@
 
 @push('script')
     <script>
+        let ajaxBackendTask = false;
         $(document).ajaxStart(function() {
+            ajaxBackendTask = true;
             console.log("A backend task has started.");
         });
 
         $(document).ajaxStop(function() {
+            ajaxBackendTask = false;
             console.log("All backend tasks have completed.");
         });
         var pageFlag = false;
@@ -85,9 +88,22 @@
             $(this).removeClass('is-invalid');
         });
         $("#location_id").change(function() {
-            pageFlag = false;
-            getDashboardPageData();
+            if (ajaxBackendTask == false) {
+                pageFlag = false;
+                getDashboardPageData();
+            } else {
+                toastr.error( 'Please wait while the data is loading. Once the loading is complete, you can change the location.', {
+                    timeOut: 3000
+                });
+                let previousValue = $(this).data('previous');
+                if (previousValue !== undefined) {
+                    $(this).val(previousValue);
+                }
+            }
 
+        });
+        $("#location_id").focus(function() {
+            $(this).data('previous', $(this).val());
         });
 
         function apiconfiguration() {

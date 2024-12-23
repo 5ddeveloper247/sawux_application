@@ -103,14 +103,14 @@
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Code</label>
                                     <input type="number" class="form-control" id="code" name="code"
-                                        placeholder="Code" maxlength="50">
+                                        placeholder="Code" maxlength="8">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Postal Code</label>
                                     <input type="number" class="form-control" id="postal_code" name="postal_code"
-                                        placeholder="Postal Code" maxlength="50">
+                                        placeholder="Postal Code" maxlength="8">
                                 </div>
                             </div>
                             <div class="col-6">
