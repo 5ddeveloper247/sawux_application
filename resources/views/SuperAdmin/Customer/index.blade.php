@@ -5,10 +5,47 @@
 
 @section('content')
     <div>
-        <div class="p-md-4 p-3" data-page="exam">
+        <div class="px-3 py-4" data-page="exam">
             <form>
+                <div class="counters-sec mb-4">
+                    <div class="counter sub-bg p-4 rounded-4 text-start">
+                        <div class="d-flex align-items-center gap-2 justify-content-between mb-3">
+                            <div class="w-icon">
+                                <img src="{{ asset('assets/images/active-user.png') }}" width="25" alt="">
+                            </div>
+                            <h2 class="mb-0 text-center" id="activeCustomer">0</h2>
+                        </div>
+                        <h6 class="fw-semibold">Active Customers</h6>
+                    </div>
 
-                <div class="row gx-0 gy-4 gap-4 mb-4" id="exam-counters">
+                    <div class="counter sub-bg p-4 rounded-4 text-start">
+                        <div class="d-flex align-items-center gap-2 justify-content-between mb-3">
+                            <div class="w-icon">
+                                <img src="{{ asset('assets/images/active-user.png') }}" width="25" alt="">
+                            </div>
+                            <h2 class="mb-0 text-center" id="inActiveCustomer">0</h2>
+                        </div>
+                        <h6 class="fw-semibold">In Active Customers</h6>
+                    </div>
+
+                    <div class="counter sub-bg p-4 rounded-4 text-start">
+                        <div class="d-flex align-items-center gap-2 justify-content-between mb-3">
+                            <div class="w-icon">
+                                <img src="{{ asset('assets/images/active-user.png') }}" width="25" alt="">
+                            </div>
+                            <h2 class="mb-0 text-center" id="totalCustomer">0</h2>
+                        </div>
+                        <h6 class="fw-semibold">Total Customers</h6>
+                    </div>
+
+                    <a href="#"
+                        class="counter sub-bg add-sub-admin p-4 rounded-4 text-start d-flex flex-column align-items-center gap-3">
+                        <img src="{{ asset('assets/images/add-user.png') }}" width="45" alt="">
+                        <h6 class="text-center text-white">Add Customers</h6>
+                    </a>
+                </div>
+
+                {{-- <div class="row gx-0 gy-4 gap-4 mb-4" id="exam-counters">
                     <div class="col-3 d-flex justify-content-center gap-2 align-items-center d-card py-3 px-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="2.5em" height="2.5em" viewBox="0 0 27 24">
                             <path fill="#2fa992"
@@ -55,39 +92,41 @@
                             <small class="text-center">Add Customer</small>
                         </div>
                     </a>
-                </div>
+                </div> --}}
 
 
-                <div id="products">
-                    <div class="px-4 pt-4 pb-5 bg-white shadow">
-                        <div class="table-responsive" style="overflow: visible;">
-                        <table id="exam-listing" style="overflow: visible;width: 100%" class="listing_table table table-responsive">
+                <div class="sub-bg p-3 rounded-4">
+                    <div class="table-responsive" style="overflow: visible;">
+                        <table id="exam-listing" style="overflow: visible;width: 100%"
+                            class="listing_table table table-responsive">
                             <thead>
                                 <tr>
-
                                     <th scope="col">NAME</th>
                                     <th scope="col">Company Name</th>
                                     <th scope="col">EMAIL</th>
                                     <th scope="col">NUMBER</th>
                                     <th scope="col">ESTABLISH</th>
                                     <th scope="col">STATUS</th>
-                                    <th  scope="col">ACTIONS</th>
+                                    <th scope="col">ACTIONS</th>
                                 </tr>
                             </thead>
                         </table>
-                        </div>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+
+
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog  modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content sub-bg">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold m-text" id="staticBackdropLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background-image: none !important">
+                        <i class="fa-solid fa-xmark text-white fs-5"></i>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <form id="saveFormData">
@@ -138,9 +177,9 @@
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary save-data">Save</button>
+                <div class="modal-footer border-0">
+                    <button type="button" class="py-1 px-4 rounded-2 border-0 text-white bg-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="py-1 px-4 m-btn border-0 rounded-2 save-data">Save</button>
                 </div>
             </div>
         </div>
@@ -150,7 +189,8 @@
     <script>
         $(document).ready(function() {
             getCardData();
-            function getCardData(){
+
+            function getCardData() {
                 let type = 'POST';
                 let url = '/admin/customers/card';
                 SendAjaxRequestToServer(type, url, '', '', cardDataResponse, '', '');
@@ -163,15 +203,16 @@
                 // SHOWING MESSAGE ACCORDING TO RESPONSE
                 if (response.status == 200 || response.status == '200') {
 
-                   $("#totalCustomer").text(response.data.total_customer);
-                   $("#activeCustomer").text(response.data.active_customer);
-                   $("#inActiveCustomer").text(response.data.inactive_customer);
+                    $("#totalCustomer").text(response.data.total_customer);
+                    $("#activeCustomer").text(response.data.active_customer);
+                    $("#inActiveCustomer").text(response.data.inactive_customer);
 
-                } 
+                }
             }
 
 
             pageLoader();
+
             function pageLoader() {
 
 
@@ -338,11 +379,11 @@
             }
             $("#exam-listing").on('change', '.form-check-input', function(e) {
                 let id = $(this).attr('id');
-                let status =0;
+                let status = 0;
                 if ($(this).is(':checked')) {
-                    status=1;
+                    status = 1;
                 } else {
-                    status=0
+                    status = 0
                 }
                 let type = 'POST';
                 let url = '/admin/customers/status';
@@ -351,6 +392,7 @@
                 data.append('status', status);
                 SendAjaxRequestToServer(type, url, data, '', statusResponse, '', '');
             });
+
             function statusResponse(response) {
                 if (response.status == 200) {
                     getCardData();

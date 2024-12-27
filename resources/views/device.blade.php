@@ -4,67 +4,39 @@
 @extends('layouts.admin.admin_master')
 
 @push('css')
-    <style>
-        .heading-1 {
-            color: #126DA6;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        li {
-            font-size: 12px;
-        }
-
-        li span {
-            color: #126DA6;
-        }
-
-        .sub-heading {
-            font-size: 16px;
-        }
-
-        .pointer {
-            cursor: pointer;
-        }
-    </style>
 @endpush
 
 @section('content')
     <div>
-        <div class="p-md-4 p-3" data-page="exam">
+        <div class="px-3 py-4" data-page="exam">
             <div class="d-flex justify-content-between mb-4">
-                <div class="my-auto">
-                    <button type="button" class="btn btn-primary mx-2 add-device">Add Device</button>
-                    <button type="button" class="btn btn-secondary mx-2 add-type">Add Type</button>
-                    <button type="button" class="btn btn-success mx-2 add-parameter">Add Parameter</button>
+                <div class="d-flex align-items-center gap-3">
+                    <button type="button" class="btn btn-primary add-device m-btn border-0">Add Device</button>
+                    <button type="button" class="btn btn-secondary add-type">Add Type</button>
+                    <button type="button" class="btn btn-success add-parameter">Add Parameter</button>
                 </div>
+
                 <div>
                     <label>Choose Locations</label>
                     <select class="form-select" id="location_id" name="location_id" aria-label="Default select example">
                         @foreach ($locations as $location)
                             <option value="{{ $location->id }}">{{ $location->name }}</option>
                         @endforeach
-
                     </select>
                 </div>
             </div>
-            <div id="products">
-                <div class="px-4 pt-4 pb-5 bg-white mb-3 shadow">
-                    <div class="row" id="mainContentEdit_section">
-                    </div>
+
+            <div>
+                <div class="row" id="mainContentEdit_section">
                 </div>
             </div>
         </div>
     </div>
-    <div>
 
+    <div>
         <div class="modal fade" id="editTypeModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-sm modal-dialog-centered">
-                <div class="modal-content border">
+                <div class="modal-content sub-bg">
                     <form id="editType_form">
                         <input type="hidden" id="edit_type_id" name="type_id" value="">
                         <div class="modal-header justify-content-between border-0 px-4 py-3">
@@ -76,19 +48,18 @@
                                 </svg>
                             </button>
                         </div>
-                        <div class="modal-body pt-4 pb-2 px-4">
+                        <div class="modal-body py-0 px-4">
                             <div class="row align-items-center">
                                 <div class="form-floating col-md-12 mb-3">
-                                    <input type="text" class="form-control" id="type_title" name="title"
-                                        placeholder="Title" maxlenght="20">
+                                    <input type="text" class="form-control" id="type_title" name="title" placeholder="" maxlenght="20">
                                     <label class="ms-2" for="device_key">Title</label>
                                 </div>
 
                             </div>
                         </div>
-                        <div class="modal-footer d-flex justify-content-center align-items-center px-4 pb-4 pt-3">
-                            <button type="button" class="btn btn-cancel px-4 closeModal2">Cancel</button>
-                            <button type="button" class="btn btn-done px-4 view-exam-matrix-main-content" id="saveType_btn"
+                        <div class="modal-footer d-flex justify-content-center align-items-center border-0">
+                            <button type="button" class="btn btn-cancel btn-secondary px-4 closeModal2">Cancel</button>
+                            <button type="button" class="btn btn-done px-4 m-btn border-0 text-white view-exam-matrix-main-content" id="saveType_btn"
                                 onclick="updateType();">Save</button>
                         </div>
                     </form>
@@ -98,7 +69,7 @@
 
         <div class="modal fade" id="editSubTypeModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-sm modal-dialog-centered">
-                <div class="modal-content border">
+                <div class="modal-content sub-bg">
                     <form id="editSubType_form">
                         <input type="hidden" id="edit_subtype_id" name="sub_type_id" value="">
                         <div class="modal-header justify-content-between border-0 px-4 py-3">
@@ -110,10 +81,10 @@
                                 </svg>
                             </button>
                         </div>
-                        <div class="modal-body pt-4 pb-2 px-4">
+                        <div class="modal-body px-4 py-0">
                             <div class="row align-items-center">
                                 <div class="form-floating col-md-12 mb-3">
-                                    <select class="form-select" aria-label="Default select example" id="subtype_type_id"
+                                    <select class="form-select py-1" aria-label="Default select example" id="subtype_type_id"
                                         name="type_id">
                                         <option>Choose Device</option>
 
@@ -121,15 +92,15 @@
                                 </div>
                                 <div class="form-floating col-md-12 mb-3">
                                     <input type="text" class="form-control" id="subtype_title" name="title"
-                                        placeholder="Title" maxlenght="20">
+                                        placeholder="" maxlenght="20">
                                     <label class="ms-2" for="device_key">Title</label>
                                 </div>
 
                             </div>
                         </div>
-                        <div class="modal-footer d-flex justify-content-center align-items-center px-4 pb-4 pt-3">
-                            <button type="button" class="btn btn-cancel px-4 closeModal3">Cancel</button>
-                            <button type="button" class="btn btn-done px-4 view-exam-matrix-main-content"
+                        <div class="modal-footer d-flex justify-content-center align-items-center border-0">
+                            <button type="button" class="btn btn-cancel py-1 btn-secondary px-4 closeModal3">Cancel</button>
+                            <button type="button" class="btn btn-done px-4 py-1 m-btn border-0 text-white view-exam-matrix-main-content"
                                 id="saveSubType_btn" onclick="updateSubType();">Save</button>
                         </div>
                     </form>
@@ -139,7 +110,7 @@
 
         <div class="modal fade" id="editParameterModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-sm modal-dialog-centered">
-                <div class="modal-content border">
+                <div class="modal-content sub-bg">
                     <form id="editParameter_form">
                         <input type="hidden" id="edit_parameter_id" name="parameter_id" value="">
                         <div class="modal-header justify-content-between border-0 px-4 py-3">
@@ -152,24 +123,23 @@
                                 </svg>
                             </button>
                         </div>
-                        <div class="modal-body pt-4 pb-2 px-4">
+                        <div class="modal-body py-0 px-4">
                             <div class="row align-items-center">
                                 <div class="form-floating col-md-12 mb-3">
-                                    <select class="form-select" aria-label="Default select example"
+                                    <select class="form-select py-1" aria-label="Default select example"
                                         id="parameter_type_id" name="type_id">
                                         <option>Choose Device</option>
 
                                     </select>
                                 </div>
                                 <div class="form-floating col-md-12 mb-3">
-                                    <select class="form-select" aria-label="Default select example"
+                                    <select class="form-select py-1" aria-label="Default select example"
                                         id="parameter_sub_type_id" name="sub_type_id">
                                         <option>Choose SubType</option>
-
                                     </select>
                                 </div>
                                 <div class="form-floating col-md-12 mb-3">
-                                    <select class="form-select" aria-label="Default select example"
+                                    <select class="form-select py-1" aria-label="Default select example"
                                         id="parameter_is_switch" name="parameter_is_switch">
                                         <option value="0">NO</option>
                                         <option value="1">YES</option>
@@ -178,26 +148,27 @@
                                 </div>
                                 <div class="form-floating col-md-12 mb-3">
                                     <input type="text" class="form-control" id="pre_title" name="pre_title"
-                                        placeholder="Pre Title" maxlenght="20">
+                                        placeholder="" maxlenght="20">
                                     <label class="ms-2" for="device_key">Pre Title</label>
                                 </div>
                                 <div class="form-floating col-md-12 mb-3">
                                     <input type="text" class="form-control" id="post_title" name="post_title"
-                                        placeholder="Post Title" maxlenght="20">
+                                        placeholder="" maxlenght="20">
                                     <label class="ms-2" for="device_key">Post Title</label>
                                 </div>
 
                             </div>
                         </div>
-                        <div class="modal-footer d-flex justify-content-center align-items-center px-4 pb-4 pt-3">
-                            <button type="button" class="btn btn-cancel px-4 closeModal4">Cancel</button>
-                            <button type="button" class="btn btn-done px-4 view-exam-matrix-main-content"
+                        <div class="modal-footer d-flex justify-content-center align-items-center border-0">
+                            <button type="button" class="btn btn-cancel btn-secondary px-4 py-1 closeModal4">Cancel</button>
+                            <button type="button" class="btn btn-done px-4 py-1 border-0 text-white m-btn view-exam-matrix-main-content"
                                 id="saveParameter_btn" onclick="updateParameter();">Save</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+
         <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -229,9 +200,10 @@
         $(document).on('keyup', 'input', function(e) {
             $(this).removeClass('is-invalid');
         });
-        $("#location_id").change(function(){
+        $("#location_id").change(function() {
             getDashboardPageData();
         });
+
         function getDashboardPageData() {
             getDevices();
             let type = 'POST';
@@ -240,7 +212,7 @@
             let location_id = $("#location_id").val();
             let form = '';
             let data = new FormData();
-            data.append('location_id',location_id);
+            data.append('location_id', location_id);
             // PASSING DATA TO FUNCTION
             SendAjaxRequestToServer(type, url, data, '', getDashboardPageDataResponse, '', '');
         }
@@ -265,20 +237,20 @@
                 $.each(alltypes, function(index, type) {
 
                     html += `<div class="col-md-12 mb-3">
-                        <div class="border p-1">
+                        <div class="border p-3 rounded-3 sub-bg">
                             <div class="col-12">
-                                <h5 class="heading-1">${type.title}&nbsp;
-                                    <i class="fa fa-pencil pointer" onclick="editType(${type.id}, '${type.title}')"></i>
-                                    <i class="fa fa-trash pointer"  onclick="deleteType(${type.id})"></i>
+                                <h5 class="heading-1 text-capitalize">${type.title}&nbsp;
+                                    <i class="fa-regular fa-pen-to-square pointer" onclick="editType(${type.id}, '${type.title}')"></i>
+                                    <i class="fa-solid fa-trash-can ms-1 text-danger pointer"  onclick="deleteType(${type.id})"></i>
                                 </h5>
                             </div>
                             <div class="row">`;
 
                     $.each(type.sub_types, function(index, subtype) {
                         html += `<div class="col-md-4 col-12 mb-2">
-                                        <p class="sub-heading"><b>${subtype.title}:</b> 
-                                            <i class="fa fa-pencil pointer" onclick="editSubType(${subtype.id}, '${subtype.title}')"></i>
-                                            <i class="fa fa-trash pointer"  onclick="deleteSubType(${subtype.id})"></i>
+                                        <p class="sub-heading text-capitalize"><b>${subtype.title}:</b> 
+                                            <i class="fa-regular fa-pen-to-square pointer" onclick="editSubType(${subtype.id}, '${subtype.title}')"></i>
+                                            <i class="fa-solid fa-trash-can ms-1 text-danger pointer"  onclick="deleteSubType(${subtype.id})"></i>
                                         </p>
 
                                         <ul id="parameter_list1">`;
@@ -286,13 +258,13 @@
                         $.each(subtype.parameters, function(index, param) {
                             if (param.is_switch == 1) {
                                 html +=
-                                    `<li>${param.pre_title}: <i>[<span>ON/OFF</span>]</i> - ${param.post_title} <i class="fa fa-pencil pointer" onclick="editParameter(${param.id}, '${param.pre_title}', '${param.post_title}', '${param.is_switch}')"></i>
-                                <i class="fa fa-trash pointer"  onclick="deleteParameter(${param.id})"></i>
+                                    `<li>${param.pre_title}: <i>[<span>ON/OFF</span>]</i> - ${param.post_title} <i class="fa-regular fa-pen-to-square pointer" onclick="editParameter(${param.id}, '${param.pre_title}', '${param.post_title}', '${param.is_switch}')"></i>
+                                <i class="fa-solid fa-trash-can pointer"  onclick="deleteParameter(${param.id})"></i>
                                 </li>`;
                             } else {
                                 html +=
-                                    `<li>${param.pre_title}: <i>[<span>værdi</span>]</i> - ${param.post_title} <i class="fa fa-pencil pointer" onclick="editParameter(${param.id}, '${param.pre_title}', '${param.post_title}', '${param.is_switch}')"></i>
-                                        <i class="fa fa-trash pointer"  onclick="deleteParameter(${param.id})"></i></li>`;
+                                    `<li>${param.pre_title}: <i>[<span>værdi</span>]</i> - ${param.post_title} <i class="fa-regular fa-pen-to-square pointer" onclick="editParameter(${param.id}, '${param.pre_title}', '${param.post_title}', '${param.is_switch}')"></i>
+                                        <i class="fa-solid fa-trash-can ms-1 text-danger pointer"  onclick="deleteParameter(${param.id})"></i></li>`;
                             }
                         });
                         // if (subtype.id == 3) {
@@ -357,10 +329,10 @@
             } else {
                 let form = $('#editType_form');
                 let data = new FormData(form[0]);
-                data.append('location_id',location_id);
+                data.append('location_id', location_id);
                 // PASSING DATA TO FUNCTION
                 $('input').removeClass('is-invalid');
-                 SendAjaxRequestToServer(type, url, data, '', updateTypeResponse, '', '#saveType_btn');
+                SendAjaxRequestToServer(type, url, data, '', updateTypeResponse, '', '#saveType_btn');
             }
 
         }
@@ -381,7 +353,7 @@
                 });
 
                 // after add get all devices
-           //     getDevices();
+                //     getDevices();
 
             } else {
 
@@ -471,7 +443,7 @@
             $("#deleteModal").modal('toggle');
         }
         //======================== end =============================//
-       // getDevices();
+        // getDevices();
 
         function getDevices() {
             let location_id = $("#location_id").val();
@@ -505,9 +477,9 @@
                         $("#subtype_type_id").append(option);
                     }
 
-                }else{
+                } else {
                     $("#parameter_type_id").append('<option>Choose Device</option>');
-                    $("#subtype_type_id").append('<option>Choose Device</option>'); 
+                    $("#subtype_type_id").append('<option>Choose Device</option>');
                 }
 
             } else {
@@ -643,7 +615,7 @@
                         $("#parameter_sub_type_id").append(option);
                     }
 
-                }else{
+                } else {
                     $("#parameter_sub_type_id").append('<option>Choose Sub Type</option>');
                 }
 

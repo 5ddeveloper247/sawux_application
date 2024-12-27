@@ -4,89 +4,63 @@
 @extends('layouts.super_admin.master')
 
 @push('css')
-    <style>
-        .heading-1 {
-            color: #126DA6;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        li {
-            font-size: 12px;
-        }
-
-        li span {
-            color: #126DA6;
-        }
-
-        .sub-heading {
-            font-size: 16px;
-        }
-
-        .pointer {
-            cursor: pointer;
-        }
-    </style>
 @endpush
 
 @section('content')
-    <div class="container py-3">
-        <!-- User Profile Section -->
-        <div class="container py-3">
-            <div class="row g-4 justify-content-center">
+    <div class="px-3 py-4">
+        <h3 class="m-text fw-semibold">Profile</h3>
 
-                <!-- Change Password Section -->
-                <div class="col-md-6">
-                    <div class="card border-0 shadow-sm rounded-4">
-                        <div class="card-header text-center bg-primary text-white rounded-top-4">
-                            <h4 class="mb-0">USER INFORMATION</h4>
-                        </div>
-                        <div class="card-body p-4">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <strong>Name:</strong>
-                                    <span>{{ $data->name }}</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <strong>Username:</strong>
-                                    <span>{{ $data->username }}</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <strong>Email:</strong>
-                                    <span>{{ $data->email }}</span>
-                                </li>
-                            </ul>
-                            <div class="p-1 d-flex  justify-content-center">
-                                <h4 class="mb-0 ">RESET PASSWORD</h3>
-                            </div>
-                            <form id="passwordVerifyForm">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Current Password</label>
-                                    <input type="text" class="form-control" id="currentpassword" name="currentpassword"
-                                        placeholder="Current Password" maxlength="50">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">New Password</label>
-                                    <input type="text" class="form-control" id="password" name="password"
-                                        placeholder="New Password" maxlength="50">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Confirm New Password</label>
-                                    <input type="text" class="form-control" id="password_confirmation"
-                                        name="password_confirmation" placeholder="Confirm New Password" maxlength="50">
-                                </div>
-                                <div class="text-center">
-                                    <button type="button"
-                                        class="btn btn-primary btn-lg w-100 shadow-sm update-profile">Update
-                                        Password</button>
-                                </div>
-                            </form>
-                        </div>
+        <div class="row g-0 align-items-start sub-bg rounded-4 p-4">
+            <div class="col-2">
+                <img src="https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=1900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D"
+                    width="100%" height="100%" class="rounded-3" alt="">
+            </div>
+
+            <div class="col-9 ps-4 d-flex align-items-start gap-3 justify-content-between">
+                <div>
+                    <h5 class="s-text fw-normal">Personal Details</h5>
+
+                    <div class="d-flex flex-column mb-3">
+                        <small class="light-text">Name:</small>
+                        <span class="text-capitalize">{{ $data->name }}</span>
                     </div>
+                    <div class="d-flex flex-column mb-3">
+                        <small class="light-text">Username:</small>
+                        <span class="text-capitalize">{{ $data->username }}</span>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <small class="light-text">Email:</small>
+                        <span>{{ $data->email }}</span>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="p-1 d-flex justify-content-start">
+                        <h5 class="mb-0 m-text">RESET PASSWORD</h5>
+                    </div>
+
+                    <form id="passwordVerifyForm">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Current Password</label>
+                            <input type="text" class="form-control" id="currentpassword" name="currentpassword"
+                                placeholder="Current Password" maxlength="50">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">New Password</label>
+                            <input type="text" class="form-control" id="password" name="password"
+                                placeholder="New Password" maxlength="50">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Confirm New Password</label>
+                            <input type="text" class="form-control" id="password_confirmation"
+                                name="password_confirmation" placeholder="Confirm New Password" maxlength="50">
+                        </div>
+                        <div class="text-center">
+                            <button type="button"
+                                class="btn py-1 px-4 rounded-2 m-btn w-100  text-white border-0 update-profile">Update
+                                Password</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

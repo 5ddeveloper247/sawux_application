@@ -5,63 +5,35 @@
 
 @push('css')
     <style>
-        .heading-1 {
-            color: #126DA6;
-        }
 
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        li {
-            font-size: 12px;
-        }
-
-        li span {
-            color: #126DA6;
-        }
-
-        .sub-heading {
-            font-size: 16px;
-        }
-
-        .pointer {
-            cursor: pointer;
-        }
     </style>
 @endpush
 
 @section('content')
     <div>
-        <div class="p-md-4 p-3" data-page="exam">
-            <div id="products">
-                <div class="px-4 pt-4 pb-5 bg-white mb-3 shadow">
-                    <div class="d-flex justify-content-between">
-                        <div class="txt py-4">
-                            <h3>Dashboard</h3>
-                        </div>
-                        <div>
-                            <label>Choose Locations</label>
-                            <select class="form-select" id="location_id" name="location_id" aria-label="Default select example">
-                                @foreach ($locations as $location)
-                                    <option value="{{ $location->id }}">{{ $location->name }}</option>
-                                @endforeach
-
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 col-12">
-
-                            <img class="w-100 h-100" id="imageSrc" src="" alt="image" style="display: none">
-
-                        </div>
-                    </div>
-                    <div class="row" id="mainContentResult_section">
-                    </div>
+        <div class="px-3 py-4" data-page="exam">
+            <div class="d-flex justify-content-between">
+                <div class="txt py-4">
+                    <h3 class="m-text fw-bold">Hello, Customer</h3>
                 </div>
+                <div>
+                    <label class="mb-1">Choose Locations</label>
+                    <select class="form-select" id="location_id" name="location_id" aria-label="Default select example">
+                        @foreach ($locations as $location)
+                            <option value="{{ $location->id }}">{{ $location->name }}</option>
+                        @endforeach
+
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12 col-12">
+
+                    <img class="w-100 h-100 rounded-3 opacity-100" id="imageSrc" src="" alt="image" style="display: none">
+
+                </div>
+            </div>
+            <div class="row mt-3" id="mainContentResult_section">
             </div>
         </div>
     </div>
@@ -92,9 +64,10 @@
                 pageFlag = false;
                 getDashboardPageData();
             } else {
-                toastr.error( 'Please wait while the data is loading. Once the loading is complete, you can change the location.', {
-                    timeOut: 3000
-                });
+                toastr.error(
+                    'Please wait while the data is loading. Once the loading is complete, you can change the location.', {
+                        timeOut: 3000
+                    });
                 let previousValue = $(this).data('previous');
                 if (previousValue !== undefined) {
                     $(this).val(previousValue);
@@ -169,9 +142,9 @@
                     typeIds.push(type.id);
 
                     html += `<div class="col-md-12 mb-3">
-                        <div class="border p-1">
+                        <div class="border p-3 rounded-3 sub-bg">
                             <div class="col-12">
-                                <h5 class="heading-1">${type.title}&nbsp;
+                                <h5 class="heading-1 text-capitalize fw-bolder">${type.title}&nbsp;
                                     <i class="fa fa-arrows-rotate pointer" id="refresh_${type.id}" onclick="refreshParameterValues(${type.id});" title="Refresh/Load Result"></i>
                                 </h5>
                             </div>
@@ -179,7 +152,7 @@
 
                     $.each(type.sub_types, function(index, subtype) {
                         html += `<div class="col-md-4 col-12 mb-2">
-                                        <p class="sub-heading"><b>${subtype.title}:</b></p>
+                                        <p class="sub-heading text-capitalize m-text"><b>${subtype.title}:</b></p>
 
                                         <ul id="parameter_list1">`;
                         $.each(subtype.parameters, function(index, param) {

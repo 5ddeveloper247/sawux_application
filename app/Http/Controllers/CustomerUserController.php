@@ -48,22 +48,19 @@ class CustomerUserController extends Controller
                     'name' => $row->name,
                     'username' => $row->username,
                     'email' => $row->email,
-                    'status' => '<div class="form-check form-switch pt-1">
-                                 <input class="form-check-input pointer" type="checkbox" role="switch" 
-                                 id="'.$row->id.'" 
-                                ' . (isset($row->status) && $row->status == 1 ? 'checked' : '') . '>
+                    'status' => '<div class="checkbox-wrapper form-check form-switch pt-1 p-0">
+                                    <input class="form-check-input pointer check check-box" type="checkbox" role="switch" 
+                                    id="'.$row->id.'" 
+                                    ' . (isset($row->status) && $row->status == 1 ? 'checked' : '') . '>
+                                    <label class="check-btn" for="'.$row->id.'" 
+                                    ' . (isset($row->status) && $row->status == 1 ? 'checked' : '') . '"></label>
                                 </div>',
-                    'action' => '<div class="btn-reveal-trigger position-static">
-                    <button class="btn btn-sm dropdown-toggle" id="dropdown" type="button" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
-                        <svg class="svg-inline--fa fa-ellipsis" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                            <path fill="currentColor" d="M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z"></path>
-                        </svg>
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item edit-btn" data-id="'.$row->id.'" type="button">Edit</a>
-
-                    </div>
-                </div>'
+                    'action' => '<div class="d-flex align-items-center gap-3 justify-content-start">
+                                    <a class="edit-btn text-white" data-id="'.$row->id.'" type="button">
+                                        <i class="fa-solid fa-user-pen fs-5"></i>
+                                    </a>
+                                </div>
+                                '
                 ];
             });
             

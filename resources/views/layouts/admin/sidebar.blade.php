@@ -1,20 +1,112 @@
+<div class="d-flex align-items-center justify-content-center ms-3" style="height: 100vh">
+    <div class="sidebar py-5 px-3" id="sidebar">
+        <div class="d-flex justify-content-end">
+            <i class="fa-solid fa-bars fs-5 m-text" id="menuIcon" style="cursor: pointer;"></i>
+        </div>
 
-<div class="sidebar border-end d-lg-block d-none">
-  <div>
-    <ul class="nav flex-column">
-      <span class="pt-2 px-3">Apps</span>
-      <div class="dashboard">
-        <li class="nav-item ">
-          <a href="{{route('dashboard')}}"
-          class=" d-flex gap-1 align-items-center justify-content-start text-start nav-link sidebar-sub-links-bg rounded-2 px-5">
-          <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24">
-            <path fill="black"
-              d="M13 9V3h8v6zM3 13V3h8v10zm10 8V11h8v10zM3 21v-6h8v6zm2-10h4V5H5zm10 8h4v-6h-4zm0-12h4V5h-4zM5 19h4v-2H5zm4-2" />
-          </svg>
-            <span>CONFIGURATIONS</span>
-          </a>
-        </li>
-      </div>
-      
-  </div>
+        <nav>
+            <div class="nav flex-column pt-4">
+                @if (Auth::check() && Auth::user()->role == 2)
+                    <!-- Additional Buttons -->
+                    <div class="nav flex-column">
+                        <div class="nav-item pb-4">
+                            <a href="{{ route('dashboard') }}"
+                                class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                                <span>
+                                    <small class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-house-chimney-window fs-5"></i>
+                                        Dashboard
+                                    </small>
+                                </span>
+                            </a>
+                        </div>
+
+                        <div class="nav-item pb-4">
+                            <a href="{{ route('api.configuration') }}"
+                                class="nav-link {{ request()->routeIs('api.configuration') ? 'active' : '' }}">
+                                <span>
+                                    <small class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-gears fs-6"></i>
+                                        Api Configuration
+                                    </small>
+                                </span>
+                            </a>
+                        </div>
+
+                        <div class="nav-item pb-4">
+                            <a href="{{ route('parameter') }}"
+                                class="nav-link {{ request()->routeIs('parameter') ? 'active' : '' }}">
+                                <span>
+                                    <small class="d-flex align-items-center gap-2">
+                                      <i class="fa-solid fa-chart-simple fs-5"></i>
+                                        Parameters
+                                    </small>
+                                </span>
+                            </a>
+                        </div>
+
+                        <div class="nav-item pb-4">
+                            <a href="{{ route('device') }}"
+                                class="nav-link {{ request()->routeIs('device') ? 'active' : '' }}">
+                                <span>
+                                    <small class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-laptop-code fs-6"></i>
+                                        Devices
+                                    </small>
+                                </span>
+                            </a>
+                        </div>
+
+                        <div class="nav-item pb-4">
+                            <a href="{{ route('customer.users') }}"
+                                class="nav-link {{ request()->routeIs('customer.users') ? 'active' : '' }}">
+                                <span>
+                                    <small class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-user fs-5"></i>
+                                        Users
+                                    </small>
+                                </span>
+                            </a>
+                        </div>
+
+                        <div class="nav-item pb-4">
+                            <a href="{{ route('locations') }}"
+                                class="nav-link {{ request()->routeIs('locations') ? 'active' : '' }}">
+                                <span>
+                                    <small class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-earth-americas fs-5"></i>
+                                        Locations
+                                    </small>
+                                </span>
+                            </a>
+                        </div>
+
+                    </div>
+                @endif
+            </div>
+
+            <div class="navbar-logo d-flex align-items-center">
+                {{ Auth::user()->customer->company_name }}
+            </div>
+        </nav>
+
+    </div>
 </div>
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const menuIcon = document.getElementById("menuIcon");
+        const sidebar = document.getElementById("sidebar");
+        const content = document.querySelector(".content"); // Optional, if you want to adjust content area
+
+        menuIcon.addEventListener("click", function() {
+            sidebar.classList.toggle("hidden"); // Toggle sliding effect
+
+            if (content) {
+                content.classList.toggle("shifted"); // Optional: Adjust content area
+            }
+        });
+    });
+</script>

@@ -4,38 +4,12 @@
 @extends('layouts.admin.admin_master')
 
 @push('css')
-    <style>
-        .heading-1 {
-            color: #126DA6;
-        }
 
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        li {
-            font-size: 12px;
-        }
-
-        li span {
-            color: #126DA6;
-        }
-
-        .sub-heading {
-            font-size: 16px;
-        }
-
-        .pointer {
-            cursor: pointer;
-        }
-    </style>
 @endpush
 
 @section('content')
     <div>
-        <div class="p-md-4 p-3" data-page="exam">
+        <div class="px-3 py-4" data-page="exam">
             <div class="d-flex justify-content-end mb-4">
                 <div>
                     <label>Choose Locations</label>
@@ -48,7 +22,7 @@
                 </div>
             </div>
             <div id="products">
-                <div class="px-4 pt-4 pb-5 bg-white mb-3 shadow">
+                <div>
                     <div class="row" id="mainContent_section">
                     </div>
                 </div>
@@ -59,19 +33,19 @@
     <div>
         <div class="modal fade" id="parameterModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-sm modal-dialog-centered">
-                <div class="modal-content border">
+                <div class="modal-content sub-bg">
                     <form id="addparameter_form">
                         <input type="hidden" id="param_id" name="param_id" value="">
                         <div class="modal-header justify-content-between border-0 px-4 py-3">
-                            <h4 class="modal-title text-white">Parameter Details</h4>
-                            <button class="btn p-1 btn-outline-light closeModal" type="button">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 15 15">
+                            <h5 class="modal-title text-white">Parameter Details</h5>
+                            <button class="btn py-1 px-2 btn-outline-light closeModal" type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 15 15">
                                     <path fill="currentColor"
                                         d="M3.64 2.27L7.5 6.13l3.84-3.84A.92.92 0 0 1 12 2a1 1 0 0 1 1 1a.9.9 0 0 1-.27.66L8.84 7.5l3.89 3.89A.9.9 0 0 1 13 12a1 1 0 0 1-1 1a.92.92 0 0 1-.69-.27L7.5 8.87l-3.85 3.85A.92.92 0 0 1 3 13a1 1 0 0 1-1-1a.9.9 0 0 1 .27-.66L6.16 7.5L2.27 3.61A.9.9 0 0 1 2 3a1 1 0 0 1 1-1c.24.003.47.1.64.27" />
                                 </svg>
                             </button>
                         </div>
-                        <div class="modal-body pt-4 pb-2 px-4">
+                        <div class="modal-body py-0 px-4">
                             <div class="row align-items-center">
                                 <div class="form-floating col-md-12 mb-3">
                                     <input type="text" class="form-control" id="parameter" name="parameter"
@@ -85,9 +59,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer d-flex justify-content-center align-items-center px-4 pb-4 pt-3">
-                            <button type="button" class="btn btn-cancel px-4 closeModal">Cancel</button>
-                            <button type="button" class="btn btn-done px-4 view-exam-matrix-main-content"
+                        <div class="modal-footer border-0 d-flex justify-content-center align-items-center">
+                            <button type="button" class="btn btn-cancel px-4 btn-secondary py-1 px-4 closeModal">Cancel</button>
+                            <button type="button" class="btn btn-done px-4 m-btn border-0 text-white py-1 px-4 view-exam-matrix-main-content"
                                 id="saveParam_btn" onclick="saveParameterValues();">Save</button>
                         </div>
                     </form>
@@ -97,7 +71,7 @@
 
         <div class="modal fade" id="deviceKeyModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-sm modal-dialog-centered">
-                <div class="modal-content border">
+                <div class="modal-content sub-bg">
                     <form id="addDeviceKey_form">
                         <input type="hidden" id="type_id" name="type_id" value="">
                         <div class="modal-header justify-content-between border-0 px-4 py-3">
@@ -109,7 +83,7 @@
                                 </svg>
                             </button>
                         </div>
-                        <div class="modal-body pt-4 pb-2 px-4">
+                        <div class="modal-body py-0 px-4">
                             <div class="row align-items-center">
                                 <div class="form-floating col-md-12 mb-3">
                                     <input type="text" class="form-control" id="device_key" name="device_key"
@@ -119,9 +93,9 @@
 
                             </div>
                         </div>
-                        <div class="modal-footer d-flex justify-content-center align-items-center px-4 pb-4 pt-3">
-                            <button type="button" class="btn btn-cancel px-4 closeModal1">Cancel</button>
-                            <button type="button" class="btn btn-done px-4 view-exam-matrix-main-content"
+                        <div class="modal-footer d-flex justify-content-center align-items-center border-0">
+                            <button type="button" class="btn btn-cancel py-1 btn-secondary px-4 closeModal1">Cancel</button>
+                            <button type="button" class="btn btn-done m-btn border-0 text-white px-4 view-exam-matrix-main-content"
                                 id="saveDeviceKey_btn" onclick="saveDeviceKeyValue();">Save</button>
                         </div>
                     </form>
@@ -222,16 +196,16 @@
                 $.each(alltypes, function(index, type) {
 
                     html += `<div class="col-md-12 mb-3">
-                        <div class="border p-1">
+                        <div class="border p-3 rounded-3 sub-bg">
                             <div class="col-12">
-                                <h5 class="heading-1">${type.title}&nbsp;
-                                <i class="fa fa-pencil pointer" onclick="addDeviceKeyValue(${type.id}, '${type.device_key!=null?type.device_key:''}')"></i></h5>
+                                <h5 class="heading-1 fw-bolder text-capitalize">${type.title}&nbsp;
+                                <i class="fa-regular fa-pen-to-square pointer" onclick="addDeviceKeyValue(${type.id}, '${type.device_key!=null?type.device_key:''}')"></i></h5>
                             </div>
                             <div class="row">`;
 
                     $.each(type.sub_types, function(index, subtype) {
                         html += `<div class="col-md-4 col-12 mb-2">
-                                        <p class="sub-heading"><b>${subtype.title}:</b></p>
+                                        <p class="sub-heading text-capitalize m-text"><b>${subtype.title}:</b></p>
 
                                         <ul id="parameter_list1">`;
 
@@ -247,11 +221,11 @@
                                                                             <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" disabled>
                                                                         </span>`}
                                                             - ${param.post_title}&nbsp;
-                                                            <i class="fa fa-pencil pointer" onclick="addParameterValue(${param.id}, '${param.parameter!=null?param.parameter:''}', '${param.parameter_id!=null?param.parameter_id:''}')"></i>
+                                                            <i class="fa-regular fa-pen-to-square pointer" onclick="addParameterValue(${param.id}, '${param.parameter!=null?param.parameter:''}', '${param.parameter_id!=null?param.parameter_id:''}')"></i>
                                                         </li>`;
                             } else {
                                 html +=
-                                `<li>${param.pre_title}: <i>[<span>${param.parameter != null ? param.parameter : 'værdi'}</span>]</i> - ${param.post_title} <i class="fa fa-pencil pointer" onclick="addParameterValue(${param.id}, '${param.parameter!=null?param.parameter:''}', '${param.parameter_id!=null?param.parameter_id:''}')"></i></li>`;
+                                `<li>${param.pre_title}: <i>[<span>${param.parameter != null ? param.parameter : 'værdi'}</span>]</i> - ${param.post_title} <i class="fa-regular fa-pen-to-square pointer" onclick="addParameterValue(${param.id}, '${param.parameter!=null?param.parameter:''}', '${param.parameter_id!=null?param.parameter_id:''}')"></i></li>`;
                             }
                         });
                         // if (subtype.id == 3) {

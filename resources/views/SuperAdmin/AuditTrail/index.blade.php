@@ -5,25 +5,23 @@
 
 @section('content')
     <div>
-        <div class="p-md-4 p-3" data-page="exam">
+        <div class="px-3 py-4" data-page="exam">
             <form>
-                <div id="products">
-                    <div class="px-4 pt-4 pb-5 bg-white shadow">
-                        <div class="table-responsive">
-                        <table id="exam-listing" style="width: 100%" class="listing_table table table-responsive">
-                            <thead>
-                                <tr>
+                <div class="sub-bg rounded-4 p-3">
+                    <div class="table-responsive">
+                    <table id="exam-listing" style="width: 100%" class="listing_table table table-responsive">
+                        <thead class="postion-sticky top-0">
+                            <tr>
 
-                                    <th scope="col">Module</th>
-                                    <th scope="col">Action</th>
-                                    <th scope="col">Message</th>
-                                    <th scope="col">Role</th>
-                                    <th scope="col">User Detail</th>
-                                    <th scope="col">Data & Time</th>
-                                </tr>
-                            </thead>
-                        </table>
-                        </div>
+                                <th scope="col">Module</th>
+                                <th scope="col">Action</th>
+                                <th scope="col">Message</th>
+                                <th scope="col">Role</th>
+                                <th scope="col">User Detail</th>
+                                <th scope="col">Data & Time</th>
+                            </tr>
+                        </thead>
+                    </table>
                     </div>
                 </div>
             </form>
