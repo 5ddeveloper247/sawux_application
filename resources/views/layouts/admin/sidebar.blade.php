@@ -1,4 +1,4 @@
-<div class="d-flex align-items-center justify-content-center ms-3" style="height: 100vh">
+<div class="d-none d-lg-flex align-items-center justify-content-center ms-3" style="height: 100vh">
     <div class="sidebar py-5 px-3" id="sidebar">
         <div class="d-flex justify-content-end">
             <i class="fa-solid fa-bars fs-5 m-text" id="menuIcon" style="cursor: pointer;"></i>

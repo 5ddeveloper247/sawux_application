@@ -2,15 +2,13 @@
     <div class="collapse navbar-collapse justify-content-between">
 
         <div class="navbar-logo d-flex align-items-center">
-            <!-- Toggle button for Small Screen  -->
-            <button class="navbar-toggler d-lg-none d-block" data-bs-toggle="collapse" href="#collapseExample"
-                role="button" aria-expanded="false" aria-controls="collapseExample">
-
-            </button>
 
             <!-- Toggle button for Small Screen End -->
             <a class="navbar-brand d-flex me-1 me-sm-3" href="#">
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-end gap-3">
+                       <i class="fa-solid fa-bars m-text" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+                       aria-controls="offcanvasExample"></i>
+
                     <div class="d-flex align-items-center">
                         <img src="{{ asset('assets/images/logo-new.png') }}" alt="phoenix" width="70">
                     </div>
@@ -29,9 +27,9 @@
             @endif
         </div>
 
-        <div class="navbar-logo d-flex align-items-center">
+        {{-- <div class="navbar-logo d-flex align-items-center">
             {{ Auth::user()->customer->company_name }}
-        </div>
+        </div> --}}
 
         <ul class="navbar-nav navbar-nav-icons flex-row align-items-center">
 
@@ -62,7 +60,8 @@
                                         <li><a class="dropdown-item" href="{{ route('customer.profile') }}">Profile</a>
                                         </li>
                                     @endif
-                                    <li><a class="dropdown-item text-danger" href="{{ route('logout') }}" id="signOutBtn">Sign
+                                    <li><a class="dropdown-item text-danger" href="{{ route('logout') }}"
+                                            id="signOutBtn">Sign
                                             Out</a></li>
                                 </ul>
                             </li>
@@ -87,3 +86,101 @@
         </ul>
     </div>
 </nav>
+
+
+<div class="offcanvas offcanvas-start " style="width: 220px" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="sidebar py-5 px-3" id="sidebar">
+        <div class="d-flex justify-content-end">
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" style="background-image: none !important">
+                <i class="fa-solid fa-xmark fs-4 m-text"></i>
+            </button>
+        </div>
+
+        <nav>
+            <div class="nav flex-column pt-4">
+                @if (Auth::check() && Auth::user()->role == 2)
+                    <!-- Additional Buttons -->
+                    <div class="nav flex-column">
+                        <div class="nav-item pb-4">
+                            <a href="{{ route('dashboard') }}"
+                                class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                                <span>
+                                    <small class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-house-chimney-window fs-5"></i>
+                                        Dashboard
+                                    </small>
+                                </span>
+                            </a>
+                        </div>
+
+                        <div class="nav-item pb-4">
+                            <a href="{{ route('api.configuration') }}"
+                                class="nav-link {{ request()->routeIs('api.configuration') ? 'active' : '' }}">
+                                <span>
+                                    <small class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-gears fs-6"></i>
+                                        Api Configuration
+                                    </small>
+                                </span>
+                            </a>
+                        </div>
+
+                        <div class="nav-item pb-4">
+                            <a href="{{ route('parameter') }}"
+                                class="nav-link {{ request()->routeIs('parameter') ? 'active' : '' }}">
+                                <span>
+                                    <small class="d-flex align-items-center gap-2">
+                                      <i class="fa-solid fa-chart-simple fs-5"></i>
+                                        Parameters
+                                    </small>
+                                </span>
+                            </a>
+                        </div>
+
+                        <div class="nav-item pb-4">
+                            <a href="{{ route('device') }}"
+                                class="nav-link {{ request()->routeIs('device') ? 'active' : '' }}">
+                                <span>
+                                    <small class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-laptop-code fs-6"></i>
+                                        Devices
+                                    </small>
+                                </span>
+                            </a>
+                        </div>
+
+                        <div class="nav-item pb-4">
+                            <a href="{{ route('customer.users') }}"
+                                class="nav-link {{ request()->routeIs('customer.users') ? 'active' : '' }}">
+                                <span>
+                                    <small class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-user fs-5"></i>
+                                        Users
+                                    </small>
+                                </span>
+                            </a>
+                        </div>
+
+                        <div class="nav-item pb-4">
+                            <a href="{{ route('locations') }}"
+                                class="nav-link {{ request()->routeIs('locations') ? 'active' : '' }}">
+                                <span>
+                                    <small class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-earth-americas fs-5"></i>
+                                        Locations
+                                    </small>
+                                </span>
+                            </a>
+                        </div>
+
+                    </div>
+                @endif
+            </div>
+
+            <div class="navbar-logo d-flex align-items-center">
+                {{ Auth::user()->customer->company_name }}
+            </div>
+        </nav>
+
+    </div>
+</div>
