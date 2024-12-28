@@ -128,6 +128,17 @@ a {
     margin-left: 30px;
 }
 
+@media (max-width: 992px) {
+    .content {
+        transition: margin-left 0.3s ease;
+        margin-left: 0px;
+    }
+    
+    .content.shifted {
+        margin-left: 0px;
+    }
+}
+
 .sidebar {
     min-width: 230px;
     transition: width 0.3s ease;
