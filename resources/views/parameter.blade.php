@@ -4,7 +4,6 @@
 @extends('layouts.admin.admin_master')
 
 @push('css')
-
 @endpush
 
 @section('content')
@@ -60,8 +59,10 @@
                             </div>
                         </div>
                         <div class="modal-footer border-0 d-flex justify-content-center align-items-center">
-                            <button type="button" class="btn btn-cancel px-4 btn-secondary py-1 px-4 closeModal">Cancel</button>
-                            <button type="button" class="btn btn-done px-4 m-btn border-0 text-white py-1 px-4 view-exam-matrix-main-content"
+                            <button type="button"
+                                class="btn btn-cancel px-4 btn-secondary py-1 px-4 closeModal">Cancel</button>
+                            <button type="button"
+                                class="btn btn-done px-4 m-btn border-0 text-white py-1 px-4 view-exam-matrix-main-content"
                                 id="saveParam_btn" onclick="saveParameterValues();">Save</button>
                         </div>
                     </form>
@@ -94,8 +95,10 @@
                             </div>
                         </div>
                         <div class="modal-footer d-flex justify-content-center align-items-center border-0">
-                            <button type="button" class="btn btn-cancel py-1 btn-secondary px-4 closeModal1">Cancel</button>
-                            <button type="button" class="btn btn-done m-btn border-0 text-white px-4 view-exam-matrix-main-content"
+                            <button type="button"
+                                class="btn btn-cancel py-1 btn-secondary px-4 closeModal1">Cancel</button>
+                            <button type="button"
+                                class="btn btn-done m-btn border-0 text-white px-4 view-exam-matrix-main-content"
                                 id="saveDeviceKey_btn" onclick="saveDeviceKeyValue();">Save</button>
                         </div>
                     </form>
@@ -159,9 +162,10 @@
         $(document).on('keyup', 'input', function(e) {
             $(this).removeClass('is-invalid');
         });
-        $("#location_id").change(function(){
+        $("#location_id").change(function() {
             getDashboardPageData();
         });
+
         function getDashboardPageData() {
 
             let type = 'POST';
@@ -170,7 +174,7 @@
             let location_id = $("#location_id").val();
             let form = '';
             let data = new FormData();
-            data.append('location_id',location_id);
+            data.append('location_id', location_id);
             // PASSING DATA TO FUNCTION
             SendAjaxRequestToServer(type, url, data, '', getDashboardPageDataResponse, '', '');
         }
@@ -214,34 +218,34 @@
                                 html += `<li class="d-flex align-items-center">${param.pre_title}:&nbsp;&nbsp;&nbsp;
                                                             ${param.on_off_flag == '1' ? 
                                                                 `<span class="form-check form-switch pt-1">
-                                                                            <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" checked disabled>
-                                                                        </span>` 
+                                                                                <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" checked disabled>
+                                                                            </span>` 
                                                                 : 
                                                                 `<span class="form-check form-switch pt-1">
-                                                                            <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" disabled>
-                                                                        </span>`}
+                                                                                <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" disabled>
+                                                                            </span>`}
                                                             - ${param.post_title}&nbsp;
                                                             <i class="fa-regular fa-pen-to-square pointer" onclick="addParameterValue(${param.id}, '${param.parameter!=null?param.parameter:''}', '${param.parameter_id!=null?param.parameter_id:''}')"></i>
                                                         </li>`;
                             } else {
                                 html +=
-                                `<li>${param.pre_title}: <i>[<span>${param.parameter != null ? param.parameter : 'værdi'}</span>]</i> - ${param.post_title} <i class="fa-regular fa-pen-to-square pointer" onclick="addParameterValue(${param.id}, '${param.parameter!=null?param.parameter:''}', '${param.parameter_id!=null?param.parameter_id:''}')"></i></li>`;
+                                    `<li>${param.pre_title}: <i>[<span>${param.parameter != null ? param.parameter : 'værdi'}</span>]</i> - ${param.post_title} <i class="fa-regular fa-pen-to-square pointer" onclick="addParameterValue(${param.id}, '${param.parameter!=null?param.parameter:''}', '${param.parameter_id!=null?param.parameter_id:''}')"></i></li>`;
                             }
                         });
                         // if (subtype.id == 3) {
                         //     $.each(subtype.parameters, function(index, param) {
                         //         html += `<li class="d-flex align-items-center">${param.pre_title}:&nbsp;&nbsp;&nbsp;
-                        //                                     ${param.on_off_flag == '1' ? 
-                        //                                         `<span class="form-check form-switch pt-1">
+                    //                                     ${param.on_off_flag == '1' ? 
+                    //                                         `<span class="form-check form-switch pt-1">
                         //                                                     <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" checked disabled>
                         //                                                 </span>` 
-                        //                                         : 
-                        //                                         `<span class="form-check form-switch pt-1">
+                    //                                         : 
+                    //                                         `<span class="form-check form-switch pt-1">
                         //                                                     <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" disabled>
                         //                                                 </span>`}
-                        //                                     - ${param.post_title}&nbsp;
-                        //                                     <i class="fa fa-pencil pointer" onclick="addParameterValue(${param.id}, '${param.parameter!=null?param.parameter:''}', '${param.parameter_id!=null?param.parameter_id:''}')"></i>
-                        //                                 </li>`;
+                    //                                     - ${param.post_title}&nbsp;
+                    //                                     <i class="fa fa-pencil pointer" onclick="addParameterValue(${param.id}, '${param.parameter!=null?param.parameter:''}', '${param.parameter_id!=null?param.parameter_id:''}')"></i>
+                    //                                 </li>`;
                         //     });
                         // } else {
                         //     $.each(subtype.parameters, function(index, param) {
@@ -258,8 +262,7 @@
                         </div>
                     </div>`;
                 });
-            }
-            else {
+            } else {
                 html += `<div style="text-align: center; margin-top: 50px; color: #555; font-family: Arial, sans-serif;">
                             
                             <h4 style="font-size: 20px; font-weight: bold; margin: 10px 0;">No Data Found</h4>

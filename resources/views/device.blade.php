@@ -10,13 +10,13 @@
     <div>
         <div class="px-3 py-4" data-page="exam">
             <div class="d-flex justify-content-between mb-4">
-                <div class="d-flex align-items-center gap-3">
+                <div class="d-flex align-items-center gap-3 flex-wrap">
                     <button type="button" class="btn btn-primary add-device m-btn border-0">Add Device</button>
                     <button type="button" class="btn btn-secondary add-type">Add Type</button>
                     <button type="button" class="btn btn-success add-parameter">Add Parameter</button>
                 </div>
 
-                <div>
+                <div style="min-width: 10rem">
                     <label>Choose Locations</label>
                     <select class="form-select" id="location_id" name="location_id" aria-label="Default select example">
                         @foreach ($locations as $location)

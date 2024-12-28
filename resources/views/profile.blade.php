@@ -64,7 +64,7 @@
             </div>
         </div>
 
-        <div class="sub-bg rounded-4 p-4 mt-4 col-6">
+        <div class="sub-bg rounded-4 p-4 mt-4 col-12 col-sm-6">
             <div class="p-1 d-flex  justify-content-center">
                 <h4 class="mb-0 m-text">RESET PASSWORD</h3>
             </div>
