@@ -6,8 +6,8 @@
             <!-- Toggle button for Small Screen End -->
             <a class="navbar-brand d-flex me-1 me-sm-3" href="#">
                 <div class="d-flex align-items-end gap-3">
-                       <i class="fa-solid fa-bars m-text" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-                       aria-controls="offcanvasExample"></i>
+                    <i class="fa-solid fa-bars m-text" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+                        aria-controls="offcanvasExample"></i>
 
                     <div class="d-flex align-items-center">
                         <img src="{{ asset('assets/images/logo-new.png') }}" alt="phoenix" width="70">
@@ -42,8 +42,10 @@
                             <li class="nav-item dropdown ">
                                 <a class="dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img class="rounded-circle" src="{{ asset('assets/images/user_placeholder.png') }}"
-                                        alt="" width="30">
+                                    <img class="rounded-circle"
+                                        style="object-fit: cover; width: 30px; height: 30px; border-radius: 50%;"
+                                        src="{{ Auth::user()->profile ? url(Auth::user()->profile) : asset('assets/images/user_placeholder.png') }}"
+                                        alt="User Profile">
                                     <span class="ms-2 text-white text-capitalize">{{ Auth::user()->username }}</span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -88,10 +90,12 @@
 </nav>
 
 
-<div class="offcanvas offcanvas-start " style="width: 220px" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+<div class="offcanvas offcanvas-start " style="width: 220px" tabindex="-1" id="offcanvasExample"
+    aria-labelledby="offcanvasExampleLabel">
     <div class="sidebar py-5 px-3" id="sidebar">
         <div class="d-flex justify-content-end">
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" style="background-image: none !important">
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                style="background-image: none !important">
                 <i class="fa-solid fa-xmark fs-4 m-text"></i>
             </button>
         </div>
@@ -130,7 +134,7 @@
                                 class="nav-link {{ request()->routeIs('parameter') ? 'active' : '' }}">
                                 <span>
                                     <small class="d-flex align-items-center gap-2">
-                                      <i class="fa-solid fa-chart-simple fs-5"></i>
+                                        <i class="fa-solid fa-chart-simple fs-5"></i>
                                         Parameters
                                     </small>
                                 </span>

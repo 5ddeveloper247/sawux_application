@@ -306,8 +306,7 @@
                 let message = '';
                 let data = new FormData();
                 data.append('id', id)
-                SendAjaxRequestToServer(type, url, data, '', chartResponse, '',
-                    '');
+                SendAjaxRequestToServer(type, url, data, '', chartResponse, '','.chart-customer');
             }
 
             function chartResponse(response) {
