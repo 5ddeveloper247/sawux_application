@@ -49,8 +49,10 @@
 
     <div class="d-flex">
         @auth
-            <!-- side bar code here -->
-            @include('layouts.admin.sidebar')
+            @if (auth()->user()->role == '2')
+                <!-- side bar code here -->
+                @include('layouts.admin.sidebar')
+            @endif
         @endauth
         @auth
             <div class="content">

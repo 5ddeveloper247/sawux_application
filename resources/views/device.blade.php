@@ -12,8 +12,8 @@
             <div class="d-flex justify-content-between mb-4">
                 <div class="d-flex align-items-center gap-3 flex-wrap">
                     <button type="button" class="btn btn-primary add-device m-btn border-0">Add Device</button>
-                    <button type="button" class="btn btn-secondary add-type">Add Type</button>
-                    <button type="button" class="btn btn-success add-parameter">Add Parameter</button>
+                    <button type="button" class="btn btn-secondary add-type">Add I/O</button>
+                    <button type="button" class="btn btn-success add-parameter">Add Component</button>
                 </div>
 
                 <div style="min-width: 10rem">
@@ -40,7 +40,7 @@
                     <form id="editType_form">
                         <input type="hidden" id="edit_type_id" name="type_id" value="">
                         <div class="modal-header justify-content-between border-0 px-4 py-3">
-                            <h5 class="modal-title text-white">Type Details</h5>
+                            <h5 class="modal-title text-white">Device</h5>
                             <button class="btn p-1 btn-outline-light closeModal2" type="button">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 15 15">
                                     <path fill="currentColor"
@@ -73,7 +73,7 @@
                     <form id="editSubType_form">
                         <input type="hidden" id="edit_subtype_id" name="sub_type_id" value="">
                         <div class="modal-header justify-content-between border-0 px-4 py-3">
-                            <h5 class="modal-title text-white">Sub Type Details</h5>
+                            <h5 class="modal-title text-white">I/O</h5>
                             <button class="btn p-1 btn-outline-light closeModal3" type="button">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 15 15">
                                     <path fill="currentColor"
@@ -114,7 +114,7 @@
                     <form id="editParameter_form">
                         <input type="hidden" id="edit_parameter_id" name="parameter_id" value="">
                         <div class="modal-header justify-content-between border-0 px-4 py-3">
-                            <h5 class="modal-title text-white">Parameter Details</h5>
+                            <h5 class="modal-title text-white">Component</h5>
                             <button class="btn p-1 btn-outline-light closeModal4" type="button">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em"
                                     viewBox="0 0 15 15">

@@ -13,11 +13,11 @@
         <div class="row g-0 align-items-start sub-bg rounded-4 p-4">
             <div class="col-2">
                 @if ($data->profile)
-                    <img src="{{ url($data->profile) }}" width="100%" height="200px" style="object-fit: contain"
+                    <img src="{{ url($data->profile) }}" width="100%" height="220px" style="object-fit: contain"
                         class="rounded-3" alt="">
                 @else
                     <img src="https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=1900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D"
-                        width="100%" height="100%" class="rounded-3" alt="">
+                        width="100%" height="220" class="rounded-3 object-fit-cover" alt="">
                 @endif
             </div>
 
