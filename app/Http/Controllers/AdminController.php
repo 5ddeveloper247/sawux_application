@@ -70,7 +70,7 @@ class AdminController extends Controller
                 if($user->is_verified == 0)
                 {
                     $data = User::where('id',$user->id)->first();
-                    return view('profile',compact('data'));
+                    return redirect()->route('profile')->with('data', $data); 
                 }else{   
                     return redirect()->intended('/dashboard');
                 }

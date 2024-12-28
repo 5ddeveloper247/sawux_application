@@ -16,6 +16,16 @@
             border-radius: 10px;
             backdrop-filter: blur(5px)
         }
+
+        #otpField,
+        #passwordField,
+        #confirmdPasswordField,
+        #otp-container,
+        #otpverified_btn,
+        #updatepassword_btn {
+            display: none;
+
+        }
     </style>
 @endpush
 @section('title', 'Login')
@@ -27,32 +37,33 @@
 
         <div class="container-fluid h-100 d-flex align-items-center justify-content-center">
             <div class="col-12 col-md-8 col-lg-6 login-content">
-                    <div class="d-flex align-items-center justify-content-center">
-                        <img class="" src="{{ asset('assets/images/logo-new.png') }}" alt="phoenix" width="100">
-                    </div>
-    
-                    <div class="d-flex align-items-center justify-content-center">
-                        <h2 class="text-center m-text mt-4">SUPER ADMIN LOGIN</h2>
-                    </div>
+                <div class="d-flex align-items-center justify-content-center">
+                    <img class="" src="{{ asset('assets/images/logo-new.png') }}" alt="phoenix" width="100">
+                </div>
 
-                    <form id="emailVerifyForm">
+                <div class="d-flex align-items-center justify-content-center">
+                    <h2 class="text-center m-text mt-4">SUPER ADMIN LOGIN</h2>
+                </div>
 
-                        <div class="mt-4" id="emailField">
-                            <label for="">Email</label>
-                            <br>
-                            <input class="w-100 p-2 mt-1" id="email" type="text"
-                                placeholder="Enter your email address" name="email">
-                        </div>
-                        <div class="mt-4" id="otpField">
-                            <label for="">OTP</label>
-                            <br>
-                            <input class="w-100 p-2 mt-1" type="number" id="otp" placeholder="Enter your otp"
-                                name="otp">
-                        </div>
-                        <div id="otp-container"
+                <form id="emailVerifyForm">
+
+                    <div class="mt-4" id="emailField">
+                        <label style="color: white" for="">Email</label>
+                        <br>
+                        <input class="w-100 p-2 mt-1" id="email" type="text" placeholder="Enter your email address"
+                            name="email">
+                    </div>
+                    <div class="mt-4" id="otpField">
+                        <label style="color: white" for="">OTP</label>
+                        <br>
+                        <input class="w-100 p-2 mt-1" type="number" id="otp" placeholder="Enter your otp"
+                            name="otp">
+                    </div>
+                    <div id="otp-container">
+                        <div
                             style="display:flex;  align-items: center; justify-content: end; margin: 10px auto; font-family: Arial, sans-serif;">
 
-                            <p id="timer" style="margin: 0; font-size: 14px; color: #555; text-align: right;">
+                            <p id="timer" style="margin: 0; font-size: 14px; color:white; text-align: right;">
                                 Resend available in
                                 <span id="time" style="font-weight: bold; color: #FF5733;">30</span> seconds
                             </p>
@@ -60,28 +71,32 @@
                                 Resend OTP
                             </button>
                         </div>
-                        <div class="mt-4" id="passwordField">
-                            <label for="">Password</label>
-                            <br>
-                            <input class="w-100 p-2 mt-1" type="text" id="password" placeholder="Enter your password"
-                                name="password">
-                        </div>
-                        <div class="mt-4" id="confirmdPasswordField">
-                            <label for="">Confirmd Password</label>
-                            <br>
-                            <input class="w-100 p-2 mt-1" type="text" id="confirmPassword"
-                                placeholder="Enter your confirmed password" name="password_confirmation">
-                        </div>
-                        <button type="button" class="py-2 px-4 mt-4 mb-3 w-100 m-btn text-white rounded-2" onclick="emailVerified(event)" id="saveParameter_btn">
-                            Email Verify
-                        </button>
-                        <button type="button" class="py-2 px-4 mt-4 mb-3 w-100 m-btn text-white rounded-2" onclick="OTPVerified(event)" id="otpverified_btn">
-                            OTP Verify
-                        </button>
-                        <button type="button" class="py-2 px-4 mt-4 mb-3 w-100 m-btn text-white rounded-2" onclick="updatePassword(event)" id="updatepassword_btn">
-                            Update Password
-                        </button>
-                    </form>
+                    </div>
+                    <div class="mt-4" id="passwordField">
+                        <label style="color: white" for="">Password</label>
+                        <br>
+                        <input class="w-100 p-2 mt-1" type="password" id="password" placeholder="Enter your password"
+                            name="password">
+                    </div>
+                    <div class="mt-4" id="confirmdPasswordField">
+                        <label style="color: white" for="">Confirmd Password</label>
+                        <br>
+                        <input class="w-100 p-2 mt-1" type="password" id="confirmPassword"
+                            placeholder="Enter your confirmed password" name="password_confirmation">
+                    </div>
+                    <button type="button" class="py-2 px-4 mt-4 mb-3 w-100 m-btn text-white rounded-2"
+                        onclick="emailVerified(event)" id="saveParameter_btn">
+                        Email Verify
+                    </button>
+                    <button type="button" class="py-2 px-4 mt-4 mb-3 w-100 m-btn text-white rounded-2"
+                        onclick="OTPVerified(event)" id="otpverified_btn">
+                        OTP Verify
+                    </button>
+                    <button type="button" class="py-2 px-4 mt-4 mb-3 w-100 m-btn text-white rounded-2"
+                        onclick="updatePassword(event)" id="updatepassword_btn">
+                        Update Password
+                    </button>
+                </form>
             </div>
         </div>
     </section>

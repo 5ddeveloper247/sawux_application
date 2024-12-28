@@ -26,10 +26,12 @@
                     <ul class="navbar-nav ms-auto">
                         <!-- Dropdown Menu (opens left) -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link opacity-100 dropdown-toggle fs-14 fw-semibold text-capitalize" href="#" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <img class="rounded-circle " src="{{ asset('assets/images/user_placeholder.png') }}"
-                                    alt="" width="30">
+                            <a class="nav-link opacity-100 dropdown-toggle fs-14 fw-semibold text-capitalize"
+                                href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <img class="rounded-circle"
+                                    style="object-fit: cover; width: 30px; height: 30px; border-radius: 50%;"
+                                    src="{{ Auth::user()->profile ? url(Auth::user()->profile) : asset('assets/images/user_placeholder.png') }}" alt="User Profile">
                                 <span class="ms-2">{{ Auth::user()->username }}</span>
                             </a>
 
@@ -39,20 +41,21 @@
                                     <small class="m-text">{{ Auth::user()->email }}</small>
                                 </li>
                                 <li>
-                                  <a class="dropdown-item" href="{{ route('superadmin.profile') }}">Profile</a>
+                                    <a class="dropdown-item" href="{{ route('superadmin.profile') }}">Profile</a>
                                 </li>
 
                                 <li>
-                                  <a class="dropdown-item text-danger" href="{{ route('superadmin.logout') }}" id="signOutBtn">Sign Out</a>
+                                    <a class="dropdown-item text-danger" href="{{ route('superadmin.logout') }}"
+                                        id="signOutBtn">Sign Out</a>
                                 </li>
                             </ul>
-                            
+
                         </li>
                     </ul>
                 </div>
             @endif
         </li>
-        
+
         <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!"
                 role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true"
                 aria-expanded="false">

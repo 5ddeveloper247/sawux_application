@@ -68,6 +68,11 @@ Route::post('/admin/update-profile', [SuperAdminController::class, 'updateProfil
 
 Route::get('/admin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
 
+Route::post('/admin/getDashBoardChart', [SuperAdminController::class, 'getDashBoardChart'])->name('superadmin.getDashBoardChart');
+Route::post('/admin/getDashBoardLocation', [SuperAdminController::class, 'getDashBoardLocation'])->name('superadmin.getDashBoardLocation');
+Route::post('/admin/getDashBoardDevice', [SuperAdminController::class, 'getDashBoardDevice'])->name('superadmin.getDashBoardDevice');
+Route::post('/admin/getDashBoardParameterList', [SuperAdminController::class, 'getDashBoardParameterList'])->name('superadmin.getDashBoardParameterList');
+
 // sub admin
 
 Route::post('/admin/sub-admin/listAll', [SubAdminController::class, 'listAll'])->name('superadmin.subAdmin.listAll');
