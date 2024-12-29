@@ -9,16 +9,16 @@
 @section('content')
     <div>
         <div class="py-4 px-3" data-page="exam">
-            <div class="d-flex justify-content-start align-items-center gap-3 mb-3">
-                <div class="d-flex align-items-center gap-3">
-                    <select class="form-select" style="min-width: 12rem" id="customer_id" aria-label="Default select example">
+            <div class="d-flex justify-content-start flex-wrap w-100 align-items-center gap-3 mb-3">
+                <div class="d-flex align-items-center flex-wrap gap-3">
+                    <select class="form-select" style="width: 12rem" id="customer_id" aria-label="Default select example">
                         <option value="0">Choose Customer</option>
                         @foreach ($customers as $customer)
                             <option value="{{ $customer->id }}">{{ $customer->company_name }}</option>
                         @endforeach
                     </select>
 
-                    <select name="" style="min-width: 12rem" class="form-select" id="">
+                    <select name="" style="width: 12rem" class="form-select" id="">
                         <option value="">Choose Location</option>
                         <option value=""></option>
                         <option value=""></option>

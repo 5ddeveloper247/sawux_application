@@ -3,7 +3,9 @@
     <!-- Toggle button for Small Screen End -->
     <a class="navbar-brand d-flex me-1 me-sm-3" href="#">
         <div class="d-flex align-items-center">
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-end gap-2">
+                <i class="fa-solid fa-bars m-text d-lg-none" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+                        aria-controls="offcanvasExample"></i>
                 <img src="{{ asset('assets/images/logo-new.png') }}" alt="phoenix" width="70">
             </div>
         </div>
@@ -72,3 +74,35 @@
         </li>
     </ul>
 </nav>
+
+
+<div class="offcanvas offcanvas-start " style="width: 220px" tabindex="-1" id="offcanvasExample"
+    aria-labelledby="offcanvasExampleLabel">
+    <div class="sidebar py-5 px-3" id="sidebar">
+        <div class="d-flex justify-content-end">
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                style="background-image: none !important">
+                <i class="fa-solid fa-xmark fs-4 m-text"></i>
+            </button>
+        </div>
+
+        <nav>
+            @foreach (getUserSidebarMenus() as $menu)
+                    <div class="dashboard">
+                        <li class="nav-item pb-4">
+                            <a href="{{ route($menu->link) }}"
+                                class="nav-link {{ request()->routeIs($menu->link) ? 'active' : '' }}">
+                                <span>
+                                    <small class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-house-chimney-window fs-5"></i>
+                                        {{ $menu->name }}
+                                    </small>
+                                </span>
+                            </a>
+                        </li>
+                    </div>
+                @endforeach
+        </nav>
+
+    </div>
+</div>

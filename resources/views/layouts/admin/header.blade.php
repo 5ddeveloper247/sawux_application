@@ -6,7 +6,7 @@
             <!-- Toggle button for Small Screen End -->
             <a class="navbar-brand d-flex me-1 me-sm-3" href="#">
                 <div class="d-flex align-items-end gap-3">
-                    <i class="fa-solid fa-bars m-text" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+                    <i class="fa-solid fa-bars m-text d-lg-none" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
                         aria-controls="offcanvasExample"></i>
 
                     <div class="d-flex align-items-center">
