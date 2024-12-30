@@ -2,63 +2,39 @@
 
 @push('css')
     <style>
-        .heading-1 {
-            color: #126DA6;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        li {
-            font-size: 12px;
-        }
-
-        li span {
-            color: #126DA6;
-        }
-
-        .sub-heading {
-            font-size: 16px;
-        }
-
-        .pointer {
-            cursor: pointer;
+        .content {
+            margin-left: 0 !important;
         }
     </style>
 @endpush
 
 @section('content')
     <div>
-        <div class="p-md-4 p-3">
-            <div id="products">
-                <div class="px-4 pt-4 pb-5 bg-white mb-3 shadow">
-                    <div class="d-flex justify-content-between">
-                        <div class="txt py-4">
-                            <h3>Dashboard</h3>
-                        </div>
-                        <div>
-                            <label>Choose Locations</label>
-                            <select class="form-select" id="location_id" name="location_id" aria-label="Default select example">
-                                @foreach ($locations as $location)
-                                    <option value="{{ $location->id }}">{{ $location->name }}</option>
-                                @endforeach
-
-                            </select>
-                        </div>
+        <div class="px-3 py-4">
+            <div class="mb-3">
+                <div class="d-flex justify-content-between">
+                    <div class="txt py-4">
+                        <h3 class="m-text">Dashboard</h3>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 col-12">
-                                <img class="w-100 h-100" src="" id="imageSrc" alt="image">
-                        </div>
-                    </div>
-                    <div class="row" id="mainContentResult_section">
+                    <div>
+                        <label>Choose Locations</label>
+                        <select class="form-select" id="location_id" name="location_id" aria-label="Default select example">
+                            @foreach ($locations as $location)
+                                <option value="{{ $location->id }}">{{ $location->name }}</option>
+                            @endforeach
 
-                        <!-- HTML SECTION FOR PARAMETERS -->
-
+                        </select>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-12">
+                        <img class="w-100 h-100 rounded-3" src="" id="imageSrc" alt="image">
+                    </div>
+                </div>
+                <div class="row mt-3" id="mainContentResult_section">
+
+                    <!-- HTML SECTION FOR PARAMETERS -->
+
                 </div>
             </div>
         </div>
@@ -75,6 +51,7 @@
             getDashboardPageData();
 
         });
+
         function apiconfiguration() {
             let location_id = $("#location_id").val();
             let type = 'POST';
@@ -96,6 +73,7 @@
                 }
             }
         }
+
         function getDashboardPageData() {
             apiconfiguration();
             let location_id = $("#location_id").val();
@@ -133,9 +111,9 @@
                     typeIds.push(type.id);
 
                     html += `<div class="col-md-12 mb-3">
-                        <div class="border p-1">
+                        <div class="border p-3 rounded-3 sub-bg">
                             <div class="col-12">
-                                <h5 class="heading-1">${type.title}&nbsp;
+                                <h5 class="heading-1 m-text">${type.title}&nbsp;
                                     <i class="fa fa-arrows-rotate pointer" id="refresh_${type.id}" onclick="refreshParameterValues(${type.id});" title="Refresh/Load Result"></i>
                                 </h5>
                             </div>
@@ -181,8 +159,7 @@
                         </div>
                     </div>`;
                 });
-            }
-            else {
+            } else {
                 html += `<div style="text-align: center; margin-top: 50px; color: #555; font-family: Arial, sans-serif;">
                             
                             <h4 style="font-size: 20px; font-weight: bold; margin: 10px 0;">No Data Found</h4>
