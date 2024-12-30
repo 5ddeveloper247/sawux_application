@@ -14,23 +14,15 @@
                     </div>
                 </div>
             </a>
-            @if (Auth::check() && Auth::user()->role == 2)
-                <!-- Additional Buttons -->
-                {{-- <div class="button-list d-flex ms-auto">
-                    <a href="{{ route('dashboard') }}" class="me-2">Dashboard</a>
-                    <a href="{{ route('api.configuration') }}" class="me-2">Api Configuration</a>
-                    <a href="{{ route('parameter') }}" class="me-2">Parameters</a>
-                    <a href="{{ route('device') }}" class="me-2">Devices</a>
-                    <a href="{{ route('customer.users') }}" class="me-2">Users</a>
-                    <a href="{{ route('locations') }}" class="me-2">Locations</a>
-                </div> --}}
+
+        </div>
+        <div>
+            @if (Auth::check() && Auth::user()->role == '2')
+                Location: {{ session('location_name') }}
+            @else
+                {{ Auth::user()->customer->company_name }}
             @endif
         </div>
-
-        {{-- <div class="navbar-logo d-flex align-items-center">
-            {{ Auth::user()->customer->company_name }}
-        </div> --}}
-
         <ul class="navbar-nav navbar-nav-icons flex-row align-items-center">
 
             <li>
@@ -102,7 +94,7 @@
 
         <nav>
             <div class="nav flex-column pt-4">
-                @if (Auth::check() && Auth::user()->role == 2)
+                @if (Auth::check() && Auth::user()->role == '2')
                     <!-- Additional Buttons -->
                     <div class="nav flex-column">
                         <div class="nav-item pb-4">

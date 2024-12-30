@@ -26,9 +26,11 @@ class CustomerDeviceController extends Controller
     public function getDashboardPageData(Request $request)
     {
         $customer_id = $request->customer_id;
+        $location_id = $request->location_id;
         $data['types_list'] = Type::with(['subTypes','subTypes.parameters'])
                               ->where('status', '1')
                               ->where('customer_id', $customer_id) // Add the condition for customer_id
+                              ->where('location_id', $location_id) 
                               ->get();
         
         return response()->json([

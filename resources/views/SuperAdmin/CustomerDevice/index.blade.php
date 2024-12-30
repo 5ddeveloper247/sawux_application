@@ -18,11 +18,8 @@
                         @endforeach
                     </select>
 
-                    <select name="" style="min-width: 12rem" class="form-select" id="">
-                        <option value="">Choose Location</option>
-                        <option value=""></option>
-                        <option value=""></option>
-                        <option value=""></option>
+                    <select name="" style="min-width: 12rem" class="form-select" id="location_id">
+                        <option value="0">Choose Location</option>
                     </select>
                 </div>
                 <div>
@@ -38,16 +35,60 @@
 
 @push('script')
     <script>
-        let customer_id = $('#customer_id').val();
+        $("#customer_id").change(function() {
+            let customer_id = $('#customer_id').val();
+            let tableBody = document.querySelector('#location_id');
+            tableBody.innerHTML = ''; // Clear existing rows
+            let id = $(this).val();
+            let type = 'POST';
+            let url = '/admin/getDashBoardLocation';
+            let message = '';
+            let data = new FormData();
+            data.append('id', id)
+            SendAjaxRequestToServer(type, url, data, '', locationResponse, '', '.table-customer');
 
+        });
 
+        function locationResponse(response) {
+            // SHOWING MESSAGE ACCORDING TO RESPONSE
+            if (response.status == 200 || response.status == '200') {
+                let selectElement = document.querySelector('#location_id');
+                selectElement.innerHTML = '<option value="0" selected>Choose Location</option>'; // Clear existing options
+
+                // Append locations to the select element
+                response.locations.forEach(location => {
+                    let option = document.createElement('option');
+                    option.value = location.id; // Use the location ID as the value
+                    option.textContent = location.name; // Use the location name as the display text
+                    selectElement.appendChild(option);
+                });
+
+            } else {
+
+                if (response.status == 402) {
+
+                    error = response.message;
+
+                }
+                toastr.error(error, '', {
+                    timeOut: 3000
+                });
+            }
+        }
 
         $(".data-load").click(function() {
             let customer_id = $('#customer_id').val();
-            getDashboardPageData(customer_id);
+            let location_id = $('#location_id').val();
+            if (customer_id == '0' || customer_id == '' || location_id == '0' || location_id == '') {
+                
+                toastr.error('You must select both a customer and a location.',  {timeOut: 3000});
+
+            }else{
+                getDashboardPageData(customer_id, location_id);
+            }
         });
 
-        function getDashboardPageData(customer_id) {
+        function getDashboardPageData(customer_id, location_id) {
 
             let type = 'POST';
             let url = '/admin/customer-devices/getDashboardPageData';
@@ -55,6 +96,7 @@
             let form = '';
             let data = new FormData();
             data.append('customer_id', customer_id);
+            data.append('location_id', location_id);
             // PASSING DATA TO FUNCTION
             SendAjaxRequestToServer(type, url, data, '', getDashboardPageDataResponse, '', '.data-load');
         }
@@ -97,12 +139,12 @@
                                 html += `<li class="d-flex align-items-center light-text">${param.pre_title}:&nbsp;&nbsp;&nbsp;
                                                             ${param.on_off_flag == '1' ? 
                                                                 `<span class="form-check form-switch pt-1">
-                                                                                                <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" checked disabled>
-                                                                                            </span>` 
+                                                                                                            <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" checked disabled>
+                                                                                                        </span>` 
                                                                 : 
                                                                 `<span class="form-check form-switch pt-1">
-                                                                                                <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" disabled>
-                                                                                            </span>`}
+                                                                                                            <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" disabled>
+                                                                                                        </span>`}
                                                             - ${param.post_title}&nbsp;
                                                         </li>`;
                             } else {

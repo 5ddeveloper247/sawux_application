@@ -20,7 +20,7 @@
                     <label>Choose Locations</label>
                     <select class="form-select" id="location_id" name="location_id" aria-label="Default select example">
                         @foreach ($locations as $location)
-                            <option value="{{ $location->id }}">{{ $location->name }}</option>
+                            <option  {{ session('location_id') == $location->id ? 'selected' : '' }}  value="{{ $location->id }}">{{ $location->name }}</option>
                         @endforeach
                     </select>
                 </div>

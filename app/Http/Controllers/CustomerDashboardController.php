@@ -20,12 +20,16 @@ class CustomerDashboardController extends Controller
     public function dashboard(Request $request){
         
         $user = Auth::user();
+        $customer_id  =$user->customer_id;
         $locationIds = json_decode($user->location_id); 
 
         // Fetch the locations manually from the 'locations' table using the 'location_id' values
         $locations = Location::whereIn('id', $locationIds)->where('status','1')->get();
+        $firstLocation = $locations->first();
+        $firstLocatinID =  $firstLocation->id; 
 
-        return view('dashboard_user',compact('locations'));
+        $api_settings = ApiSetting::where('customer_id',$customer_id)->where('location_id',$firstLocatinID)->first();
+        return view('dashboard_user',compact('locations','api_settings'));
         
         
     }

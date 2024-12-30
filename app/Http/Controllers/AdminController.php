@@ -15,7 +15,7 @@ use App\Models\Location;
 use App\Models\SubType;
 use App\Models\ApiSetting;
 use App\Models\DynamicParameter;
-
+use Illuminate\Support\Facades\Session;
 
 class AdminController extends Controller
 {
@@ -28,7 +28,16 @@ class AdminController extends Controller
         
         $customer_id = Auth::user()->customer_id;
         $locations = Location::where('customer_id',$customer_id)->where('status','1')->get(); 
-        return view('dashboard',compact('locations'));
+        $firstLocation = $locations->first();
+
+        if(Session::get('location_id')){
+        $firstLocatinID =  Session::get('location_id');
+        }else{
+            $firstLocatinID =  $firstLocation->id; 
+        }
+
+        $api_settings = ApiSetting::where('customer_id',$customer_id)->where('location_id',$firstLocatinID)->first();
+        return view('dashboard',compact('locations','api_settings'));
             
         
         
@@ -104,6 +113,9 @@ class AdminController extends Controller
     {
         $customer_id = Auth::user()->customer_id;
         $location_id = $request->location_id;
+        $location = Location::where('id',$location_id)->first();
+        Session::put('location_id', $location_id);
+        Session::put('location_name', $location->name);
         $data['types_list'] = Type::with(['subTypes','subTypes.parameters'])
                               ->where('status', '1')
                               ->where('location_id', $location_id)

@@ -8,6 +8,20 @@
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     {{-- <link rel="stylesheet" href="{{asset('assets/css/style-2.css')}}"> --}}
+
+    <!-- Standard favicon -->
+    <link rel="icon" href="{{ asset('assets/favicon/favicon.ico') }}" sizes="16x16">
+
+    <!-- High-resolution favicon -->
+    <link rel="icon" href="{{ asset('assets/favicon/favicon-32x32.png') }}" sizes="32x32">
+
+    <!-- Apple touch icon -->
+    <link rel="apple-touch-icon" href="{{ asset('assets/favicon/apple-touch-icon.png') }}" sizes="180x180">
+
+    <!-- Android and Windows tiles -->
+    <link rel="icon" href="{{ asset('assets/favicon/favicon-192x192.png') }}" sizes="192x192">
+    <link rel="icon" href="{{ asset('assets/favicon/favicon-144x144.png') }}" sizes="144x144">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
