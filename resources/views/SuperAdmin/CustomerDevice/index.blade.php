@@ -18,6 +18,9 @@
                         @endforeach
                     </select>
 
+                
+                </div>
+                <div>
                     <select name="" style="min-width: 12rem" class="form-select" id="location_id">
                         <option value="0">Choose Location</option>
                     </select>

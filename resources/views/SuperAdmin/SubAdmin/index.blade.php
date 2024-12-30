@@ -1,7 +1,6 @@
 @extends('layouts.super_admin.master')
 
 @push('css')
-
 @endpush
 
 @section('content')
@@ -126,7 +125,8 @@
             <div class="modal-content sub-bg shadow">
                 <div class="modal-header border-0">
                     <h5 class="modal-title m-text fw-bold" id="staticBackdropLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background-image: none !important">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        style="background-image: none !important">
                         <i class="fa-solid fa-xmark text-white fs-5"></i>
                     </button>
                 </div>
@@ -170,25 +170,28 @@
                                     <div class="col-4 mt-3">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox"
-                                                value="{{ $sidebarMenu->id }}">
+                                                value="{{ $sidebarMenu->id }}"
+                                                @if ($sidebarMenu->name === 'Dashboard') checked 
+                                                disabled @endif>
                                             <label class="form-check-label" for="defaultCheck1">
                                                 {{ $sidebarMenu->name }}
                                             </label>
                                         </div>
                                     </div>
                                 @endforeach
+
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer border-0">
-                    <button type="button" class="py-1 px-4 rounded-2 border-0 text-white bg-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="py-1 px-4 rounded-2 border-0 text-white bg-secondary"
+                        data-bs-dismiss="modal">Close</button>
                     <button type="button" class="py-1 px-4 m-btn border-0 rounded-2 save-data">Save</button>
                 </div>
             </div>
         </div>
     </div>
-
 @endsection
 @push('script')
     <script>
@@ -273,9 +276,10 @@
             $(".save-data").click(function() {
                 var data = new FormData($('form#saveFormData')[0]);
                 var selectedMenus = [];
-                $('#menuContainer input[type="checkbox"]:checked').each(function() {
-                    selectedMenus.push($(this).val());
-                });
+                $('#menuContainer input[type="checkbox"]:checked, #menuContainer input[type="checkbox"]:disabled')
+                    .each(function() {
+                        selectedMenus.push($(this).val());
+                    });
                 //    console.log(JSON.stringify(selectedMenus));
                 if (selectedMenus.length > 0) {
                     data.append('selectedMenus', JSON.stringify(selectedMenus));
