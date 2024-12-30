@@ -11,17 +11,17 @@
         <h3 class="m-text fw-semibold">Profile</h3>
 
         <div class="row g-0 align-items-start sub-bg rounded-4 p-4">
-            <div class="col-2">
+            <div class="col-12 col-sm-3">
                 @if ($data->profile)
                     <img src="{{ url($data->profile) }}" width="100%" height="220px" style="object-fit: contain"
                         class="rounded-3" alt="">
                 @else
                     <img src="https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=1900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D"
-                        width="100%" height="220" class="rounded-3 object-fit-cover" alt="">
+                        width="100%" height="300" class="rounded-3 object-fit-cover" alt="">
                 @endif
 
             </div>
-            <div class="col-9 ps-4 d-flex align-items-start gap-3 justify-content-between">
+            <div class="col-12 col-sm ps-0 ps-sm-4 d-flex align-items-start gap-3 justify-content-between my-3 my-sm-0">
                 <div>
                     <h5 class="s-text fw-normal">Personal Details</h5>
 
@@ -35,49 +35,49 @@
                     </div>
                     <div class="d-flex flex-column">
                         <small class="light-text">Email:</small>
-                        <span>{{ $data->email }}</span>
+                        <span class="wrap">{{ $data->email }}</span>
                     </div>
                 </div>
+            </div>
 
-                <div class="col-6">
-                    <div class="p-1 d-flex justify-content-start">
-                        <h5 class="mb-0 m-text">RESET PASSWORD</h5>
-                    </div>
-
-                    <form id="passwordVerifyForm">
-                        <label class="ms-2" for="">Profile Image</label>
-                        <div class="form-floating  col-12 mb-3">
-
-                            <input type="file" class="form-control" id="image" name="image" accept="image/*" single
-                                placeholder="" value="">
-
-                        </div>
-                        <div class="form-floating  col-12 mb-3" id="previewImage">
-
-
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Current Password</label>
-                            <input type="text" class="form-control" id="currentpassword" name="currentpassword"
-                                placeholder="Current Password" maxlength="50">
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">New Password</label>
-                            <input type="text" class="form-control" id="password" name="password"
-                                placeholder="New Password" maxlength="50">
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Confirm New Password</label>
-                            <input type="text" class="form-control" id="password_confirmation"
-                                name="password_confirmation" placeholder="Confirm New Password" maxlength="50">
-                        </div>
-                        <div class="text-center">
-                            <button type="button"
-                                class="btn py-1 px-4 rounded-2 m-btn w-100  text-white border-0 update-profile">Profile
-                                Update</button>
-                        </div>
-                    </form>
+            <div class="col col-sm">
+                <div class="d-flex justify-content-start">
+                    <h5 class="mb-2 s-text">Reset Password</h5>
                 </div>
+
+                <form id="passwordVerifyForm">
+                    <label class="ms-2" for="">Profile Image</label>
+                    <div class="form-floating  col-12 mb-3">
+
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*" single
+                            placeholder="" value="">
+
+                    </div>
+                    <div class="form-floating  col-12 mb-3" id="previewImage">
+
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Current Password</label>
+                        <input type="text" class="form-control" id="currentpassword" name="currentpassword"
+                            placeholder="Current Password" maxlength="50">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">New Password</label>
+                        <input type="text" class="form-control" id="password" name="password"
+                            placeholder="New Password" maxlength="50">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Confirm New Password</label>
+                        <input type="text" class="form-control" id="password_confirmation"
+                            name="password_confirmation" placeholder="Confirm New Password" maxlength="50">
+                    </div>
+                    <div class="text-center">
+                        <button type="button"
+                            class="btn py-1 px-4 rounded-2 m-btn w-100  text-white border-0 update-profile">Profile
+                            Update</button>
+                    </div>
+                </form>
             </div>
         </div>
 

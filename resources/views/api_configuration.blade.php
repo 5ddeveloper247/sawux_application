@@ -9,7 +9,7 @@
 
 @section('content')
     <div>
-        <div class="px-3 py-4 my-3 sub-bg p-3 rounded-4">
+        <div class="px-3 py-4 my-3 sub-bg p-3 rounded-4 mx-3">
             <div class="d-flex justify-content-between">
                 <div class="txt py-4">
                     <h4 class="m-text fw-bold">API DETAILS</h4>

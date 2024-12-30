@@ -100,8 +100,8 @@
 
 
                 <div class="sub-bg rounded-4 p-3">
-                    <div class="table-responsive"style="overflow: visible;">
-                        <table id="exam-listing" style="overflow: visible;width: 100%"
+                    <div class="table-responsive"style="overflow: auto;">
+                        <table id="exam-listing" style="overflow: auto; width: 100%"
                             class="listing_table table table-responsive">
                             <thead>
                                 <tr>

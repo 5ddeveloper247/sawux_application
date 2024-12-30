@@ -96,6 +96,10 @@ a {
     color: #dcdcdc !important;
 }
 
+th {
+    white-space: nowrap !important;
+}
+
 /* __________________________Header__________________________*/
 .dropdown-menu {
     background-color: #353535 !important;
@@ -222,6 +226,14 @@ svg {
     gap: 24px;
 }
 
+@media (max-width: 567px) {
+    .counters {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+        gap: 24px;
+    }
+}
+
 .sub-bg {
     background-color: #202020 !important;
     backdrop-filter: blur(45px) !important;
@@ -299,6 +311,14 @@ option {
     .counters-sec {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 24px;
+    }
+}
+
+@media (max-width: 567px) {
+    .counters-sec {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
         gap: 24px;
     }
 }

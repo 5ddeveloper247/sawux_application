@@ -98,8 +98,8 @@
                 </div> --}}
 
                 <div class="sub-bg rounded-4 p-3">
-                    <div class="table-responsive">
-                        <table style="width: 100%" id="exam-listing" class="listing_table table table-responsive">
+                    <div class="table-responsive" style="overflow: auto;">
+                        <table style="overflow: auto; width: 100%" id="exam-listing" class="listing_table table table-responsive">
                             <thead>
                                 <tr>
                                     <th scope="col">NAME</th>
