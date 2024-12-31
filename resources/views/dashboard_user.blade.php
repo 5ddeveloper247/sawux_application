@@ -20,7 +20,7 @@
                         <label>Choose Locations</label>
                         <select class="form-select" id="location_id" name="location_id" aria-label="Default select example">
                             @foreach ($locations as $location)
-                                <option value="{{ $location->id }}">{{ $location->name }}</option>
+                                <option {{ session('location_id') == $location->id ? 'selected' : '' }} value="{{ $location->id }}">{{ $location->name }}</option>
                             @endforeach
 
                         </select>
@@ -43,13 +43,40 @@
 
 @push('script')
     <script>
+        let ajaxBackendTask = false;
+        $(document).ajaxStart(function() {
+            ajaxBackendTask = true;
+            console.log("A backend task has started.");
+        });
+
+        $(document).ajaxStop(function() {
+            ajaxBackendTask = false;
+            console.log("All backend tasks have completed.");
+        });
         var refreshTimeInterval = '{{ @$api_settings->api_refresh_time * 1000 ?? 0 }}';
 
         var typeIds = [];
 
         $("#location_id").change(function() {
-            getDashboardPageData();
+            let name = $(this).find(":selected").text();
 
+            if (ajaxBackendTask == false) {
+                getDashboardPageData();
+                $("#customer_header_location_name").text(name);
+            } else {
+                toastr.error(
+                    'Please wait while the data is loading. Once the loading is complete, you can change the location.', {
+                        timeOut: 3000
+                    });
+                let previousValue = $(this).data('previous');
+                if (previousValue !== undefined) {
+                    $(this).val(previousValue);
+                }
+            }
+
+        });
+        $("#location_id").focus(function() {
+            $(this).data('previous', $(this).val());
         });
 
         function apiconfiguration() {

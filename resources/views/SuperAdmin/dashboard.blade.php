@@ -159,7 +159,7 @@
                         <div class="overflow-y-auto new-list" style="height: 25rem">
                             @foreach ($data['sub_admin_list'] as $sub_admin)
                                 <article class="p-2 rounded-4 d-flex align-items-center gap-3 mb-3">
-                                    <img src="{{ asset('assets/images/5.jpg') }}" width="40" style="border-radius: 50%"
+                                    <img src="{{ $sub_admin->profile ? url($sub_admin->profile) : asset('assets/images/user_placeholder.png') }}" width="50" height="50" style="border-radius: 50%"
                                         alt="">
                                     <div class="w-100 d-flex flex-column gap-2">
                                         <h6 class="fs-14 mb-0">{{ $sub_admin->username }}</h6>
@@ -185,8 +185,7 @@
                         <div class="overflow-y-auto new-list" style="height: 25rem">
                             @foreach ($data['customer_list'] as $customer)
                                 <article class="p-2 rounded-4 d-flex align-items-center  gap-3 mb-3">
-                                    <img src="{{ asset('assets/images/5.jpg') }}" width="40"
-                                        style="border-radius: 50%" alt="">
+                                 
                                     <div class="w-100 d-flex flex-column gap-2">
                                         {{-- <h6 class="fs-14 mb-1 fw-semibold">5D Solutions</h6> --}}
                                         <small class="light-text">

@@ -76,6 +76,11 @@ class AdminController extends Controller
             $user = Auth::user();
             if($user->role == 2){
 
+                $customer_id = Auth::user()->customer_id;
+                $location = Location::where('customer_id',$customer_id)->first();
+                Session::put('location_id', $location->id);
+                Session::put('location_name', $location->name);
+
                 if($user->is_verified == 0)
                 {
                     $data = User::where('id',$user->id)->first();
@@ -85,6 +90,13 @@ class AdminController extends Controller
                 }
            
             }else{
+                $customer_id = Auth::user()->customer_id;
+                $location_id = json_decode(Auth::user()->location_id);
+              
+                $location = Location::where('id',$location_id[0])->first();
+               
+                Session::put('location_id', $location->id);
+                Session::put('location_name', $location->name);
                 return redirect()->intended('/customer/dashboard'); 
             }
         }

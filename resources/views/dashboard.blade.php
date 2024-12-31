@@ -60,9 +60,12 @@
             $(this).removeClass('is-invalid');
         });
         $("#location_id").change(function() {
+            let name = $(this).find(":selected").text();
+         
             if (ajaxBackendTask == false) {
                 pageFlag = false;
                 getDashboardPageData();
+                $("#header_location_name").text(name);
             } else {
                 toastr.error(
                     'Please wait while the data is loading. Once the loading is complete, you can change the location.', {

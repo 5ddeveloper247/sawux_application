@@ -8,6 +8,7 @@ use App\Models\Location;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 class ApiConfigurationController extends Controller
 {
     //
@@ -20,6 +21,10 @@ class ApiConfigurationController extends Controller
             
         $location_id = $request->location_id;
         $customer_id = Auth::user()->customer_id;
+        $location = Location::where('id',$location_id)->first();
+        Session::put('location_id', $location_id);
+        Session::put('location_name', $location->name);
+
         $data = ApiSetting::where('customer_id','=',$customer_id)
         ->where('location_id','=',$location_id)->first();
         return response()->json([

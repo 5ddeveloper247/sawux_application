@@ -163,6 +163,8 @@
             $(this).removeClass('is-invalid');
         });
         $("#location_id").change(function() {
+            let name = $(this).find(":selected").text();
+            $("#header_location_name").text(name);
             getDashboardPageData();
         });
 

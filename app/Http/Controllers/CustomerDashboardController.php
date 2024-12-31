@@ -14,7 +14,7 @@ use App\Models\SubType;
 use App\Models\ApiSetting;
 use App\Models\DynamicParameter;
 use App\Models\Location;
-
+use Illuminate\Support\Facades\Session;
 class CustomerDashboardController extends Controller
 {
     public function dashboard(Request $request){
@@ -143,6 +143,10 @@ class CustomerDashboardController extends Controller
     {
         $customer_id = Auth::user()->customer_id;
         $location_id = $request->location_id;
+        $location = Location::where('id',$location_id)->first();
+        Session::put('location_id', $location_id);
+        Session::put('location_name', $location->name);
+
         $data['types_list'] = Type::with(['subTypes','subTypes.parameters'])
                               ->where('status', '1')
                               ->where('location_id', $location_id)
