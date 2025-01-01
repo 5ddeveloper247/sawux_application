@@ -85,9 +85,9 @@
                 @endif
             </div>
 
-            <div class="navbar-logo d-flex align-items-center">
+            {{-- <div class="navbar-logo d-flex align-items-center">
                 {{ Auth::user()->customer->company_name }}
-            </div>
+            </div> --}}
         </nav>
 
     </div>

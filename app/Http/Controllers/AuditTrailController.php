@@ -24,9 +24,20 @@ class AuditTrailController extends Controller
             $page = ($start / $length) + 1;
             
             // Get data with pagination and filtering
-            $data = AuditTrail::with('user')->where('module', 'like', '%' . $searchTerm . '%')
-                        ->latest()
-                        ->paginate($length, ['*'], 'page', $page);
+            $data = AuditTrail::with('user')
+            ->where(function ($query) use ($searchTerm) {
+                $query->where('module', 'like', '%' . $searchTerm . '%')
+                      ->orWhere('short_message', 'like', '%' . $searchTerm . '%')
+                      ->orWhereHas('user', function ($userQuery) use ($searchTerm) {
+                          $userQuery->where('name', 'like', '%' . $searchTerm . '%')
+                                    ->orWhere('username', 'like', '%' . $searchTerm . '%')
+                                    ->orWhere('email', 'like', '%' . $searchTerm . '%');
+                      })
+                      ->orWhere('created_at', 'like', '%' . $searchTerm . '%');
+            })
+            ->latest()
+            ->paginate($length, ['*'], 'page', $page);
+        
                        
             
             // Format data for DataTables response
@@ -49,7 +60,7 @@ class AuditTrailController extends Controller
                     'short_message' => $row->short_message,
                     'role' => $roleText,
                     'user_detail' => '<b>Name:</b> '.$row->user->name.'<br> <b>User Name:</b> '.$row->user->username.'<br><b>Email:</b> <small style="color:grey">'.$row->user->email.'</small>',
-                    'created_at' => $row->created_at->format('d M Y h:i A'),
+                    'created_at' => $row->created_at->format('d-M-Y h:i A'),
                 ];
             });
             

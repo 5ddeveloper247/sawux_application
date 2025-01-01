@@ -28,14 +28,18 @@ class AdminController extends Controller
         
         $customer_id = Auth::user()->customer_id;
         $locations = Location::where('customer_id',$customer_id)->where('status','1')->get(); 
-        $firstLocation = $locations->first();
+       
+        if($locations->isNotEmpty()){
+            $firstLocation = $locations->first();
 
-        if(Session::get('location_id')){
-        $firstLocatinID =  Session::get('location_id');
+            if(Session::get('location_id')){
+            $firstLocatinID =  Session::get('location_id');
+            }else{
+                $firstLocatinID =  $firstLocation->id; 
+            }
         }else{
-            $firstLocatinID =  $firstLocation->id; 
+            $firstLocatinID =''; 
         }
-
         $api_settings = ApiSetting::where('customer_id',$customer_id)->where('location_id',$firstLocatinID)->first();
         return view('dashboard',compact('locations','api_settings'));
             
@@ -74,13 +78,21 @@ class AdminController extends Controller
         if (Auth::attempt($credentials)) {
             // Authentication passed
             $user = Auth::user();
+            if ($user->status !== 1) {
+                // If status is not 1, log the user out and show an error message
+                Auth::logout();
+                return redirect('login')->withErrors([
+                    'username' => 'Your account is inactive. Please contact support.',
+                ]);
+            }
             if($user->role == 2){
 
                 $customer_id = Auth::user()->customer_id;
                 $location = Location::where('customer_id',$customer_id)->first();
+                if($location){
                 Session::put('location_id', $location->id);
                 Session::put('location_name', $location->name);
-
+                  }
                 if($user->is_verified == 0)
                 {
                     $data = User::where('id',$user->id)->first();
@@ -92,11 +104,12 @@ class AdminController extends Controller
             }else{
                 $customer_id = Auth::user()->customer_id;
                 $location_id = json_decode(Auth::user()->location_id);
-              
+              if($location_id){
                 $location = Location::where('id',$location_id[0])->first();
                
                 Session::put('location_id', $location->id);
                 Session::put('location_name', $location->name);
+              }
                 return redirect()->intended('/customer/dashboard'); 
             }
         }
@@ -345,52 +358,47 @@ class AdminController extends Controller
 
     public function updateSystemStatus(Request $request)
     {
-        try {
+        
+           // Step 1: Get the customer ID (auth user)
+    $customer_id = Auth::user()->customer_id;
+    // Step 2: Get the location ID from the request
+    $location_id = $request->input('location_id'); // Assuming location_id is passed in the request
 
-            $ApiSetting = ApiSetting::find(1);
-           
-            if($ApiSetting->system_api_url != null){
+    // Step 3: Find the ApiSetting (or whatever model contains the status information)
+    $apiSetting = ApiSetting::where('location_id', $location_id)
+                            ->where('customer_id', $customer_id)
+                            ->first(); // Retrieve the first matching record
 
-                if($ApiSetting->system_status == '0'){
-                    $ApiSetting->system_status = '1';
-                    $url = $ApiSetting->system_api_url.'1';//AkAaU4Dauwwa_-age9G9sUcORDnT0Az6&v18=
-                }else{
-                    $ApiSetting->system_status = '0';
-                    $url = $ApiSetting->system_api_url.'0';//AkAaU4Dauwwa_-age9G9sUcORDnT0Az6&v18=
-                }
-                
-                $apiResponse = $this->callApi($url);
-                // dd($apiResponse);
-                if($apiResponse == '' || $apiResponse != false){
-    
-                    $ApiSetting->save();
-    
-                    return response()->json([
-                        'success' => true,
-                        'message' => 'System Status Updated successfully.'
-                    ], 200);
-                }else{
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'Something went wrong...'
-                    ], 200);
-                }
-            }else{
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'Something went wrong...'
-                    ], 200);
-                }
-            
-        } catch (\Exception $e) {
-            // Log the error for debugging purposes
-            Log::error('Error storing info: ' . $e->getMessage());
+    if (!$apiSetting) {
+        return response()->json([
+            'success' => false,
+            'message' => 'API setting not found',
+        ], 404);
+    }
 
-            return response()->json([
-                'success' => false,
-                'message' => "Oops! Network Error",
-            ], 500);
-        }
+    // Step 4: Update the status for this customer and location
+    try {
+        // Example: Assuming you have a 'status' field and a relationship for customer and location
+        // Update status for a specific customer and location, you may need a model for that
+        $apiSetting->status = $request->input('status'); // Set the new status value from the request
+        $apiSetting->customer_id = $customer_id;
+        $apiSetting->location_id = $location_id;
+        $apiSetting->save(); // Save changes to the database
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Status updated successfully!',
+        ], 200);
+
+    } catch (\Exception $e) {
+        // In case of any errors
+        return response()->json([
+            'success' => false,
+            'message' => 'Oops! Something went wrong.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+
     }
 
 

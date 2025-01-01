@@ -20,7 +20,8 @@
                     <label class="mb-1">Choose Locations</label>
                     <select class="form-select" id="location_id" name="location_id" aria-label="Default select example">
                         @foreach ($locations as $location)
-                            <option   {{ session('location_id') == $location->id ? 'selected' : '' }} value="{{ $location->id }}">{{ $location->name }}</option>
+                            <option {{ session('location_id') == $location->id ? 'selected' : '' }}
+                                value="{{ $location->id }}">{{ $location->name }}</option>
                         @endforeach
 
                     </select>
@@ -28,8 +29,14 @@
             </div>
             <div class="row mt-3">
                 <div class="col-md-12 col-12">
+                    <div class="checkbox-wrapper form-check form-switch pt-1 p-0" style="display: none">
+                        <input class="form-check-input pointer check check-box" type="checkbox" role="switch"
+                            id="myCheckbox">
+                        <label class="check-btn" for="myCheckbox"></label>
+                    </div>
 
-                    <img class="w-100 h-100 rounded-3 opacity-100" id="imageSrc" src="" alt="image" style="display: none">
+                    <img class="w-100 h-100 rounded-3 opacity-100" id="imageSrc" src="" alt="image"
+                        style="display: none">
 
                 </div>
             </div>
@@ -61,7 +68,7 @@
         });
         $("#location_id").change(function() {
             let name = $(this).find(":selected").text();
-         
+
             if (ajaxBackendTask == false) {
                 pageFlag = false;
                 getDashboardPageData();
@@ -95,13 +102,43 @@
             if (response.success == true || response.success == 'true') {
                 if (response.data) {
                     $("#imageSrc").show();
+                    $(".checkbox-wrapper").show();
                     $("#imageSrc").attr('src', response.data.image);
+                    if (response.data.status == '1') {
+                        $("#myCheckbox").prop('checked', true); // Set checkbox as checked
+                    } else {
+                        $("#myCheckbox").prop('checked', false); // Set checkbox as unchecked
+                    }
                 } else {
                     $("#imageSrc").hide();
                     $("#imageSrc").attr('src', '');
+                    $(".checkbox-wrapper").hide();
+                    $("#myCheckbox").prop('checked', false);
                 }
             }
         }
+        // Function to handle checkbox change
+        $("#myCheckbox").on('change', function() {
+            // Set a specific value based on whether the checkbox is checked or not
+            let statusValue = $(this).prop('checked') ? '1' :'0'; // 'active' if checked, 'inactive' if unchecked
+
+
+            // Optionally, you can send this value to the server immediately
+            let location_id = $("#location_id").val(); // Get the location_id
+
+            let type = 'POST';
+            let url = '/updateSystemStatus';
+            let data = new FormData();
+            data.append('location_id', location_id);
+            data.append('status', statusValue);
+
+            // Send the updated status to the server
+            SendAjaxRequestToServer(type, url, data, '', function(response) {
+                if (response.success) {
+                    alert("Status updated successfully!");
+                }
+            }, '', '');
+        });
 
         function getDashboardPageData() {
             apiconfiguration();

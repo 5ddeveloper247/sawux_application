@@ -177,6 +177,9 @@ class CustomerDashboardController extends Controller
             'password.required' => 'The new password field is required.',
             'password.min' => 'The new password must be at least 8 characters long.',
             'password.confirmed' => 'The password confirmation does not match.',
+            'image.image' => 'The uploaded file must be an image.',
+            'image.mimes' => 'The image must be a file of type: jpeg, png, jpg, gif.',
+            'image.size' => 'The image size must be less than 5MB.',
         ];
     
         // Validate request

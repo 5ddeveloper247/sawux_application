@@ -174,13 +174,13 @@
                 <div class="modal-content">
                     <!-- Modal Header -->
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                        <h5 class="modal-title" style="color:black" id="deleteModalLabel">Confirm Deletion</h5>
                         <input type="hidden" id="deleteId" />
                         <input type="hidden" id="deleteUrl" />
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <!-- Modal Body -->
-                    <div class="modal-body">
+                    <div class="modal-body" style="color:black">
                         Are you sure you want to delete this item?
                     </div>
                     <!-- Modal Footer -->

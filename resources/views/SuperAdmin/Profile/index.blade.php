@@ -12,13 +12,18 @@
 
         <div class="row g-0 align-items-start sub-bg rounded-4 p-4">
             <div class="col-2">
-                @if ($data->profile)
-                    <img src="{{ url($data->profile) }}" width="100%" height="220px" style="object-fit: contain"
-                        class="rounded-3" alt="">
-                @else
-                    <img src="https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=1900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D"
-                        width="100%" height="220" class="rounded-3 object-fit-cover" alt="">
-                @endif
+                <div class="form-floating  col-12 mb-3" id="previewImage">
+
+                    @if ($data->profile)
+                        <img src="{{ url($data->profile) }}" width="100%" height="220px" style="object-fit: contain"
+                            class="rounded-3" alt="">
+                    @else
+                        <img src="https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=1900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D"
+                            width="100%" height="220" class="rounded-3 object-fit-cover" alt="">
+                    @endif
+
+
+                </div>
             </div>
 
             <div class="col-9 ps-4 d-flex align-items-start gap-3 justify-content-between">
@@ -41,7 +46,7 @@
 
                 <div class="col-6">
                     <div class="p-1 d-flex justify-content-start">
-                        <h5 class="mb-0 m-text">RESET PASSWORD</h5>
+                        <h5 class="mb-0 m-text">Profile Update</h5>
                     </div>
 
                     <form id="passwordVerifyForm">
@@ -52,10 +57,7 @@
                                 placeholder="" value="">
 
                         </div>
-                        <div class="form-floating  col-12 mb-3" id="previewImage">
 
-
-                        </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Current Password</label>
                             <input type="text" class="form-control" id="currentpassword" name="currentpassword"
@@ -95,13 +97,19 @@
 
                     reader.onload = function(e) {
                         preview.html(
-                            `<img class="w-50 h-50" src="${e.target.result}" alt="image">`
+                            `<img  src="${e.target.result}" class="rounded-3" width="100%" height="220px" style="object-fit: contain"  alt="image">`
                         );
                     };
 
                     reader.readAsDataURL(file); // Read the file as a data URL
                 } else {
-                    preview.html(`<p>No Image Uploaded</p>`);
+                    preview.html(`   @if ($data->profile)
+                        <img src="{{ url($data->profile) }}" width="100%" height="220px" style="object-fit: contain"
+                            class="rounded-3" alt="">
+                    @else
+                        <img src="https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=1900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D"
+                            width="100%" height="220" class="rounded-3 object-fit-cover" alt="">
+                    @endif`);
                 }
             });
             $(".update-profile").click(function() {
@@ -145,11 +153,11 @@
                 if (Object.keys(errors).length > 0) {
                     $.each(errors, function(key, message) {
                         toastr.error(message, {
-                        timeOut: 3000
-                    });
+                            timeOut: 3000
+                        });
                         let inputField = $('[name="' + key + '"]');
                         inputField.addClass(
-                        'is-invalid'); // Add 'is-invalid' class to the input field
+                            'is-invalid'); // Add 'is-invalid' class to the input field
                     });
                 } else {
                     let type = 'POST';

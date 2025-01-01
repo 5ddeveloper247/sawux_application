@@ -100,7 +100,7 @@ Route::post('/admin/customer-admin/card', [CustomerAdminController::class, 'card
 
 // customer devices
 Route::post('/admin/customer-devices/getDashboardPageData', [CustomerDeviceController::class, 'getDashboardPageData'])->name('superadmin.customer.device.getDashboardPageData');
-
+Route::post('/admin/customer-devices/refreshParameterValuesTypeWise', [CustomerDeviceController::class, 'refreshParameterValuesTypeWise'])->name('refreshParameterValuesTypeWise');
 //
 Route::get('/admin/audit-trails', [AuditTrailController::class, 'index'])->name('superadmin.audit.trails');
 Route::post('/admin/audit-trails/list', [AuditTrailController::class, 'listAll'])->name('superadmin.audit.trails.list');

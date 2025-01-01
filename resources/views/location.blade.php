@@ -42,7 +42,7 @@
                     <a href="#"
                         class="counter sub-bg add-sub-admin p-4 rounded-4 text-start d-flex flex-column align-items-center gap-3">
                         <img src="{{ asset('assets/images/add-user.png') }}" width="45" alt="">
-                        <h6 class="text-center text-white">Add Customers</h6>
+                        <h6 class="text-center text-white">Add Location</h6>
                     </a>
                 </div>
 
@@ -104,7 +104,7 @@
                             <table id="exam-listing" style="overflow: auto; width: 100%" class="listing_table table table-responsive">
                                 <thead>
                                     <tr>
-                                        <th scope="col">NAME</th>
+                                        <th scope="col">Location NAME</th>
                                         <th scope="col">CODE</th>
                                         <th scope="col">POSTAL CODE</th>
                                         <th scope="col">ADDRESS</th>
@@ -138,7 +138,7 @@
                             <input type="hidden" id="id" name="id" value="" />
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Name</label>
+                                    <label for="exampleInputEmail1" class="form-label">Location Name</label>
                                     <input type="text" class="form-control" id="name" name="name"
                                         placeholder="Name" maxlength="50">
                                 </div>
@@ -168,7 +168,7 @@
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Description</label>
                                     <textarea type="text" rows="2" class="form-control" id="description" name="description"
-                                        placeholder="Description" maxlength="50"></textarea>
+                                        placeholder="Description" maxlength="250"></textarea>
                                 </div>
                             </div>
                         </div>

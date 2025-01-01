@@ -33,11 +33,16 @@ class CustomerUserController extends Controller
             
             // Get data with pagination and filtering
             $loginId = Auth::user()->id;
-            $data = User::where('role','=',3)
-                        ->where('created_by','=',$loginId)
-                        ->where('name', 'like', '%' . $searchTerm . '%')
-                        ->latest()
-                        ->paginate($length, ['*'], 'page', $page);
+                $data = User::where('role', '=', 3)
+                ->where('created_by', '=', $loginId)
+                ->where(function ($query) use ($searchTerm) {
+                    $query->where('name', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('username', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('email', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('status', 'like', '%' . $searchTerm . '%');
+                })
+                ->latest()
+                ->paginate($length, ['*'], 'page', $page);
                        
             
             // Format data for DataTables response
@@ -84,7 +89,12 @@ class CustomerUserController extends Controller
         $rules = [
             'name' => 'required',
             'locations' => 'required',
-            'username' => 'required|unique:users,username' . ($id ? ",$id" : ''),
+           'username' => [
+    'required',
+    'unique:users,username' . ($id ? ",$id" : ''),
+    'regex:/^[a-zA-Z][a-zA-Z0-9_-]*$/',  // Starts with a letter, followed by letters, numbers, underscores, or hyphens
+    'max:50', // Optional: Limit the length to 50 characters
+],
             'email' => 'required|email|unique:users,email' . ($id ? ",$id" : ''),
         ];
         

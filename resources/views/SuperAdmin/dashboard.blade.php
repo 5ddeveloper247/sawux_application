@@ -80,7 +80,7 @@
                                     </a>
                                 </div>
 
-                                <div class="overflow-y-auto new-list" style="height: 21.5rem">
+                                <div class="overflow-y-auto" style="height: 21.5rem">
                                     @foreach ($data['audit_trail_list'] as $audit_trail_list)
                                         <article class="p-2 rounded-4 d-flex align-items-center  gap-3 mb-3">
                                             <div class="w-100 d-flex flex-column gap-2">
@@ -128,8 +128,8 @@
                             </div>
                         </div>
 
-                        <div class="table-responsive overflow-y-auto" style="height: 15rem;">
-                            <table style="width: 100%;" class="table table-responsive">
+                        <div id="parameterList" class="table-responsive overflow-y-auto" style="height: 15rem;">
+                            {{-- <table style="width: 100%;" class="table table-responsive">
                                 <thead>
                                     <tr>
                                         <th class="fs-14 text-white" scope="col">PRE TITLE</th>
@@ -140,7 +140,7 @@
                                 <tbody id="parameterList">
                                     <!-- Dynamically populated rows will go here -->
                                 </tbody>
-                            </table>
+                            </table> --}}
                         </div>
                     </div>
                 </div>
@@ -159,8 +159,8 @@
                         <div class="overflow-y-auto new-list" style="height: 25rem">
                             @foreach ($data['sub_admin_list'] as $sub_admin)
                                 <article class="p-2 rounded-4 d-flex align-items-center gap-3 mb-3">
-                                    <img src="{{ $sub_admin->profile ? url($sub_admin->profile) : asset('assets/images/user_placeholder.png') }}" width="50" height="50" style="border-radius: 50%"
-                                        alt="">
+                                    <img src="{{ $sub_admin->profile ? url($sub_admin->profile) : asset('assets/images/user_placeholder.png') }}"
+                                        width="50" height="50" style="border-radius: 50%" alt="">
                                     <div class="w-100 d-flex flex-column gap-2">
                                         <h6 class="fs-14 mb-0">{{ $sub_admin->username }}</h6>
                                         <small class="fw-light wrap">{{ $sub_admin->email }}</small>
@@ -185,7 +185,7 @@
                         <div class="overflow-y-auto new-list" style="height: 25rem">
                             @foreach ($data['customer_list'] as $customer)
                                 <article class="p-2 rounded-4 d-flex align-items-center  gap-3 mb-3">
-                                 
+
                                     <div class="w-100 d-flex flex-column gap-2">
                                         {{-- <h6 class="fs-14 mb-1 fw-semibold">5D Solutions</h6> --}}
                                         <small class="light-text">
@@ -215,10 +215,17 @@
 @push('script')
     <script>
         $(document).ready(function() {
+            var chart;
+
             function initializeChart(categories, seriesData) {
                 var chartElement = document.querySelector("#barChart");
 
                 if (chartElement) {
+                    // Check if chart already exists and destroy it before creating a new one
+                    if (chart && typeof chart.destroy === 'function') {
+                        chart.destroy();
+                    }
+
                     var options = {
                         chart: {
                             type: 'bar',
@@ -281,13 +288,12 @@
                     };
 
                     // Create and render the bar chart
-                    var chart = new ApexCharts(chartElement, options);
+                    chart = new ApexCharts(chartElement, options);
                     chart.render();
                 } else {
                     console.error("Element with id 'barChart' not found.");
                 }
             }
-
             // Call the chart initially with default data
 
             getData();
@@ -305,7 +311,7 @@
                 let message = '';
                 let data = new FormData();
                 data.append('id', id)
-                SendAjaxRequestToServer(type, url, data, '', chartResponse, '','.chart-customer');
+                SendAjaxRequestToServer(type, url, data, '', chartResponse, '', '.chart-customer');
             }
 
             function chartResponse(response) {
@@ -417,40 +423,55 @@
             });
 
             function parameterResponse(response) {
+                let tableBody = document.querySelector('#parameterList');
+                tableBody.innerHTML = ''; // Clear existing rows
+
                 if (response.status == 200 || response.status == '200') {
-                    let tableBody = document.querySelector('#parameterList');
-                    tableBody.innerHTML = ''; // Clear existing rows
-
-                    response.devices.forEach(device => {
-                        // Add a row for the SubType
-                        let subTypeRow = `
-                <tr>
-                    <td colspan="3" class="fs-14 text-white">
-                        <strong>${device.title}</strong> <!-- SubType Title -->
-                    </td>
-                </tr>
-            `;
-                        tableBody.innerHTML += subTypeRow;
-
+                    response.devices.forEach((device, deviceIndex) => {
                         // Add rows for DynamicParameters under the SubType
                         if (device.parameters.length > 0) {
-                            device.parameters.forEach(parameter => {
-                                let parameterRow = `
-                        <tr>
-                            <td>${parameter.pre_title}</td>
-                            <td>${parameter.post_title}</td>
-                            <td>${parameter.parameter}</td>
-                        </tr>
-                    `;
-                                tableBody.innerHTML += parameterRow;
-                            });
-                        } else {
-                            let noParameterRow = `
+                            let rows = device.parameters.map((parameter, index) => `
                     <tr>
-                        <td colspan="3" class="text-center">No Parameters Available</td>
+                        <td>${index + 1}</td> <!-- Index -->
+                        <td>${parameter.pre_title}</td>
+                        <td>${parameter.post_title}</td>
+                        <td>${parameter.parameter}</td>
                     </tr>
+                `).join('');
+
+                            // Build the full table for the device
+                            let table = `
+                    <div class="device-section">
+                        <div class="device-name">
+                            <strong>${device.title}</strong> <!-- Device Name -->
+                        </div>
+                        <table class="table table-bordered text-white">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Pre Title</th>
+                                    <th>Post Title</th>
+                                    <th>Parameter</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${rows}
+                            </tbody>
+                        </table>
+                    </div>
                 `;
-                            tableBody.innerHTML += noParameterRow;
+                            tableBody.innerHTML += table;
+                        } else {
+                            // Add "No Parameters" message for devices with no parameters
+                            let noParameterSection = `
+                    <div class="device-section">
+                        <div class="device-name">
+                            <strong>${device.title}</strong> <!-- Device Name -->
+                        </div>
+                        <p class="text-center">No Parameters Available</p>
+                    </div>
+                `;
+                            tableBody.innerHTML += noParameterSection;
                         }
                     });
                 } else {
@@ -458,10 +479,10 @@
                     toastr.error(error, '', {
                         timeOut: 3000
                     });
-                    let tableBody = document.querySelector('#parameterList');
                     tableBody.innerHTML = ''; // Clear existing rows
                 }
             }
+
         });
     </script>
 @endpush

@@ -28,10 +28,17 @@ class LocationController extends Controller
             
             // Get data with pagination and filtering
             $customerId = Auth::user()->customer_id;
-            $data = Location::where('customer_id','=',$customerId)
-                        ->where('name', 'like', '%' . $searchTerm . '%')
-                        ->latest()
-                        ->paginate($length, ['*'], 'page', $page);
+            $data = Location::where('customer_id', '=', $customerId)
+            ->where(function ($query) use ($searchTerm) {
+                $query->where('name', 'like', '%' . $searchTerm . '%')
+                      ->orWhere('code', 'like', '%' . $searchTerm . '%')
+                      ->orWhere('postal_code', 'like', '%' . $searchTerm . '%')
+                      ->orWhere('description', 'like', '%' . $searchTerm . '%')
+                      ->orWhere('address', 'like', '%' . $searchTerm . '%');
+            })
+            ->latest()
+            ->paginate($length, ['*'], 'page', $page);
+        
                        
             
             // Format data for DataTables response
@@ -202,9 +209,9 @@ class LocationController extends Controller
     public function card(){
         $records = array();
         $loginId = Auth::user()->customer_id;
-        $totalUser = Location::count();
-        $activeUser = Location::where('status','=','1')->count();
-        $inActiceUser = Location::where('status','=','0')->count();
+        $totalUser = Location::where('customer_id',$loginId)->count();
+        $activeUser = Location::where('customer_id',$loginId)->where('status','=','1')->count();
+        $inActiceUser = Location::where('customer_id',$loginId)->where('status','=','0')->count();
 
         $records['total_user'] = $totalUser;
         $records['active_user'] = $activeUser;

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 class CustomerController extends Controller
 {
     //
@@ -47,7 +48,7 @@ class CustomerController extends Controller
                     'company_name' => $row->company_name,
                     'email' => $row->email,
                     'phone_number' => $row->phone_number,
-                    'establish_date' => $row->establish_date,
+                    'establish_date' => Carbon::parse($row->establish_date)->format('d-M-Y'),
                     'status' => '<div class="checkbox-wrapper form-check form-switch pt-1 p-0">
                                     <input class="form-check-input pointer check check-box" type="checkbox" role="switch" 
                                     id="'.$row->id.'" 

@@ -40,6 +40,13 @@ class SuperAdminController extends Controller
         if (Auth::attempt($credentials)) {
             // Authentication passed
             $user = Auth::user();
+            if ($user->status !== 1) {
+                // If status is not 1, log the user out and show an error message
+                Auth::logout();
+                return redirect('admin')->withErrors([
+                    'username' => 'Your account is inactive. Please contact support.',
+                ]);
+            }
             return redirect()->intended('/admin/dashboard');
         }
         // Authentication failed, redirect back to the login page with error message
@@ -54,10 +61,10 @@ class SuperAdminController extends Controller
         $total_customer = User:: where('role','2')->count();
         $total_customer_user = User:: where('role','3')->count();
 
-        $sub_admin_list = User:: where('role','1')->limit(4)->get();
-        $customer_list = Customer::limit(4)->get();
-        $audit_trail_list = AuditTrail::limit(4)->get();
-        $customers = Customer::all();
+        $sub_admin_list = User:: where('role','1')->where('status','1')->limit(4)->get();
+        $customer_list = Customer::limit(4)->where('status','1')->get();
+        $audit_trail_list = AuditTrail::latest()->limit(4)->get();
+        $customers = Customer::where('status','1')->get();
 
         $data['total_devices'] = $total_devices;
         $data['total_customer'] = $total_customer;
@@ -283,6 +290,9 @@ class SuperAdminController extends Controller
             'password.required' => 'The new password field is required.',
             'password.min' => 'The new password must be at least 8 characters long.',
             'password.confirmed' => 'The password confirmation does not match.',
+            'image.image' => 'The uploaded file must be an image.',
+            'image.mimes' => 'The image must be a file of type: jpeg, png, jpg, gif.',
+            'image.size' => 'The image size must be less than 5MB.',
         ];
     
         // Validate request

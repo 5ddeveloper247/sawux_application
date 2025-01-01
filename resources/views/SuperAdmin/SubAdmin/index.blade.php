@@ -146,6 +146,12 @@
                                     <label for="exampleInputEmail1" class="form-label">User Name</label>
                                     <input type="text" class="form-control" id="username" name="username"
                                         placeholder="User Name" maxlength="50">
+                                    <small style="color: #6c757d; font-size: 0.9rem; margin-top: 0.3rem; display: block;"
+                                        class="form-text">
+                                        <i class="fas fa-info-circle"></i> Usernames must begin with a letter and may
+                                        include letters, numbers, underscores, and hyphens. Spaces and other special
+                                        characters are not allowed.
+                                    </small>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -160,6 +166,9 @@
                                     <label for="exampleInputEmail1" class="form-label">Password</label>
                                     <input type="text" class="form-control" id="password" name="password"
                                         placeholder="Password" maxlength="20">
+                                    <small
+                                        style="color: #6c757d; font-size: 0.9rem; margin-top: 0.3rem; display: block;">Password
+                                        must be at least 8 characters long.</small>
                                 </div>
                             </div>
                         </div>
@@ -188,6 +197,23 @@
                     <button type="button" class="py-1 px-4 rounded-2 border-0 text-white bg-secondary"
                         data-bs-dismiss="modal">Close</button>
                     <button type="button" class="py-1 px-4 m-btn border-0 rounded-2 save-data">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="color:black" id="deleteModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="color:black">
+                    Are you sure you want to delete this record?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
                 </div>
             </div>
         </div>
@@ -364,27 +390,39 @@
             }
 
             // delete record
-
             $("#exam-listing").on('click', '.delete-btn', function(e) {
                 e.preventDefault();
                 let id = $(this).attr("data-id");
+
+                // Show the confirmation modal
+                $('#deleteModal').modal('show');
+
+                // Store the ID of the record to be deleted in a data attribute for later use
+                $('#confirmDeleteBtn').data('id', id);
+            });
+
+            // Handle the confirmation button click
+            $('#confirmDeleteBtn').on('click', function() {
+                let id = $(this).data('id');
                 let type = 'POST';
                 let url = '/admin/sub-admin/delete';
                 let data = new FormData();
                 data.append('id', id);
+
+                // Send the AJAX request to delete the record
                 SendAjaxRequestToServer(type, url, data, '', deleteDataResponse, '', '');
+
+                // Close the modal
+                $('#deleteModal').modal('hide');
             });
 
             function deleteDataResponse(response) {
                 if (response.status == 200) {
-
                     toastr.success('The record has been successfully deleted.', {
                         timeOut: 3000
                     });
                     pageLoader();
-
                 } else {
-
                     toastr.error('An error is being encountered.', {
                         timeOut: 3000
                     });

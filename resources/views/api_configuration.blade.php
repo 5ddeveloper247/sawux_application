@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-center mt-2">
-                    <button type="button" class="btn theme-btn-outline my-4 d-flex align-items-center px-md-5 mx-1"
+                    <button type="button" style="color:white" class="btn theme-btn-outline my-4 d-flex align-items-center px-md-5 mx-1"
                         id="saveApiSettings_btn" onclick="saveApiSettings();">SAVE</button>
                 </div>
             </form>
@@ -82,7 +82,7 @@
 
                     reader.onload = function(e) {
                         preview.html(
-                            `<img class="w-100 h-100" src="${e.target.result}" alt="image" style="height:150px;">`
+                            `<img class="w-100 h-100" id="imageSrc" src="${e.target.result}" alt="image" style="height:150px;">`
                         );
                     };
 
@@ -110,12 +110,16 @@
             function apiConfigurationDataResponse(response) {
                 if (response.success == true || response.success == 'true') {
                     if (response.data) {
+                        $("#image").val('');
                         $("#imageSrc").show();
+                        //$("#previewImage").empty();
                         $("#api_url").val(response.data.api_url);
                         $("#system_api_url").val(response.data.system_api_url);
                         $("#api_refresh_time").val(response.data.api_refresh_time);
                         $("#imageSrc").attr('src', response.data.image);
                     } else {
+                        $("#image").val('');
+                        //$("#previewImage").empty();
                         $("#api_url").val('');
                         $("#system_api_url").val('');
                         $("#api_refresh_time").val('');
