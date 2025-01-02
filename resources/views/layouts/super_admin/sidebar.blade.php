@@ -12,7 +12,7 @@
                                 class="nav-link {{ request()->routeIs($menu->link) ? 'active' : '' }}">
                                 <span>
                                     <small class="d-flex align-items-center gap-2">
-                                        <i class="fa-solid fa-house-chimney-window fs-5"></i>
+                                        {!! $menu->icon !!}
                                         {{ $menu->name }}
                                     </small>
                                 </span>
