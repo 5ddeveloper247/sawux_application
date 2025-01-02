@@ -52,7 +52,7 @@
                             <div class="row align-items-center">
                                 <div class="form-floating col-md-12 mb-3">
                                     <input type="text" class="form-control" id="type_title" name="title" placeholder="" maxlenght="20">
-                                    <label class="ms-2" for="device_key">Title</label>
+                                    <label class="ms-2" for="device_key">Title*</label>
                                 </div>
 
                             </div>
@@ -93,7 +93,7 @@
                                 <div class="form-floating col-md-12 mb-3">
                                     <input type="text" class="form-control" id="subtype_title" name="title"
                                         placeholder="" maxlenght="20">
-                                    <label class="ms-2" for="device_key">Title</label>
+                                    <label class="ms-2" for="device_key">Title*</label>
                                 </div>
 
                             </div>
@@ -128,14 +128,14 @@
                                 <div class="form-floating col-md-12 mb-3">
                                     <select class="form-select py-1" aria-label="Default select example"
                                         id="parameter_type_id" name="type_id">
-                                        <option>Choose Device</option>
+                                        <option>Choose Device*</option>
 
                                     </select>
                                 </div>
                                 <div class="form-floating col-md-12 mb-3">
                                     <select class="form-select py-1" aria-label="Default select example"
                                         id="parameter_sub_type_id" name="sub_type_id">
-                                        <option>Choose SubType</option>
+                                        <option>Choose SubType*</option>
                                     </select>
                                 </div>
                                 <div class="form-floating col-md-12 mb-3">
@@ -149,12 +149,12 @@
                                 <div class="form-floating col-md-12 mb-3">
                                     <input type="text" class="form-control" id="pre_title" name="pre_title"
                                         placeholder="" maxlenght="20">
-                                    <label class="ms-2" for="device_key">Pre Title</label>
+                                    <label class="ms-2" for="device_key">Pre Title*</label>
                                 </div>
                                 <div class="form-floating col-md-12 mb-3">
                                     <input type="text" class="form-control" id="post_title" name="post_title"
                                         placeholder="" maxlenght="20">
-                                    <label class="ms-2" for="device_key">Post Title</label>
+                                    <label class="ms-2" for="device_key">Post Title*</label>
                                 </div>
 
                             </div>
@@ -471,8 +471,8 @@
 
                     for (let i = 0; i < response.data.length; i++) {
                         if (i == 0) {
-                            $("#parameter_type_id").append('<option>Choose Device</option>');
-                            $("#subtype_type_id").append('<option>Choose Device</option>');
+                            $("#parameter_type_id").append('<option>Choose Device*</option>');
+                            $("#subtype_type_id").append('<option>Choose Device*</option>');
                         }
                         let option = '<option value="' + response.data[i].id + '">' + response.data[i].title + '</option>';
                         $("#parameter_type_id").append(option);
@@ -480,8 +480,8 @@
                     }
 
                 } else {
-                    $("#parameter_type_id").append('<option>Choose Device</option>');
-                    $("#subtype_type_id").append('<option>Choose Device</option>');
+                    $("#parameter_type_id").append('<option>Choose Device*</option>');
+                    $("#subtype_type_id").append('<option>Choose Device*</option>');
                 }
 
             } else {
@@ -502,8 +502,8 @@
                         inputField.closest('.form-control').addClass('is-invalid');
                     });
                 }
-                $("#parameter_sub_type_id").append('<option>Choose Sub Type</option>');
-                $("#subtype_type_id").append('<option>Choose Sub Type</option>');
+                $("#parameter_sub_type_id").append('<option>Choose Sub Type*</option>');
+                $("#subtype_type_id").append('<option>Choose Sub Type*</option>');
                 toastr.error(error, '', {
                     timeOut: 3000
                 });
@@ -611,14 +611,14 @@
 
                     for (let i = 0; i < response.data.length; i++) {
                         if (i == 0) {
-                            $("#parameter_sub_type_id").append('<option>Choose Sub Type</option>');
+                            $("#parameter_sub_type_id").append('<option>Choose Sub Type*</option>');
                         }
                         let option = '<option value="' + response.data[i].id + '">' + response.data[i].title + '</option>';
                         $("#parameter_sub_type_id").append(option);
                     }
 
                 } else {
-                    $("#parameter_sub_type_id").append('<option>Choose Sub Type</option>');
+                    $("#parameter_sub_type_id").append('<option>Choose Sub Type*</option>');
                 }
 
             } else {
@@ -639,7 +639,7 @@
                         inputField.closest('.form-control').addClass('is-invalid');
                     });
                 }
-                $("#parameter_sub_type_id").append('<option>Choose Sub Type</option>');
+                $("#parameter_sub_type_id").append('<option>Choose Sub Type*</option>');
                 toastr.error(error, '', {
                     timeOut: 3000
                 });
@@ -651,7 +651,7 @@
             $("#parameter_type_id").show();
             $("#parameter_sub_type_id").show();
             $("#parameter_sub_type_id").empty();
-            $("#parameter_sub_type_id").append('<option>Choose Sub Type</option>');
+            $("#parameter_sub_type_id").append('<option>Choose Sub Type*</option>');
             $("#editParameter_form").trigger('reset');
             $("#editParameterModal").modal('show');
         });

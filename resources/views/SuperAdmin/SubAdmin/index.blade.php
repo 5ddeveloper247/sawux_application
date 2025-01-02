@@ -136,14 +136,14 @@
                             <input type="hidden" id="id" name="id" value="" />
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Name</label>
+                                    <label for="exampleInputEmail1" class="form-label">Name*</label>
                                     <input type="text" class="form-control" id="name" name="name"
                                         placeholder="Name" maxlength="50">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">User Name</label>
+                                    <label for="exampleInputEmail1" class="form-label">User Name*</label>
                                     <input type="text" class="form-control" id="username" name="username"
                                         placeholder="User Name" maxlength="50">
                                     <small style="color: #6c757d; font-size: 0.9rem; margin-top: 0.3rem; display: block;"
@@ -156,14 +156,14 @@
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                                    <label for="exampleInputEmail1" class="form-label">Email address*</label>
                                     <input type="email" class="form-control" id="email" name="email"
                                         placeholder="Email Address">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Password</label>
+                                    <label for="exampleInputEmail1" class="form-label">Password*</label>
                                     <input type="text" class="form-control" id="password" name="password"
                                         placeholder="Password" maxlength="20">
                                     <small
@@ -288,7 +288,7 @@
             $(".add-sub-admin").click(function() {
                 $("#staticBackdrop").modal('toggle');
                 $('form').trigger('reset');
-                $("#staticBackdropLabel").text('Add Record');
+                $("#staticBackdropLabel").text('Add Sub Admin');
                 $("#id").val('');
                 $('#saveFormData').find('.is-invalid').removeClass('is-invalid');
             });
@@ -356,7 +356,7 @@
             // edit  the records
             $("#exam-listing").on('click', '.edit-btn', function(e) {
                 e.preventDefault();
-                $("#staticBackdropLabel").text('Update Record');
+                $("#staticBackdropLabel").text('Update Sub Admin');
                 $('form').trigger('reset');
                 $('#saveFormData').find('.is-invalid').removeClass('is-invalid');
                 let id = $(this).data("id");

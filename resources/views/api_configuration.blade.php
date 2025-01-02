@@ -34,25 +34,25 @@
                     <div class="form-floating col-md-6 col-12 mb-3">
                         <input type="url" class="form-control" id="api_url" name="api_url" placeholder=""
                             value="" maxlenght="200" required>
-                        <label class="mx-2" for="api_url">API URL</label>
+                        <label class="mx-2" for="api_url">API URL*</label>
                     </div>
 
                     <div class="form-floating col-md-6 col-12 mb-3">
                         <input type="url" class="form-control" id="system_api_url" name="system_api_url"
                             placeholder="" value="" maxlenght="200" required>
-                        <label class="mx-2" for="system_api_url">System API URL</label>
+                        <label class="mx-2" for="system_api_url">System API URL*</label>
                     </div>
 
                     <div class="form-floating col-md-6 col-12 mb-3">
                         <input type="number" class="form-control" id="api_refresh_time" name="api_refresh_time"
                             placeholder="" value="" maxlenght="10" required>
-                        <label class="mx-2" for="api_refresh_time">API Refresh Time (Seconds)</label>
+                        <label class="mx-2" for="api_refresh_time">API Refresh Time (Seconds)*</label>
                     </div>
 
                     <div class="form-floating col-md-6 col-12 mb-3">
                         <input type="file" class="form-control" id="image" name="image" accept="image/*" single
                             placeholder="" value="">
-                        <label class="ms-2" for="">Circuit Image</label>
+                        <label class="ms-2" for="">Circuit Image*</label>
                     </div>
                     <div class="form-floating col-md-6 col-12 mb-3" id="previewImage">
 

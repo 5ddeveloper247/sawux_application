@@ -14,8 +14,9 @@ class CustomerUserController extends Controller
 {
     public function index(){
         $customer_id = Auth::user()->customer_id;
-        $locations = Location::where('customer_id',$customer_id)->get();
-        return view('customer_user',compact('locations')); 
+        $locations = Location::where('customer_id',$customer_id)->where('status','1')->get();
+        $editlocations = Location::where('customer_id',$customer_id)->get();
+        return view('customer_user',compact('locations','editlocations')); 
     }
     
     public function listAll(Request $request)

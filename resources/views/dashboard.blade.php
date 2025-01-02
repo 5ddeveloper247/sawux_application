@@ -29,11 +29,16 @@
             </div>
             <div class="row mt-3">
                 <div class="col-md-12 col-12">
-                    <div class="checkbox-wrapper form-check form-switch pt-1 p-0" style="display: none">
-                        <input class="form-check-input pointer check check-box" type="checkbox" role="switch"
-                            id="myCheckbox">
-                        <label class="check-btn" for="myCheckbox"></label>
+                    <div class="d-flex justify-content-end">
+                        <div class="m-2">
+                            System Status:
+                        </div>
+                        <div class="m-2 checkbox-wrapper form-check form-switch pt-1 p-0" style="display: none">
+                            <input class="form-check-input pointer check check-box" type="checkbox" id="myCheckbox">
+                            <label class="check-btn" for="myCheckbox"></label>
+                        </div>
                     </div>
+
 
                     <img class="w-100 h-100 rounded-3 opacity-100" id="imageSrc" src="" alt="image"
                         style="display: none">
@@ -120,24 +125,44 @@
         // Function to handle checkbox change
         $("#myCheckbox").on('change', function() {
             // Set a specific value based on whether the checkbox is checked or not
-            let statusValue = $(this).prop('checked') ? '1' :'0'; // 'active' if checked, 'inactive' if unchecked
+            let statusValue = $(this).prop('checked') ? '1' : '0'; // 'active' if checked, 'inactive' if unchecked
+
+
+
+
+            if (ajaxBackendTask == false) {
+                let location_id = $("#location_id").val(); // Get the location_id
+
+                let type = 'POST';
+                let url = '/updateSystemStatus';
+                let data = new FormData();
+                data.append('location_id', location_id);
+                data.append('status', statusValue);
+
+                // Send the updated status to the server
+                SendAjaxRequestToServer(type, url, data, '', function(response) {
+                    getDashboardPageData();
+                    pageFlag = false;
+                    toastr.success('System Status Update Successfully', '', {
+                        timeOut: 3000
+                    });
+                }, '', '');
+            } else {
+                toastr.error(
+                    'Please wait while the data is loading. Once the loading is complete, you can change the system status.', {
+                        timeOut: 3000
+                    });
+                if (statusValue == 1) {
+                    $("#myCheckbox").prop('checked', false); // Set the checkbox to checked
+                } else {
+                    $("#myCheckbox").prop('checked', true); // Set the checkbox to unchecked
+                }
+            }
+
 
 
             // Optionally, you can send this value to the server immediately
-            let location_id = $("#location_id").val(); // Get the location_id
 
-            let type = 'POST';
-            let url = '/updateSystemStatus';
-            let data = new FormData();
-            data.append('location_id', location_id);
-            data.append('status', statusValue);
-
-            // Send the updated status to the server
-            SendAjaxRequestToServer(type, url, data, '', function(response) {
-                if (response.success) {
-                    alert("Status updated successfully!");
-                }
-            }, '', '');
         });
 
         function getDashboardPageData() {

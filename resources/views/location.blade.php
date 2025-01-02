@@ -138,35 +138,35 @@
                             <input type="hidden" id="id" name="id" value="" />
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Location Name</label>
+                                    <label for="exampleInputEmail1" class="form-label">Location Name*</label>
                                     <input type="text" class="form-control" id="name" name="name"
                                         placeholder="Name" maxlength="50">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Code</label>
+                                    <label for="exampleInputEmail1" class="form-label">Code*</label>
                                     <input type="number" class="form-control" id="code" name="code"
                                         placeholder="Code" maxlength="8">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Postal Code</label>
+                                    <label for="exampleInputEmail1" class="form-label">Postal Code*</label>
                                     <input type="number" class="form-control" id="postal_code" name="postal_code"
                                         placeholder="Postal Code" maxlength="8">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Address</label>
+                                    <label for="exampleInputEmail1" class="form-label">Address*</label>
                                     <textarea type="text" rows="2" class="form-control" id="address" name="address"
                                         placeholder="Address" maxlength="50"></textarea>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Description</label>
+                                    <label for="exampleInputEmail1" class="form-label">Description*</label>
                                     <textarea type="text" rows="2" class="form-control" id="description" name="description"
                                         placeholder="Description" maxlength="250"></textarea>
                                 </div>
@@ -257,7 +257,7 @@
             $(".add-sub-admin").click(function() {
                 $("#staticBackdrop").modal('toggle');
                 $('#saveFormData').trigger('reset');
-                $("#staticBackdropLabel").text('Add Record');
+                $("#staticBackdropLabel").text('Add Location');
                 $("#id").val('');
                 $('#saveFormData').find('.is-invalid').removeClass('is-invalid');
             });
@@ -315,7 +315,7 @@
             // edit  the records
             $("#exam-listing").on('click', '.edit-btn', function(e) {
                 e.preventDefault();
-                $("#staticBackdropLabel").text('Update Record');
+                $("#staticBackdropLabel").text('Update Location');
                 $('#saveFormData').trigger('reset');
                 $('#saveFormData').find('.is-invalid').removeClass('is-invalid');
                 let id = $(this).data("id");

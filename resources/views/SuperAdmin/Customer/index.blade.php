@@ -134,42 +134,42 @@
                             <input type="hidden" id="id" name="id" value="" />
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Name</label>
+                                    <label for="exampleInputEmail1" class="form-label">Name*</label>
                                     <input type="text" class="form-control" id="name" name="name"
                                         placeholder="Name" maxlength="50">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Company Name</label>
+                                    <label for="exampleInputEmail1" class="form-label">Company Name*</label>
                                     <input type="text" class="form-control" id="company_name" name="company_name"
-                                        placeholder="company_name" maxlength="50">
+                                        placeholder="Company Name" maxlength="50">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                                    <label for="exampleInputEmail1" class="form-label">Email address*</label>
                                     <input type="email" class="form-control" id="email" name="email"
                                         placeholder="Email Address">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Phone Number</label>
+                                    <label for="exampleInputEmail1" class="form-label">Phone Number*</label>
                                     <input type="number" class="form-control" id="phone_number" name="phone_number"
                                         placeholder="Phone Number" maxlength="16">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">ADDRESS</label>
+                                    <label for="exampleInputEmail1" class="form-label">ADDRESS*</label>
                                     <input type="text" class="form-control" id="address" name="address"
                                         placeholder="ADDRESS">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">ESTABLISH DATE</label>
+                                    <label for="exampleInputEmail1" class="form-label">ESTABLISH DATE*</label>
                                     <input type="date" class="form-control" id="establish_date" name="establish_date"
                                         placeholder="ESTABLISH DATE">
                                 </div>
@@ -261,7 +261,7 @@
             $(".add-sub-admin").click(function() {
                 $("#staticBackdrop").modal('toggle');
                 $('form').trigger('reset');
-                $("#staticBackdropLabel").text('Add Record');
+                $("#staticBackdropLabel").text('Add Customer');
                 $("#id").val('');
                 $('#saveFormData').find('.is-invalid').removeClass('is-invalid');
             });
@@ -319,7 +319,7 @@
             // edit  the records
             $("#exam-listing").on('click', '.edit-btn', function(e) {
                 e.preventDefault();
-                $("#staticBackdropLabel").text('Update Record');
+                $("#staticBackdropLabel").text('Update Customer');
                 $('#saveFormData').trigger('reset');
                 $('#saveFormData').find('.is-invalid').removeClass('is-invalid');
                 let id = $(this).data("id");

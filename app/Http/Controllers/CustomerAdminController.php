@@ -86,7 +86,12 @@ class CustomerAdminController extends Controller
         $rules = [
             'name' => 'required',
             'email' => 'required|email|unique:users,email' . ($id ? ",$id" : ''), 
-            'username' => 'required|unique:users,username' . ($id ? ",$id" : ''),
+           'username' => [
+                'required',
+                'unique:users,username' . ($id ? ",$id" : ''),
+                'regex:/^[a-zA-Z][a-zA-Z0-9_-]*$/',  // Starts with a letter, followed by letters, numbers, underscores, or hyphens
+                'max:50', // Optional: Limit the length to 50 characters
+            ],
             'customer_id' => 'required|not_in:0',
         ];
         

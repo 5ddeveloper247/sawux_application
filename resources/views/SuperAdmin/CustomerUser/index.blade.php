@@ -15,7 +15,7 @@
                             </div>
                             <h2 class="mb-0 text-center" id="activeCustomerAdmin">0</h2>
                         </div>
-                        <h6 class="fw-semibold">Active Customers</h6>
+                        <h6 class="fw-semibold">Active Customer Admin</h6>
                     </div>
 
                     <div class="counter sub-bg p-4 rounded-4 text-start">
@@ -25,7 +25,7 @@
                             </div>
                             <h2 class="mb-0 text-center" id="inActiveCustomerAdmin">0</h2>
                         </div>
-                        <h6 class="fw-semibold">In Active Customers</h6>
+                        <h6 class="fw-semibold">In Active Customer Admin</h6>
                     </div>
 
                     <div class="counter sub-bg p-4 rounded-4 text-start">
@@ -35,13 +35,13 @@
                             </div>
                             <h2 class="mb-0 text-center" id="totalCustomerAdmin">0</h2>
                         </div>
-                        <h6 class="fw-semibold">Total Customers</h6>
+                        <h6 class="fw-semibold">Total Customer Admin</h6>
                     </div>
 
                     <a href="#"
                         class="counter sub-bg add-sub-admin p-4 rounded-4 text-start d-flex flex-column align-items-center gap-3">
                         <img src="{{ asset('assets/images/add-user.png') }}" width="45" alt="">
-                        <h6 class="text-center text-white">Add Customers</h6>
+                        <h6 class="text-center text-white">Add Customer Admin</h6>
                     </a>
                 </div>
 
@@ -134,28 +134,34 @@
                             <input type="hidden" id="id" name="id" value="" />
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Name</label>
+                                    <label for="exampleInputEmail1" class="form-label">Name*</label>
                                     <input type="text" class="form-control" id="name" name="name"
                                         placeholder="Name" maxlength="50">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">User Name</label>
+                                    <label for="exampleInputEmail1" class="form-label">User Name*</label>
                                     <input type="text" class="form-control" id="username" name="username"
                                         placeholder="User Name" maxlength="50">
+                                        <small style="color: #6c757d; font-size: 0.9rem; margin-top: 0.3rem; display: block;"
+                                        class="form-text">
+                                        <i class="fas fa-info-circle"></i> Usernames must begin with a letter and may
+                                        include letters, numbers, underscores, and hyphens. Spaces and other special
+                                        characters are not allowed.
+                                    </small>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                                    <label for="exampleInputEmail1" class="form-label">Email address*</label>
                                     <input type="email" class="form-control" id="email" name="email"
                                         placeholder="Email Address">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="exampleFormControlSelect1" class="form-label">Choose Customer</label>
+                                    <label for="exampleFormControlSelect1" class="form-label">Choose Customer*</label>
                                     <select class="form-control" id="customer_id" name="customer_id">
                                         <option value="0">Select Customer</option>
                                         @foreach ($customers as $customer)
@@ -247,7 +253,7 @@
             $(".add-sub-admin").click(function() {
                 $("#staticBackdrop").modal('toggle');
                 $('form').trigger('reset');
-                $("#staticBackdropLabel").text('Add Record');
+                $("#staticBackdropLabel").text('Add Customer Admin');
                 $("#id").val('');
                 $('#saveFormData').find('.is-invalid').removeClass('is-invalid');
             });
@@ -303,7 +309,7 @@
             // edit  the records
             $("#exam-listing").on('click', '.edit-btn', function(e) {
                 e.preventDefault();
-                $("#staticBackdropLabel").text('Update Record');
+                $("#staticBackdropLabel").text('Update Customer Admin');
                 $('form').trigger('reset');
                 $('#saveFormData').find('.is-invalid').removeClass('is-invalid');
                 let id = $(this).data("id");
