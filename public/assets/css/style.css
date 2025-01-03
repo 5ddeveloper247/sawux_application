@@ -120,7 +120,7 @@ th {
 /* __________________________SideBar__________________________*/
 
 .sidebar.hidden {
-    transform: translateX(-80%);
+    transform: translateX(-65%);
 }
 
 .content {
@@ -129,7 +129,7 @@ th {
 }
 
 .content.shifted {
-    margin-left: 30px;
+    margin-left: 70px;
 }
 
 @media (max-width: 992px) {
@@ -299,6 +299,11 @@ option {
     background-color: #212121fb !important;
     color: #fff !important;
 }
+
+.toggle-password-icon {
+    color: var(--main-color--);
+}
+
 
 /* __________________________SUB-ADMIN_______________________ */
 .counters-sec {

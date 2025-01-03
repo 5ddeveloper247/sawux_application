@@ -15,7 +15,7 @@
                 <div class="form-floating  col-12 mb-3" id="previewImage">
 
                     @if ($data->profile)
-                        <img src="{{ url($data->profile) }}" width="100%" height="220px" style="object-fit: contain"
+                        <img src="{{ url($data->profile) }}" width="100%" height="220px" style="object-fit: cover"
                             class="rounded-3" alt="">
                     @else
                         <img src="https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=1900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D"
@@ -51,28 +51,45 @@
 
                     <form id="passwordVerifyForm">
                         <label class="ms-2" for="">Profile Image</label>
-                        <div class="form-floating  col-12 mb-3">
-
+                        <div class="col-12 mb-3">
                             <input type="file" class="form-control" id="image" name="image" accept="image/*" single
                                 placeholder="" value="">
-
                         </div>
 
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Current Password</label>
-                            <input type="text" class="form-control" id="currentpassword" name="currentpassword"
-                                placeholder="Current Password" maxlength="50">
+                            <label for="currentpassword" class="form-label">Current Password</label>
+                            <div class="position-relative">
+                                <input type="password" class="form-control" id="currentpassword" name="currentpassword"
+                                    placeholder="Current Password" maxlength="50">
+                                <i class="fa-regular fa-eye toggle-password-icon position-absolute"
+                                    style="top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"
+                                    id="toggleCurrentPassword"></i>
+                            </div>
                         </div>
+
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">New Password</label>
-                            <input type="text" class="form-control" id="password" name="password"
-                                placeholder="New Password" maxlength="50">
+                            <label for="password" class="form-label">New Password</label>
+                            <div class="position-relative">
+                                <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="New Password" maxlength="50">
+                                <i class="fa-regular fa-eye toggle-password-icon position-absolute"
+                                    style="top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"
+                                    id="togglePassword"></i>
+                            </div>
                         </div>
+
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Confirm New Password</label>
-                            <input type="text" class="form-control" id="password_confirmation"
-                                name="password_confirmation" placeholder="Confirm New Password" maxlength="50">
+                            <label for="password_confirmation" class="form-label">Confirm New Password</label>
+                            <div class="position-relative">
+                                <input type="password" class="form-control" id="password_confirmation"
+                                    name="password_confirmation" placeholder="Confirm New Password" maxlength="50">
+                                <i class="fa-regular fa-eye toggle-password-icon position-absolute"
+                                    style="top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"
+                                    id="toggleConfirmPassword"></i>
+                            </div>
                         </div>
+
+
                         <div class="text-center">
                             <button type="button"
                                 class="btn py-1 px-4 rounded-2 m-btn w-100  text-white border-0 update-profile">Profile
@@ -87,6 +104,30 @@
 
 @push('script')
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle password visibility function
+            const toggleVisibility = (inputId, iconId) => {
+                const inputField = document.getElementById(inputId);
+                const toggleIcon = document.getElementById(iconId);
+
+                toggleIcon.addEventListener('click', function() {
+                    // Toggle the input field type
+                    const type = inputField.getAttribute('type') === 'password' ? 'text' : 'password';
+                    inputField.setAttribute('type', type);
+
+                    // Toggle the icon class
+                    this.classList.toggle('fa-eye');
+                    this.classList.toggle('fa-eye-slash');
+                });
+            };
+
+            // Initialize toggle functionality for all fields
+            toggleVisibility('currentpassword', 'toggleCurrentPassword');
+            toggleVisibility('password', 'togglePassword');
+            toggleVisibility('password_confirmation', 'toggleConfirmPassword');
+        });
+
+
         $(document).ready(function() {
             $('#image').on('change', function() {
                 const file = this.files[0]; // Get the selected file

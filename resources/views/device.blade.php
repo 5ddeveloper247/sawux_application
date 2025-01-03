@@ -20,7 +20,8 @@
                     <label>Choose Locations</label>
                     <select class="form-select" id="location_id" name="location_id" aria-label="Default select example">
                         @foreach ($locations as $location)
-                            <option  {{ session('location_id') == $location->id ? 'selected' : '' }}  value="{{ $location->id }}">{{ $location->name }}</option>
+                            <option {{ session('location_id') == $location->id ? 'selected' : '' }}
+                                value="{{ $location->id }}">{{ $location->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -51,7 +52,8 @@
                         <div class="modal-body py-0 px-4">
                             <div class="row align-items-center">
                                 <div class="form-floating col-md-12 mb-3">
-                                    <input type="text" class="form-control" id="type_title" name="title" placeholder="" maxlenght="20">
+                                    <input type="text" class="form-control" id="type_title" name="title" placeholder=""
+                                        maxlenght="20">
                                     <label class="ms-2" for="device_key">Title*</label>
                                 </div>
 
@@ -59,8 +61,9 @@
                         </div>
                         <div class="modal-footer d-flex justify-content-center align-items-center border-0">
                             <button type="button" class="btn btn-cancel btn-secondary px-4 closeModal2">Cancel</button>
-                            <button type="button" class="btn btn-done px-4 m-btn border-0 text-white view-exam-matrix-main-content" id="saveType_btn"
-                                onclick="updateType();">Save</button>
+                            <button type="button"
+                                class="btn btn-done px-4 m-btn border-0 text-white view-exam-matrix-main-content"
+                                id="saveType_btn" onclick="updateType();">Save</button>
                         </div>
                     </form>
                 </div>
@@ -84,8 +87,8 @@
                         <div class="modal-body px-4 py-0">
                             <div class="row align-items-center">
                                 <div class="form-floating col-md-12 mb-3">
-                                    <select class="form-select py-1" aria-label="Default select example" id="subtype_type_id"
-                                        name="type_id">
+                                    <select class="form-select py-1" aria-label="Default select example"
+                                        id="subtype_type_id" name="type_id">
                                         <option>Choose Device</option>
 
                                     </select>
@@ -99,8 +102,10 @@
                             </div>
                         </div>
                         <div class="modal-footer d-flex justify-content-center align-items-center border-0">
-                            <button type="button" class="btn btn-cancel py-1 btn-secondary px-4 closeModal3">Cancel</button>
-                            <button type="button" class="btn btn-done px-4 py-1 m-btn border-0 text-white view-exam-matrix-main-content"
+                            <button type="button"
+                                class="btn btn-cancel py-1 btn-secondary px-4 closeModal3">Cancel</button>
+                            <button type="button"
+                                class="btn btn-done px-4 py-1 m-btn border-0 text-white view-exam-matrix-main-content"
                                 id="saveSubType_btn" onclick="updateSubType();">Save</button>
                         </div>
                     </form>
@@ -138,14 +143,16 @@
                                         <option>Choose SubType*</option>
                                     </select>
                                 </div>
+
                                 <div class="form-floating col-md-12 mb-3">
-                                    <select class="form-select py-1" aria-label="Default select example"
+                                    <select class="form-select" aria-label="Default select example"
                                         id="parameter_is_switch" name="parameter_is_switch">
                                         <option value="0">NO</option>
                                         <option value="1">YES</option>
                                     </select>
                                     <label class="ms-2" for="parameter_is_switch">Switch</label>
                                 </div>
+
                                 <div class="form-floating col-md-12 mb-3">
                                     <input type="text" class="form-control" id="pre_title" name="pre_title"
                                         placeholder="" maxlenght="20">
@@ -160,8 +167,10 @@
                             </div>
                         </div>
                         <div class="modal-footer d-flex justify-content-center align-items-center border-0">
-                            <button type="button" class="btn btn-cancel btn-secondary px-4 py-1 closeModal4">Cancel</button>
-                            <button type="button" class="btn btn-done px-4 py-1 border-0 text-white m-btn view-exam-matrix-main-content"
+                            <button type="button"
+                                class="btn btn-cancel btn-secondary px-4 py-1 closeModal4">Cancel</button>
+                            <button type="button"
+                                class="btn btn-done px-4 py-1 border-0 text-white m-btn view-exam-matrix-main-content"
                                 id="saveParameter_btn" onclick="updateParameter();">Save</button>
                         </div>
                     </form>
@@ -249,9 +258,9 @@
                             <div class="row">`;
 
                     $.each(type.sub_types, function(index, subtype) {
-                        html += `<div class="col-md-4 col-12 mb-2">
+                        html += `<div class="col-12 col-md-6 col-xxl-4 mb-2">
                                         <p class="sub-heading text-capitalize"><b>${subtype.title}:</b> 
-                                            <i class="fa-regular fa-pen-to-square pointer" onclick="editSubType(${subtype.id}, '${subtype.title}')"></i>
+                                            <i class="fa-regular fa-pen-to-square pointer ms-2" onclick="editSubType(${subtype.id}, '${subtype.title}')"></i>
                                             <i class="fa-solid fa-trash-can ms-1 text-danger pointer"  onclick="deleteSubType(${subtype.id})"></i>
                                         </p>
 
@@ -260,12 +269,12 @@
                         $.each(subtype.parameters, function(index, param) {
                             if (param.is_switch == 1) {
                                 html +=
-                                    `<li>${param.pre_title}: <i>[<span>ON/OFF</span>]</i> - ${param.post_title} <i class="fa-regular fa-pen-to-square pointer" onclick="editParameter(${param.id}, '${param.pre_title}', '${param.post_title}', '${param.is_switch}')"></i>
-                                <i class="fa-solid fa-trash-can pointer"  onclick="deleteParameter(${param.id})"></i>
+                                    `<li>${param.pre_title}: <i>[<span>ON/OFF</span>]</i> - ${param.post_title} <i class="fa-regular fa-pen-to-square pointer ms-2" onclick="editParameter(${param.id}, '${param.pre_title}', '${param.post_title}', '${param.is_switch}')"></i>
+                                <i class="fa-solid fa-trash-can pointer text-danger"  onclick="deleteParameter(${param.id})"></i>
                                 </li>`;
                             } else {
                                 html +=
-                                    `<li>${param.pre_title}: <i>[<span>værdi</span>]</i> - ${param.post_title} <i class="fa-regular fa-pen-to-square pointer" onclick="editParameter(${param.id}, '${param.pre_title}', '${param.post_title}', '${param.is_switch}')"></i>
+                                    `<li>${param.pre_title}: <i>[<span>værdi</span>]</i> - ${param.post_title} <i class="fa-regular fa-pen-to-square ms-2 pointer" onclick="editParameter(${param.id}, '${param.pre_title}', '${param.post_title}', '${param.is_switch}')"></i>
                                         <i class="fa-solid fa-trash-can ms-1 text-danger pointer"  onclick="deleteParameter(${param.id})"></i></li>`;
                             }
                         });

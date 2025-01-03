@@ -156,7 +156,7 @@
                             </a>
                         </div>
 
-                        <div class="overflow-y-auto new-list" style="height: 25rem">
+                        <div class="overflow-y-auto new-list" style="max-height: 25rem">
                             @foreach ($data['sub_admin_list'] as $sub_admin)
                                 <article class="p-2 rounded-4 d-flex align-items-center gap-3 mb-3">
                                     <img src="{{ $sub_admin->profile ? url($sub_admin->profile) : asset('assets/images/user_placeholder.png') }}"
@@ -182,7 +182,7 @@
                             </a>
                         </div>
 
-                        <div class="overflow-y-auto new-list" style="height: 25rem">
+                        <div class="overflow-y-auto new-list" style="max-height: 25rem">
                             @foreach ($data['customer_list'] as $customer)
                                 <article class="p-2 rounded-4 d-flex align-items-center  gap-3 mb-3">
 

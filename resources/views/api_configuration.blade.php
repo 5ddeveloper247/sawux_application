@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-center mt-2">
-                    <button type="button" style="color:white" class="btn theme-btn-outline my-4 d-flex align-items-center px-md-5 mx-1"
+                    <button type="button" class="m-btn border-0 rounded-2 py-1 text-white my-4 d-flex align-items-center px-md-5 mx-1"
                         id="saveApiSettings_btn" onclick="saveApiSettings();">SAVE</button>
                 </div>
             </form>

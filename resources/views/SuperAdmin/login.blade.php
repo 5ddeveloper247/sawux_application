@@ -53,15 +53,21 @@
                         <br>
                         <input class="w-100 p-2 mt-1" type="text" placeholder="Enter Username" name="username">
                     </div>
-                    <div class="mt-3">
-                        <label for="" class="text-white">Password</label>
-                        <br>
-                        <input class="w-100 p-2 mt-1" type="password" placeholder="Enter Password" name="password">
+
+                    <label for="password" class="text-white mt-3">Password</label>
+                    <div class="position-relative">
+                        <input class="w-100 p-2 mt-1" type="password" placeholder="Enter Password" name="password"
+                            id="password">
+                        <i class="fa-regular fa-eye toggle-password-icon position-absolute"
+                            style="top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"
+                            id="togglePassword"></i>
                     </div>
+
+
                     <div class="form-options my-2 d-flex align-items-center justify-content-between gap-1">
                         <div class="remember-me d-flex gap-1">
                             <!-- <input type="checkbox" id="remember-me">
-                                            <label class="form-label mb-1" for="remember-me">Remember me</label> -->
+                                                <label class="form-label mb-1" for="remember-me">Remember me</label> -->
                         </div>
                     </div>
                     <div class="d-flex justify-content-end">
@@ -89,3 +95,19 @@
     <script src="{{ asset('assets/customjs/main.js') }}"></script>
 
 @endsection
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const passwordField = document.getElementById('password');
+        const togglePasswordIcon = document.getElementById('togglePassword');
+
+        togglePasswordIcon.addEventListener('click', function() {
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    });
+</script>

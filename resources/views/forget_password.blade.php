@@ -74,18 +74,29 @@
                                 </button>
                             </div>
                         </div>
+
                         <div class="mt-4" id="passwordField">
-                            <label style="color:white">Password</label>
-                            <br>
-                            <input class="w-100 p-2 mt-1" type="password" id="password" placeholder="Enter your password"
-                                name="password">
+                            <label style="color: white" for="">Password</label>
+                            <div class="position-relative">
+                                <input class="w-100 p-2 mt-1" type="password" id="password"
+                                    placeholder="Enter your password" name="password">
+                                <i class="fa-regular fa-eye toggle-password-icon position-absolute"
+                                    style="top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"
+                                    id="togglePassword"></i>
+                            </div>
                         </div>
+
                         <div class="mt-4" id="confirmdPasswordField">
-                            <label style="color:white" for="">Confirmd Password</label>
-                            <br>
-                            <input class="w-100 p-2 mt-1" type="password" id="confirmPassword"
-                                placeholder="Enter your confirmed password" name="password_confirmation">
+                            <label style="color: white" for="">Confirm Password</label>
+                            <div class="position-relative">
+                                <input class="w-100 p-2 mt-1" type="password" id="confirmPassword"
+                                    placeholder="Enter your confirmed password" name="password_confirmation">
+                                <i class="fa-regular fa-eye toggle-password-icon position-absolute"
+                                    style="top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"
+                                    id="toggleConfirmPasswordIcon"></i>
+                            </div>
                         </div>
+
                         <button type="button" class="py-2 px-4 m-btn rounded-2 border-0 text-white mt-4 mb-3 w-100"
                             onclick="emailVerified(event)" id="saveParameter_btn">
                             Email Verify
@@ -118,6 +129,31 @@
 
 @push('script')
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle password visibility function
+            const toggleVisibility = (inputId, iconId) => {
+                const inputField = document.getElementById(inputId);
+                const toggleIcon = document.getElementById(iconId);
+
+                toggleIcon.addEventListener('click', function() {
+                    // Toggle the input field type
+                    const type = inputField.getAttribute('type') === 'password' ? 'text' : 'password';
+                    inputField.setAttribute('type', type);
+
+                    // Toggle the icon class
+                    this.classList.toggle('fa-eye');
+                    this.classList.toggle('fa-eye-slash');
+                });
+            };
+
+            // Initialize toggle functionality for both fields
+            toggleVisibility('password', 'togglePassword');
+            toggleVisibility('confirmPassword',
+                'toggleConfirmPasswordIcon'); // Use correct icon ID for confirmed password
+        });
+
+
+
         $(document).ready(function() {
             $("#otp-container").hide();
             $('#otpverified_btn').hide();
