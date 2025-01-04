@@ -101,7 +101,8 @@
                 <div id="products">
                     <div class="sub-bg p-3 rounded-4">
                         <div class="table-responsive" style="overflow: auto;">
-                            <table id="exam-listing" style="overflow: auto; width: 100%" class="listing_table table table-responsive">
+                            <table id="exam-listing" style="overflow: auto; width: 100%"
+                                class="listing_table table table-responsive">
                                 <thead>
                                     <tr>
                                         <th scope="col">Location NAME</th>
@@ -128,7 +129,8 @@
             <div class="modal-content sub-bg">
                 <div class="modal-header border-0">
                     <h5 class="modal-title " id="staticBackdropLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background-image: none !important">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        style="background-image: none !important">
                         <i class="fa-solid fa-xmark text-white fs-5"></i>
                     </button>
                 </div>
@@ -140,7 +142,11 @@
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Location Name*</label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="Name" maxlength="50">
+                                        placeholder="Name" maxlength="12">
+                                    <small style="color: #6c757d; font-size: 0.9rem; margin-top: 0.3rem; display: block;"
+                                        class="form-text">
+                                        <i class="fas fa-info-circle"></i>Location name: only 12 characters allowed.
+                                    </small>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -160,8 +166,8 @@
                             <div class="col-6">
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Address*</label>
-                                    <textarea type="text" rows="2" class="form-control" id="address" name="address"
-                                        placeholder="Address" maxlength="50"></textarea>
+                                    <textarea type="text" rows="2" class="form-control" id="address" name="address" placeholder="Address"
+                                        maxlength="50"></textarea>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -176,7 +182,8 @@
                 </div>
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-secondary py-1 px-4" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn m-btn py-1 px-4 rounded-2 text-white border-0 save-data">Save</button>
+                    <button type="button"
+                        class="btn m-btn py-1 px-4 rounded-2 text-white border-0 save-data">Save</button>
                 </div>
             </div>
         </div>

@@ -57,8 +57,11 @@
                                 placeholder="" value="">
 
                         </div>
-
-                        <div class="mb-3">
+                        <small style="color: #6c757d; font-size: 0.9rem;  display: block;"
+                            class="form-text">
+                            <i class="fas fa-info-circle"></i> The image must be in PNG or JPG format.
+                        </small>
+                        <div class="mb-3 mt-3">
                             <label for="currentpassword" class="form-label">Current Password</label>
                             <div class="position-relative">
                                 <input type="password" class="form-control" id="currentpassword" name="currentpassword"

@@ -93,8 +93,9 @@ class CustomerUserController extends Controller
            'username' => [
     'required',
     'unique:users,username' . ($id ? ",$id" : ''),
-    'regex:/^[a-zA-Z][a-zA-Z0-9_-]*$/',  // Starts with a letter, followed by letters, numbers, underscores, or hyphens
-    'max:50', // Optional: Limit the length to 50 characters
+    'regex:/^(?=.*[!@#$%^&*()_\-+=])[a-zA-Z][a-zA-Z0-9!@#$%^&*()_\-+=]{4,14}$/', // Starts with a letter and includes at least one special character
+    'min:5',
+    'max:15',
 ],
             'email' => 'required|email|unique:users,email' . ($id ? ",$id" : ''),
         ];

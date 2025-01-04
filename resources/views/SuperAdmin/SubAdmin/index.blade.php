@@ -149,8 +149,8 @@
                                     <small style="color: #6c757d; font-size: 0.9rem; margin-top: 0.3rem; display: block;"
                                         class="form-text">
                                         <i class="fas fa-info-circle"></i> Usernames must begin with a letter and may
-                                        include letters, numbers, underscores, and hyphens. Spaces and other special
-                                        characters are not allowed.
+                                        include numbers, underscores, and hyphens. Minimum length is 5
+                                        characters, and maximum length is 15 characters.
                                     </small>
                                 </div>
                             </div>

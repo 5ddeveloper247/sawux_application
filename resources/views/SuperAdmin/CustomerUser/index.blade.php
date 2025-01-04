@@ -99,7 +99,8 @@
 
                 <div class="sub-bg rounded-4 p-3">
                     <div class="table-responsive" style="overflow: auto;">
-                        <table style="overflow: auto; width: 100%" id="exam-listing" class="listing_table table table-responsive">
+                        <table style="overflow: auto; width: 100%" id="exam-listing"
+                            class="listing_table table table-responsive">
                             <thead>
                                 <tr>
                                     <th scope="col">NAME</th>
@@ -124,7 +125,8 @@
             <div class="modal-content sub-bg">
                 <div class="modal-header border-0">
                     <h5 class="modal-title fw-bold m-text" id="staticBackdropLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background-image: none !important">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        style="background-image: none !important">
                         <i class="fa-solid fa-xmark text-white fs-5"></i>
                     </button>
                 </div>
@@ -144,11 +146,11 @@
                                     <label for="exampleInputEmail1" class="form-label">User Name*</label>
                                     <input type="text" class="form-control" id="username" name="username"
                                         placeholder="User Name" maxlength="50">
-                                        <small style="color: #6c757d; font-size: 0.9rem; margin-top: 0.3rem; display: block;"
+                                    <small style="color: #6c757d; font-size: 0.9rem; margin-top: 0.3rem; display: block;"
                                         class="form-text">
                                         <i class="fas fa-info-circle"></i> Usernames must begin with a letter and may
-                                        include letters, numbers, underscores, and hyphens. Spaces and other special
-                                        characters are not allowed.
+                                        include numbers, underscores, and hyphens. Minimum length is 5
+                                        characters, and maximum length is 15 characters.
                                     </small>
                                 </div>
                             </div>
@@ -174,7 +176,8 @@
                     </form>
                 </div>
                 <div class="modal-footer border-0">
-                    <button type="button" class="py-1 px-4 rounded-2 border-0 text-white bg-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="py-1 px-4 rounded-2 border-0 text-white bg-secondary"
+                        data-bs-dismiss="modal">Close</button>
                     <button type="button" class="py-1 px-4 m-btn border-0 rounded-2 save-data">Save</button>
                 </div>
             </div>

@@ -87,7 +87,7 @@ class LocationController extends Controller
         
         // Validation rules
         $rules = [
-            'name' => 'required',
+            'name' => 'required|max:12',
             'code' => 'required',
             'postal_code' => 'required',
             'address' => 'required',
