@@ -1,6 +1,13 @@
 @extends('layouts.admin.admin_master')
 
 @push('css')
+
+<style>
+    .accordion-button::after {
+        background-image: none !important;
+    }
+</style>
+
 @endpush
 
 @section('content')
@@ -39,8 +46,7 @@
                         <h6 class="fw-semibold">Total Locations</h6>
                     </div>
 
-                    <a href="#"
-                        class="counter sub-bg add-sub-admin p-4 rounded-4 text-start d-flex flex-column align-items-center gap-3">
+                    <a href="#" class="counter sub-bg add-sub-admin p-4 rounded-4 text-start d-flex flex-column align-items-center gap-3">
                         <img src="{{ asset('assets/images/add-user.png') }}" width="45" alt="">
                         <h6 class="text-center text-white">Add Location</h6>
                     </a>
@@ -100,12 +106,65 @@
 
                 <div id="products">
                     <div class="sub-bg p-3 rounded-4">
+
+                        {{-- <div class="accordion border-0" id="accordionExample">
+                            <div class="accordion-item bg-transparent border-0">
+                                <h2 class="accordion-header border-0">
+                                    <button class="accordion-button bg-transparent text-white border-0 px-0 pb-4" style="box-shadow: none" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Advance Search <i class="fa-solid fa-circle-arrow-down ps-2"></i>
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse border-0"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body pt-0 px-3 pb-4">
+                                        <div class="row gy-3">
+                                            <div class="col-sm-6 col-md-4 col-xl-3">
+                                                <label for="locationName" class="form-label text-white">Location Name</label>
+                                                <input type="text" id="locationName" name="location_name"
+                                                    class="form-control" placeholder="Enter Location Name">
+                                            </div>
+                                            <div class="col-sm-6 col-md-4 col-xl-2">
+                                                <label for="code" class="form-label text-white">Code</label>
+                                                <input type="text" id="code" name="code" class="form-control"
+                                                    placeholder="Enter Code">
+                                            </div>
+                                            <div class="col-sm-6 col-md-4 col-xl-2">
+                                                <label for="postalCode" class="form-label text-white">Postal Code</label>
+                                                <input type="text" id="postalCode" name="postal_code"
+                                                    class="form-control" placeholder="Enter Postal Code">
+                                            </div>
+                                            <div class="col-sm-6 col-md-4 col-xl-3">
+                                                <label for="address" class="form-label text-white">Address</label>
+                                                <input type="text" id="address" name="address" class="form-control"
+                                                    placeholder="Enter Address">
+                                            </div>
+                                            <div class="col-sm-6 col-md-4 col-xl-2">
+                                                <label for="status" class="form-label text-white">Status</label>
+                                                <select id="status" name="status" class="form-select">
+                                                    <option value="">All</option>
+                                                    <option value="active">Active</option>
+                                                    <option value="inactive">Inactive</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-12 d-flex justify-content-end mt-3">
+                                                <button type="reset" id="reset-button"
+                                                class="btn btn-secondary py-1 px-4">Reset</button>
+                                                <button type="button" id="search-button"
+                                                    class="py-1 px-4 m-btn ms-2 rounded-2 border-0">Search</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> --}}
+
                         <div class="table-responsive" style="overflow: auto;">
-                            <table id="exam-listing" style="overflow: auto; width: 100%"
+                            <table id="exam-listing" style="overflow: auto; width: 100%;"
                                 class="listing_table table table-responsive">
                                 <thead>
-                                    <tr>
-                                        <th scope="col">Location NAME</th>
+                                    <   tr>
+                                        <th scope="col">LOCATION NAME</th>
                                         <th scope="col">CODE</th>
                                         <th scope="col">POSTAL CODE</th>
                                         <th scope="col">ADDRESS</th>
@@ -134,18 +193,19 @@
                         <i class="fa-solid fa-xmark text-white fs-5"></i>
                     </button>
                 </div>
+
                 <div class="modal-body">
                     <form id="saveFormData">
                         <div class="row">
                             <input type="hidden" id="id" name="id" value="" />
-                            <div class="col-6">
+                            <div class="col-12">
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Location Name*</label>
                                     <input type="text" class="form-control" id="name" name="name"
                                         placeholder="Name" maxlength="12">
                                     <small style="color: #6c757d; font-size: 0.9rem; margin-top: 0.3rem; display: block;"
                                         class="form-text">
-                                        <i class="fas fa-info-circle"></i>Location name: only 12 characters allowed.
+                                        <i class="fas fa-info-circle"></i> Location name: only 12 characters allowed.
                                     </small>
                                 </div>
                             </div>
@@ -180,6 +240,7 @@
                         </div>
                     </form>
                 </div>
+                
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-secondary py-1 px-4" data-bs-dismiss="modal">Close</button>
                     <button type="button"

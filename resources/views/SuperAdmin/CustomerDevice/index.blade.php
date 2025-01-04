@@ -17,18 +17,17 @@
                             <option value="{{ $customer->id }}">{{ $customer->name }}</option>
                         @endforeach
                     </select>
-
-
                 </div>
+
                 <div>
                     <select name="" style="min-width: 12rem" class="form-select" id="location_id">
                         <option value="0">Choose Location</option>
                     </select>
                 </div>
+
                 <div>
                     <button class="py-2 px-4 m-btn text-white border-0 rounded-2 data-load">Data load</button>
                 </div>
-
             </div>
             <div class="row" id="mainContent_section">
             </div>

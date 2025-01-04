@@ -210,7 +210,7 @@
                             <div class="row">`;
 
                     $.each(type.sub_types, function(index, subtype) {
-                        html += `<div class="col-md-4 col-12 mb-2">
+                        html += `<div class="col-md-6 col-12 mb-2">
                                         <p class="sub-heading text-capitalize m-text"><b>${subtype.title}:</b></p>
 
                                         <ul id="parameter_list1">`;

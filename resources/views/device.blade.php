@@ -114,7 +114,7 @@
         </div>
 
         <div class="modal fade" id="editParameterModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content sub-bg">
                     <form id="editParameter_form">
                         <input type="hidden" id="edit_parameter_id" name="parameter_id" value="">
@@ -130,21 +130,21 @@
                         </div>
                         <div class="modal-body py-0 px-4">
                             <div class="row align-items-center">
-                                <div class="form-floating col-md-12 mb-3">
+                                <div class="form-floating col-md-6 mb-3">
                                     <select class="form-select py-1" aria-label="Default select example"
                                         id="parameter_type_id" name="type_id">
                                         <option>Choose Device*</option>
-
                                     </select>
                                 </div>
-                                <div class="form-floating col-md-12 mb-3">
+
+                                <div class="form-floating col-md-6 mb-3">
                                     <select class="form-select py-1" aria-label="Default select example"
                                         id="parameter_sub_type_id" name="sub_type_id">
                                         <option>Choose SubType*</option>
                                     </select>
                                 </div>
 
-                                <div class="form-floating col-md-12 mb-3">
+                                <div class="form-floating col-md-6 mb-3">
                                     <select class="form-select" aria-label="Default select example"
                                         id="parameter_is_switch" name="parameter_is_switch">
                                         <option value="0">NO</option>
@@ -153,11 +153,12 @@
                                     <label class="ms-2" for="parameter_is_switch">Switch</label>
                                 </div>
 
-                                <div class="form-floating col-md-12 mb-3">
+                                <div class="form-floating col-md-6 mb-3">
                                     <input type="text" class="form-control" id="pre_title" name="pre_title"
                                         placeholder="" maxlenght="20">
                                     <label class="ms-2" for="device_key">Pre Title*</label>
                                 </div>
+
                                 <div class="form-floating col-md-12 mb-3">
                                     <input type="text" class="form-control" id="post_title" name="post_title"
                                         placeholder="" maxlenght="20">

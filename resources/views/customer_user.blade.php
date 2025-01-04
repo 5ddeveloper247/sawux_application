@@ -100,28 +100,31 @@
                         <form id="saveFormData">
                             <div class="row">
                                 <div class="col-6">
-                                    <div class="mb-3">
+                                    <div class="mb-1">
                                         <label for="exampleInputEmail1" class="form-label">Full Name*</label>
                                         <input type="text" class="form-control" id="name" name="name"
                                             placeholder="Name" maxlength="50">
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="mb-3">
+                                    <div class="mb-1">
                                         <label for="exampleInputEmail1" class="form-label">User Name*</label>
                                         <input type="text" class="form-control" id="username" name="username"
                                             placeholder="User Name" maxlength="50">
                                         <small
                                             style="color: #6c757d; font-size: 0.9rem; margin-top: 0.3rem; display: block;"
                                             class="form-text">
-                                            <i class="fas fa-info-circle"></i> Usernames must begin with a letter and may
-                                            include  numbers, underscores, and hyphens. Minimum length is 5
-                                            characters, and maximum length is 15 characters.
+                                            <i class="fas fa-info-circle"></i>
+                                            <small class="info-text" style="display: none">
+                                                Usernames must begin with a letter and may
+                                                include numbers, underscores, and hyphens. Minimum length is 5
+                                                characters, and maximum length is 15 characters.
+                                            </small>
                                         </small>
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="mb-3">
+                                    <div class="mb-1">
                                         <label for="exampleInputEmail1" class="form-label">Email address*</label>
                                         <input type="email" class="form-control" id="email" name="email"
                                             placeholder="Email Address">
@@ -161,27 +164,29 @@
                             <div class="row">
                                 <input type="hidden" id="id" name="id" value="" />
                                 <div class="col-6">
-                                    <div class="mb-3">
+                                    <div class="mb-1">
                                         <label for="exampleInputEmail1" class="form-label">Full Name*</label>
                                         <input type="text" class="form-control" id="ename" name="name"
                                             placeholder="Name" maxlength="50">
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="mb-3">
+                                    <div class="mb-1">
                                         <label for="exampleInputEmail1" class="form-label">User Name*</label>
                                         <input type="text" class="form-control" id="eusername" name="username"
                                             placeholder="User Name" maxlength="50">
                                         <small
                                             style="color: #6c757d; font-size: 0.9rem; margin-top: 0.3rem; display: block;"
                                             class="form-text">
-                                            <i class="fas fa-info-circle"></i> Usernames must begin with a letter and may
-                                            include letters, numbers, underscores, and hyphens.
+                                            <i class="fas fa-info-circle icon-2"></i>
+                                            <small class="info-text-2" style="display: none">Usernames must begin with a letter and may
+                                                include letters, numbers, underscores, and hyphens.
+                                            </small>
                                         </small>
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="mb-3">
+                                    <div class="mb-1">
                                         <label for="exampleInputEmail1" class="form-label">Email address*</label>
                                         <input type="email" class="form-control" id="eemail" name="email"
                                             placeholder="Email Address">
@@ -212,10 +217,36 @@
 @endsection
 @push('script')
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const infoIcon = document.querySelector('.fa-info-circle');
+            const infoText = document.querySelector('.info-text');
+            const infoIcon2 = document.querySelector('.icon-2');
+            const infoText2 = document.querySelector('.info-text-2');
+
+            infoIcon.addEventListener('click', function() {
+                if (infoText.style.display === 'none' || infoText.style.display === '') {
+                    infoText.style.display = 'block';
+                } else {
+                    infoText.style.display = 'none';
+                }
+            });
+
+            infoIcon2.addEventListener('click', function() {
+                if (infoText2.style.display === 'none' || infoText2.style.display === '') {
+                    infoText2.style.display = 'block';
+                } else {
+                    infoText2.style.display = 'none';
+                }
+            });
+        });
+
+
         $(document).ready(function() {
 
             //  $('select').selectpicker();
         });
+
+
         $(document).ready(function() {
             getCardData();
 

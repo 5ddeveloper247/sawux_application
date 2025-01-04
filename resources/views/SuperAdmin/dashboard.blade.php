@@ -80,17 +80,17 @@
                                     </a>
                                 </div>
 
-                                <div class="overflow-y-auto" style="height: 21.5rem">
+                                <div class="overflow-y-auto new-list" style="height: 21.5rem">
                                     @foreach ($data['audit_trail_list'] as $audit_trail_list)
                                         <article class="p-2 rounded-4 d-flex align-items-center  gap-3 mb-3">
                                             <div class="w-100 d-flex flex-column gap-2">
                                                 {{-- <h6 class="fs-14 mb-1 fw-semibold">5D Solutions</h6> --}}
                                                 <small class="light-text">
-                                                    <i class="fa-solid fa-home"></i>
+                                                    {{-- <i class="fa-solid fa-home"></i> --}}
                                                     {{ $audit_trail_list->module }}
                                                 </small>
                                                 <small class="light-text">
-                                                    <i class="fa-solid fa-message"></i>
+                                                    {{-- <i class="fa-solid fa-message"></i> --}}
                                                     {{ $audit_trail_list->short_message }}
                                                 </small>
                                             </div>

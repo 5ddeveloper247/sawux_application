@@ -135,34 +135,37 @@
                         <div class="row">
                             <input type="hidden" id="id" name="id" value="" />
                             <div class="col-6">
-                                <div class="mb-3">
+                                <div class="mb-1">
                                     <label for="exampleInputEmail1" class="form-label">Name*</label>
                                     <input type="text" class="form-control" id="name" name="name"
                                         placeholder="Name" maxlength="50">
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="mb-3">
+                                <div class="mb-1">
                                     <label for="exampleInputEmail1" class="form-label">User Name*</label>
                                     <input type="text" class="form-control" id="username" name="username"
                                         placeholder="User Name" maxlength="50">
                                     <small style="color: #6c757d; font-size: 0.9rem; margin-top: 0.3rem; display: block;"
                                         class="form-text">
-                                        <i class="fas fa-info-circle"></i> Usernames must begin with a letter and may
-                                        include numbers, underscores, and hyphens. Minimum length is 5
-                                        characters, and maximum length is 15 characters.
+                                        <i class="fas fa-info-circle"></i>
+                                        <small class="info-text" style="display: none">
+                                            Usernames must begin with a letter and may
+                                            include numbers, underscores, and hyphens. Minimum length is 5
+                                            characters, and maximum length is 15 characters.
+                                        </small>
                                     </small>
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="mb-3">
+                                <div class="mb-1">
                                     <label for="exampleInputEmail1" class="form-label">Email address*</label>
                                     <input type="email" class="form-control" id="email" name="email"
                                         placeholder="Email Address">
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="mb-3">
+                                <div class="mb-1">
                                     <label for="exampleInputEmail1" class="form-label">Password*</label>
                                     <input type="text" class="form-control" id="password" name="password"
                                         placeholder="Password" maxlength="20">
@@ -221,6 +224,20 @@
 @endsection
 @push('script')
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const infoIcon = document.querySelector('.fa-info-circle');
+            const infoText = document.querySelector('.info-text');
+
+            infoIcon.addEventListener('click', function() {
+                if (infoText.style.display === 'none' || infoText.style.display === '') {
+                    infoText.style.display = 'block';
+                } else {
+                    infoText.style.display = 'none';
+                }
+            });
+        });
+
+
         $(document).ready(function() {
 
             getCardData();
