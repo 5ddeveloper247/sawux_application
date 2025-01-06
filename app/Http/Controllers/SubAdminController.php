@@ -33,10 +33,14 @@ class SubAdminController extends Controller
             $page = ($start / $length) + 1;
             
             // Get data with pagination and filtering
-            $data = User::where('name', 'like', '%' . $searchTerm . '%')
-                        ->where('role','=','1')
-                        ->latest()
-                        ->paginate($length, ['*'], 'page', $page);
+            $data = User::where(function ($query) use ($searchTerm) {
+                $query->where('name', 'like', '%' . $searchTerm . '%')
+                      ->orWhere('username', 'like', '%' . $searchTerm . '%')
+                      ->orWhere('email', 'like', '%' . $searchTerm . '%');
+            })
+            ->where('role', '=', '1') // Ensure role filtering remains
+            ->latest()
+            ->paginate($length, ['*'], 'page', $page);
             
             // Format data for DataTables response
             $formattedData = $data->items(); // Get current page items
@@ -88,9 +92,7 @@ class SubAdminController extends Controller
             'username' => [
                 'required',
                 'unique:users,username' . ($id ? ",$id" : ''),
-                'regex:/^(?=.*[!@#$%^&*()_\-+=])[a-zA-Z][a-zA-Z0-9!@#$%^&*()_\-+=]{4,14}$/', // Starts with a letter and includes at least one special character
-                'min:5',
-                'max:15',
+                'regex:/^[a-zA-Z0-9_-]{5,15}$/', // Allows letters, numbers, underscores, and hyphens, between 5 and 15 characters
             ],
             'email' => 'required|email|unique:users,email' . ($id ? ",$id" : ''),
             'password' => $id ? 'nullable|min:8' : 'required|min:8', // Password is required for new user but optional for update

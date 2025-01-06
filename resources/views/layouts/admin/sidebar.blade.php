@@ -30,7 +30,69 @@
                                 </span>
                             </a>
                         </div>
-
+                        <div class="nav-item pb-4 li-full">
+                            <a href="{{ route('locations') }}"
+                                class="nav-link {{ request()->routeIs('locations') ? 'active' : '' }}">
+                                <span>
+                                    <small class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-earth-americas fs-5"></i>
+                                        Locations
+                                    </small>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="nav-item pb-4 li-icon-only justify-content-end" style="display: none;">
+                            <a href="{{ route('locations') }}"
+                                class="nav-link {{ request()->routeIs('locations') ? 'active' : '' }}">
+                                <span>
+                                    <small>
+                                        <i class="fa-solid fa-earth-americas fs-5"></i>
+                                    </small>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="nav-item pb-4 li-full">
+                            <a href="{{ route('device') }}"
+                                class="nav-link {{ request()->routeIs('device') ? 'active' : '' }}">
+                                <span>
+                                    <small class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-laptop-code fs-6"></i>
+                                        Devices
+                                    </small>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="nav-item pb-4 li-icon-only justify-content-end" style="display: none;">
+                            <a href="{{ route('device') }}"
+                                class="nav-link {{ request()->routeIs('device') ? 'active' : '' }}">
+                                <span>
+                                    <small>
+                                        <i class="fa-solid fa-laptop-code fs-6"></i>
+                                    </small>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="nav-item pb-4 li-full">
+                            <a href="{{ route('parameter') }}"
+                                class="nav-link {{ request()->routeIs('parameter') ? 'active' : '' }}">
+                                <span>
+                                    <small class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-chart-simple fs-5"></i>
+                                        Parameters
+                                    </small>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="nav-item pb-4 li-icon-only justify-content-end" style="display: none;">
+                            <a href="{{ route('parameter') }}"
+                                class="nav-link {{ request()->routeIs('parameter') ? 'active' : '' }}">
+                                <span>
+                                    <small>
+                                        <i class="fa-solid fa-chart-simple fs-5"></i>
+                                    </small>
+                                </span>
+                            </a>
+                        </div>
                         <div class="nav-item pb-4 li-full">
                             <a href="{{ route('api.configuration') }}"
                                 class="nav-link {{ request()->routeIs('api.configuration') ? 'active' : '' }}">
@@ -53,49 +115,9 @@
                             </a>
                         </div>
 
-                        <div class="nav-item pb-4 li-full">
-                            <a href="{{ route('parameter') }}"
-                                class="nav-link {{ request()->routeIs('parameter') ? 'active' : '' }}">
-                                <span>
-                                    <small class="d-flex align-items-center gap-2">
-                                        <i class="fa-solid fa-chart-simple fs-5"></i>
-                                        Parameters
-                                    </small>
-                                </span>
-                            </a>
-                        </div>
-                        <div class="nav-item pb-4 li-icon-only justify-content-end" style="display: none;">
-                            <a href="{{ route('parameter') }}"
-                                class="nav-link {{ request()->routeIs('parameter') ? 'active' : '' }}">
-                                <span>
-                                    <small>
-                                        <i class="fa-solid fa-chart-simple fs-5"></i>
-                                    </small>
-                                </span>
-                            </a>
-                        </div>
+                       
 
-                        <div class="nav-item pb-4 li-full">
-                            <a href="{{ route('device') }}"
-                                class="nav-link {{ request()->routeIs('device') ? 'active' : '' }}">
-                                <span>
-                                    <small class="d-flex align-items-center gap-2">
-                                        <i class="fa-solid fa-laptop-code fs-6"></i>
-                                        Devices
-                                    </small>
-                                </span>
-                            </a>
-                        </div>
-                        <div class="nav-item pb-4 li-icon-only justify-content-end" style="display: none;">
-                            <a href="{{ route('device') }}"
-                                class="nav-link {{ request()->routeIs('device') ? 'active' : '' }}">
-                                <span>
-                                    <small>
-                                        <i class="fa-solid fa-laptop-code fs-6"></i>
-                                    </small>
-                                </span>
-                            </a>
-                        </div>
+                       
 
                         <div class="nav-item pb-4 li-full">
                             <a href="{{ route('customer.users') }}"
@@ -119,27 +141,7 @@
                             </a>
                         </div>
 
-                        <div class="nav-item pb-4 li-full">
-                            <a href="{{ route('locations') }}"
-                                class="nav-link {{ request()->routeIs('locations') ? 'active' : '' }}">
-                                <span>
-                                    <small class="d-flex align-items-center gap-2">
-                                        <i class="fa-solid fa-earth-americas fs-5"></i>
-                                        Locations
-                                    </small>
-                                </span>
-                            </a>
-                        </div>
-                        <div class="nav-item pb-4 li-icon-only justify-content-end" style="display: none;">
-                            <a href="{{ route('locations') }}"
-                                class="nav-link {{ request()->routeIs('locations') ? 'active' : '' }}">
-                                <span>
-                                    <small>
-                                        <i class="fa-solid fa-earth-americas fs-5"></i>
-                                    </small>
-                                </span>
-                            </a>
-                        </div>
+                    
                     </div>
                 @endif
             </div>

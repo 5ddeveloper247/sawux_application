@@ -104,6 +104,7 @@
                             class="listing_table table table-responsive">
                             <thead>
                                 <tr>
+                                    <th scope="col">Sr. No.</th>
                                     <th scope="col">NAME</th>
                                     <th scope="col">USER NAME</th>
                                     <th scope="col">EMAIL</th>
@@ -167,8 +168,13 @@
                             <div class="col-6">
                                 <div class="mb-1">
                                     <label for="exampleInputEmail1" class="form-label">Password*</label>
-                                    <input type="text" class="form-control" id="password" name="password"
-                                        placeholder="Password" maxlength="20">
+                                    <div class="position-relative">
+                                        <input type="password" class="form-control" id="password" name="password"
+                                            placeholder="New Password" maxlength="20">
+                                        <i class="fa-regular fa-eye toggle-password-icon position-absolute"
+                                            style="top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"
+                                            id="togglePassword"></i>
+                                    </div>
                                     <small
                                         style="color: #6c757d; font-size: 0.9rem; margin-top: 0.3rem; display: block;">Password
                                         must be at least 8 characters long.</small>
@@ -224,6 +230,18 @@
 @endsection
 @push('script')
     <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const passwordField = document.getElementById('password');
+        const togglePasswordIcon = document.getElementById('togglePassword');
+
+        togglePasswordIcon.addEventListener('click', function() {
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    });
         document.addEventListener("DOMContentLoaded", function() {
             const infoIcon = document.querySelector('.fa-info-circle');
             const infoText = document.querySelector('.info-text');
@@ -277,6 +295,15 @@
                         type: 'POST', // Specify the HTTP method as POST
                     },
                     columns: [{
+                            data: null, // Using `null` because this column will not be bound to a specific data property
+                            name: 'index',
+                            orderable: false, // Disables ordering for the index column
+                            searchable: false, // Disables search for the index column
+                            render: function(data, type, row, meta) {
+                                return meta.row + 1 + meta.settings
+                                    ._iDisplayStart; // Calculate the row number
+                            }
+                        }, {
                             data: 'name',
                             name: 'name'
                         },

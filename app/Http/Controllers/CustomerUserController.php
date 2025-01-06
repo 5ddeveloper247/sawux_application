@@ -90,13 +90,11 @@ class CustomerUserController extends Controller
         $rules = [
             'name' => 'required',
             'locations' => 'required',
-           'username' => [
-    'required',
-    'unique:users,username' . ($id ? ",$id" : ''),
-    'regex:/^(?=.*[!@#$%^&*()_\-+=])[a-zA-Z][a-zA-Z0-9!@#$%^&*()_\-+=]{4,14}$/', // Starts with a letter and includes at least one special character
-    'min:5',
-    'max:15',
-],
+            'username' => [
+                'required',
+                'unique:users,username' . ($id ? ",$id" : ''),
+                'regex:/^[a-zA-Z0-9_-]{5,15}$/', // Allows letters, numbers, underscores, and hyphens, between 5 and 15 characters
+            ],
             'email' => 'required|email|unique:users,email' . ($id ? ",$id" : ''),
         ];
         

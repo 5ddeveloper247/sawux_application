@@ -168,8 +168,8 @@ class SuperAdminController extends Controller
         }
         $email = $request->email;
         $data = User::where('email','=', $email)
-                ->where('role','=',0)
-                ->orwhere('role','=',1)
+                ->whereIn('role',['0','1'])
+                // ->orwhere('role','=',1)
                 ->first();
 
 
@@ -213,8 +213,8 @@ class SuperAdminController extends Controller
         $email = $request->email;
         $otp = $request->otp;
         $data = User::where('email','=', $email)
-                ->where('role','=',0)
-                ->orwhere('role','=',1)
+                ->whereIn('role',['0','1'])
+                // ->orwhere('role','=',1)
                 ->where('otp','=',$otp)
                 ->first();
 
@@ -255,8 +255,8 @@ class SuperAdminController extends Controller
         $email = $request->email;
         $otp = $request->otp;
         $data = User::where('email','=', $email)
-                ->where('role','=',0)
-                ->orwhere('role','=',1)
+                ->whereIn('role',['0','1'])
+                // ->orwhere('role','=',1)
                 ->where('otp','=',$otp)
                 ->first();
         if($data){

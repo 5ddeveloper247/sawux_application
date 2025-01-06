@@ -52,7 +52,7 @@
                     <form id="passwordVerifyForm">
                         <label class="form-label" for="">Profile Image</label>
                         <div class="col-12">
-                            <input type="file" class="form-control" id="image" name="image" accept="image/*" single
+                            <input type="file" class="form-control" id="image" name="image" accept=".png, .jpg, .jpeg"  single
                                 placeholder="" value="">
                         </div>
                         <small style="color: #6c757d; font-size: 0.9rem;  display: block;"

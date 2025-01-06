@@ -33,7 +33,15 @@ class CustomerAdminController extends Controller
             // Get data with pagination and filtering
           
             $data = User::with('customer')->where('role','=',2)
-                        ->where('name', 'like', '%' . $searchTerm . '%')
+            ->where(function ($query) use ($searchTerm) {
+                $query->where('name', 'like', '%' . $searchTerm . '%')
+                      ->orWhere('email', 'like', '%' . $searchTerm . '%')
+                      ->orWhereHas('customer', function ($customerQuery) use ($searchTerm) {
+                          $customerQuery->where('name', 'like', '%' . $searchTerm . '%')
+                                        ->orWhere('company_name', 'like', '%' . $searchTerm . '%')
+                                        ->orWhere('email', 'like', '%' . $searchTerm . '%');
+                      });
+            })
                         ->latest()
                         ->paginate($length, ['*'], 'page', $page);
                        
@@ -86,13 +94,11 @@ class CustomerAdminController extends Controller
         $rules = [
             'name' => 'required',
             'email' => 'required|email|unique:users,email' . ($id ? ",$id" : ''), 
-            'username' => [
-                'required',
-                'unique:users,username' . ($id ? ",$id" : ''),
-                'regex:/^(?=.*[!@#$%^&*()_\-+=])[a-zA-Z][a-zA-Z0-9!@#$%^&*()_\-+=]{4,14}$/', // Starts with a letter and includes at least one special character
-                'min:5',
-                'max:15',
-            ],
+           'username' => [
+    'required',
+    'unique:users,username' . ($id ? ",$id" : ''),
+    'regex:/^[a-zA-Z0-9_-]{5,15}$/', // Allows letters, numbers, underscores, and hyphens, between 5 and 15 characters
+],
             'customer_id' => 'required|not_in:0',
         ];
         
@@ -123,7 +129,9 @@ class CustomerAdminController extends Controller
             $mailData['password'] = $password;
             $mailData['username'] = $request->username;
              $body = view('email.send_user_credentials_template', $mailData);
-            sendMail($request->name, $request->email, 'Your Account Credentials', $body);
+             $email = $request->email;
+             $name =$request->name;
+            sendMail($name,$email, 'Your Account Credentials', $body);
 
             $userId = $user->id;
             record_audit_trail('CustomerAdmin','users',$userId,'ADD','Create a new customer-admin.');

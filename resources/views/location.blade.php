@@ -163,7 +163,7 @@
                             <table id="exam-listing" style="overflow: auto; width: 100%;"
                                 class="listing_table table table-responsive">
                                 <thead>
-                                    <   tr>
+                                    <tr>
                                         <th scope="col">LOCATION NAME</th>
                                         <th scope="col">CODE</th>
                                         <th scope="col">POSTAL CODE</th>

@@ -34,9 +34,15 @@ class CustomerController extends Controller
             // Get data with pagination and filtering
           
             $data = Customer::with('creator')
-            ->where('name', 'like', '%' . $searchTerm . '%')
-                        ->latest()
-                        ->paginate($length, ['*'], 'page', $page);
+            ->where(function ($query) use ($searchTerm) {
+                $query->where('name', 'like', '%' . $searchTerm . '%')
+                      ->orWhere('company_name', 'like', '%' . $searchTerm . '%')
+                      ->orWhere('email', 'like', '%' . $searchTerm . '%')
+                      ->orWhere('phone_number', 'like', '%' . $searchTerm . '%')
+                      ->orWhere('establish_date', 'like', '%' . $searchTerm . '%'); // Assuming establish_date is stored as a string or can be compared like this
+            })
+            ->latest()
+            ->paginate($length, ['*'], 'page', $page);
                        
             
             // Format data for DataTables response

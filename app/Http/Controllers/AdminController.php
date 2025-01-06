@@ -459,8 +459,8 @@ class AdminController extends Controller
         }
         $email = $request->email;
         $data = User::where('email','=', $email)
-                ->where('role','=',2)
-                ->orwhere('role','=',3)
+                ->whereIn('role',['2','3'])
+                // ->orwhere('role','=',3)
                 ->first();
 
         if($data){
@@ -502,8 +502,8 @@ class AdminController extends Controller
         $email = $request->email;
         $otp = $request->otp;
         $data = User::where('email','=', $email)
-                ->where('role','=',2)
-                ->orwhere('role','=',3)
+                ->whereIn('role',['2','3'])
+                // ->orwhere('role','=',3)
                 ->where('otp','=',$otp)
                 ->first();
 
@@ -544,8 +544,8 @@ class AdminController extends Controller
         $email = $request->email;
         $otp = $request->otp;
         $data = User::where('email','=', $email)
-                ->where('role','=',2)
-                ->orwhere('role','=',3)
+                ->whereIn('role',['2','3'])
+                // ->orwhere('role','=',3)
                 ->where('otp','=',$otp)
                 ->first();
         if($data){

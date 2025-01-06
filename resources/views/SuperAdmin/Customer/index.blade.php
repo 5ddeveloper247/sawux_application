@@ -101,6 +101,7 @@
                             class="listing_table table table-responsive">
                             <thead>
                                 <tr>
+                                    <th scope="col">Sr. No.</th>
                                     <th scope="col">NAME</th>
                                     <th scope="col">Company Name</th>
                                     <th scope="col">EMAIL</th>
@@ -225,6 +226,15 @@
                         type: 'POST', // Specify the HTTP method as POST
                     },
                     columns: [{
+                            data: null, // Using `null` because this column will not be bound to a specific data property
+                            name: 'index',
+                            orderable: false, // Disables ordering for the index column
+                            searchable: false, // Disables search for the index column
+                            render: function(data, type, row, meta) {
+                                return meta.row + 1 + meta.settings
+                                ._iDisplayStart; // Calculate the row number
+                            }
+                        },{
                             data: 'name',
                             name: 'name'
                         },
