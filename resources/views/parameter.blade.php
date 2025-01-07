@@ -14,7 +14,8 @@
                     <label>Choose Locations</label>
                     <select class="form-select" id="location_id" name="location_id" aria-label="Default select example">
                         @foreach ($locations as $location)
-                            <option  {{ session('location_id') == $location->id ? 'selected' : '' }} value="{{ $location->id }}">{{ $location->name }}</option>
+                            <option {{ session('location_id') == $location->id ? 'selected' : '' }}
+                                value="{{ $location->id }}">{{ $location->name }}</option>
                         @endforeach
 
                     </select>
@@ -219,13 +220,15 @@
                             if (param.is_switch == 1) {
                                 html += `<li class="d-flex align-items-center">${param.pre_title}:&nbsp;&nbsp;&nbsp;
                                                             ${param.on_off_flag == '1' ? 
-                                                                `<span class="form-check form-switch pt-1">
-                                                                                <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" checked disabled>
-                                                                            </span>` 
+                                                                ` <div class="m-2 checkbox-wrapper form-check form-switch pt-1 p-0" >
+                                    <input class="form-check-input pointer check check-box"  type="checkbox" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" checked disabled >
+                                    <label class="check-btn" ></label>
+                                </div> ` 
                                                                 : 
-                                                                `<span class="form-check form-switch pt-1">
-                                                                                <input class="form-check-input pointer" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})" disabled>
-                                                                            </span>`}
+                                                                `<div class="m-2 checkbox-wrapper form-check form-switch pt-1 p-0" >
+                                    <input class="form-check-input pointer check check-box"  type="checkbox" id="flexSwitchCheckChecked" onclick="changeParameterValueOnOff(${param.id})"  disabled >
+                                    <label class="check-btn" ></label>
+                                </div>`}
                                                             - ${param.post_title}&nbsp;
                                                             <i class="fa-regular fa-pen-to-square pointer" onclick="addParameterValue(${param.id}, '${param.parameter!=null?param.parameter:''}', '${param.parameter_id!=null?param.parameter_id:''}')"></i>
                                                         </li>`;

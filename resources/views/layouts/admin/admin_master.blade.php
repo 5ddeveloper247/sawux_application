@@ -61,7 +61,7 @@
         @include('layouts.admin.header')
     @endauth --}}
 
-    <div class="d-flex">
+    <div   @auth  @if(auth()->user()->role == '3')  @else class="d-flex"  @endif @endauth>
         @auth
             @if (auth()->user()->role == '2')
                 <!-- side bar code here -->
@@ -69,7 +69,7 @@
             @endif
         @endauth
         @auth
-            <div class="content">
+            <div    @auth  @if(auth()->user()->role == '3') style="color:white"  @else class="content"  @endif @endauth>
                 <!-- main content -->
                 @auth
                     @include('layouts.admin.header')

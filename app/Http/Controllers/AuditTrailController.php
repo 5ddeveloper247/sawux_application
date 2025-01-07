@@ -44,6 +44,8 @@ class AuditTrailController extends Controller
             $formattedData = $data->items(); // Get current page items
             $formattedData = collect($formattedData)->map(function ($row, $index) use ($start) {
                 $roleText = '';
+                // var_dump($row->id);
+                // var_dump($row->user->role);
                 if ($row->user->role == '0') {
                     $roleText = 'Super Admin';
                 } elseif ($row->user->role == '1') {

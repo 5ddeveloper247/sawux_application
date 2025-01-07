@@ -63,7 +63,7 @@ class SuperAdminController extends Controller
 
         $sub_admin_list = User:: where('role','1')->where('status','1')->limit(4)->get();
         $customer_list = Customer::limit(4)->where('status','1')->get();
-        $audit_trail_list = AuditTrail::latest()->limit(4)->get();
+        $audit_trail_list = AuditTrail::with('user')->latest()->limit(4)->get();
         $customers = Customer::where('status','1')->get();
 
         $data['total_devices'] = $total_devices;

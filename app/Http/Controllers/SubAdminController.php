@@ -63,9 +63,6 @@ class SubAdminController extends Controller
                                     <a class="edit-btn text-white" data-id="'.$row->id.'" type="button">
                                         <i class="fa-solid fa-user-pen fs-5"></i>
                                     </a>
-                                    <a class="text-danger del delete-btn" data-id="'.$row->id.'" type="button" >
-                                        <i class="fa-regular fa-trash-can fs-5"></i>
-                                    </a>
                                 </div>'
                 ];
             });

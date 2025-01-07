@@ -12,12 +12,13 @@
                     <table id="exam-listing" style="width: 100%" class="listing_table table table-responsive">
                         <thead class="postion-sticky top-0">
                             <tr>
-
-                                <th scope="col">Module</th>
-                                <th scope="col">Action</th>
-                                <th scope="col">Message</th>
                                 <th scope="col">Role</th>
                                 <th scope="col">User Detail</th>
+                                <th scope="col">Action</th>
+                                <th scope="col">Module</th>
+                          
+                                <th scope="col">Message</th>
+                          
                                 <th scope="col">Data & Time</th>
                             </tr>
                         </thead>
@@ -45,18 +46,6 @@
                         type: 'POST', // Specify the HTTP method as POST
                     },
                     columns: [{
-                            data: 'module',
-                            name: 'module'
-                        },
-                        {
-                            data: 'action',
-                            name: 'action'
-                        },
-                        {
-                            data: 'short_message',
-                            name: 'short_message'
-                        },
-                        {
                             data: 'role',
                             name: 'role'
                         },
@@ -64,6 +53,19 @@
                             data: 'user_detail',
                             name: 'user_detail'
                         },
+                        {
+                            data: 'action',
+                            name: 'action'
+                        },
+                        {
+                            data: 'module',
+                            name: 'module'
+                        },
+                        {
+                            data: 'short_message',
+                            name: 'short_message'
+                        },
+                      
                         {
                             data: 'created_at',
                             name: 'created_at'

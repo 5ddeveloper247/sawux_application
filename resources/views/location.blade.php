@@ -212,7 +212,7 @@
                             <div class="col-6">
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Code*</label>
-                                    <input type="number" class="form-control" id="code" name="code"
+                                    <input type="text" class="form-control" id="code" name="code"
                                         placeholder="Code" maxlength="8">
                                 </div>
                             </div>
@@ -227,14 +227,14 @@
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Address*</label>
                                     <textarea type="text" rows="2" class="form-control" id="address" name="address" placeholder="Address"
-                                        maxlength="50"></textarea>
+                                        maxlength="70"></textarea>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Description*</label>
                                     <textarea type="text" rows="2" class="form-control" id="description" name="description"
-                                        placeholder="Description" maxlength="250"></textarea>
+                                        placeholder="Description" maxlength="300"></textarea>
                                 </div>
                             </div>
                         </div>

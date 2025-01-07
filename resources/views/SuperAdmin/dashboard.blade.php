@@ -12,7 +12,7 @@
             <div class="row gy-4">
                 <div class="col-xl-8 col-xxl-9">
 
-                    <h3 class="m-text mb-4">Hello, Super Admin</h3>
+                    {{-- <h3 class="m-text mb-4">Hello, Super Admin</h3> --}}
 
                     <div class="counters mb-4">
                         <div class="counter sub-bg p-4 rounded-4">
@@ -81,21 +81,38 @@
                                 </div>
 
                                 <div class="overflow-y-auto new-list" style="height: 21.5rem">
-                                    @foreach ($data['audit_trail_list'] as $audit_trail_list)
-                                        <article class="p-2 rounded-4 d-flex align-items-center  gap-3 mb-3">
-                                            <div class="w-100 d-flex flex-column gap-2">
-                                                {{-- <h6 class="fs-14 mb-1 fw-semibold">5D Solutions</h6> --}}
-                                                <small class="light-text">
-                                                    {{-- <i class="fa-solid fa-home"></i> --}}
-                                                    {{ $audit_trail_list->module }}
-                                                </small>
-                                                <small class="light-text">
-                                                    {{-- <i class="fa-solid fa-message"></i> --}}
-                                                    {{ $audit_trail_list->short_message }}
-                                                </small>
-                                            </div>
-                                        </article>
-                                    @endforeach
+                                    @if (count($data['audit_trail_list']) > 0)
+                                        @foreach ($data['audit_trail_list'] as $audit_trail_list)
+                                            <article class="p-2 rounded-4 d-flex align-items-center  gap-3 mb-3">
+                                                <div class="w-100 d-flex flex-column gap-2">
+                                                    {{-- <h6 class="fs-14 mb-1 fw-semibold">5D Solutions</h6> --}}
+                                                    <small class="light-text">
+
+                                                        <i class="fa-brands fa-elementor"></i>
+                                                        {{ $audit_trail_list->module }}
+
+                                                        @if ($audit_trail_list->module == 'Customer User')
+                                                            <i class="fa-solid fa-user"></i>
+                                                        @elseif($audit_trail_list->module == 'SubAdmin')
+                                                            <i class="fa-solid fa-user-tie"></i>
+                                                        @elseif($audit_trail_list->module == 'CustomerAdmin')
+                                                            <i class="fa-solid fa-user-tie"></i>
+                                                        @else
+                                                            <i class="fa-solid fa-user"></i>
+                                                        @endif
+                                                        ({{ $audit_trail_list->user->name }})
+                                                    </small>
+                                                    <small class="light-text">
+                                                        {{-- <i class="fa-solid fa-message"></i> --}}
+                                                        <i class="fa-solid fa-message"></i>
+                                                        {{ $audit_trail_list->short_message }}
+                                                    </small>
+                                                </div>
+                                            </article>
+                                        @endforeach
+                                    @else
+                                        <span class="m-3 text-light">No Data Found</span>
+                                    @endif
                                 </div>
 
                             </div>
@@ -157,19 +174,23 @@
                         </div>
 
                         <div class="overflow-y-auto new-list" style="max-height: 25rem">
-                            @foreach ($data['sub_admin_list'] as $sub_admin)
-                                <article class="p-2 rounded-4 d-flex align-items-center gap-3 mb-3">
-                                    <img src="{{ $sub_admin->profile ? url($sub_admin->profile) : asset('assets/images/user_placeholder.png') }}"
-                                        width="50" height="50" style="border-radius: 50%" alt="">
-                                    <div class="w-100 d-flex flex-column gap-2">
-                                        <h6 class="fs-14 mb-0">{{ $sub_admin->username }}</h6>
-                                        <small class="fw-light wrap">{{ $sub_admin->email }}</small>
-                                        <div class="d-flex align-items-center justify-content-end">
-                                            <small class="m-text fw-normal fs-12">{{ $sub_admin->email }}</small>
+                            @if (count($data['sub_admin_list']) > 0)
+                                @foreach ($data['sub_admin_list'] as $sub_admin)
+                                    <article class="p-2 rounded-4 d-flex align-items-center gap-3 mb-3">
+                                        <img src="{{ $sub_admin->profile ? url($sub_admin->profile) : asset('assets/images/user_placeholder.png') }}"
+                                            width="50" height="50" style="border-radius: 50%" alt="">
+                                        <div class="w-100 d-flex flex-column gap-2">
+                                            <h6 class="fs-14 mb-0">{{ $sub_admin->username }}</h6>
+                                            <small class="fw-light wrap">{{ $sub_admin->email }}</small>
+                                            <div class="d-flex align-items-center justify-content-end">
+                                                <small class="m-text fw-normal fs-12">{{ $sub_admin->email }}</small>
+                                            </div>
                                         </div>
-                                    </div>
-                                </article>
-                            @endforeach
+                                    </article>
+                                @endforeach
+                            @else
+                                <span class="m-3 text-light">No Data Found</span>
+                            @endif
                         </div>
                     </div>
 
@@ -183,27 +204,31 @@
                         </div>
 
                         <div class="overflow-y-auto new-list" style="max-height: 25rem">
-                            @foreach ($data['customer_list'] as $customer)
-                                <article class="p-2 rounded-4 d-flex align-items-center  gap-3 mb-3">
+                            @if (count($data['customer_list']) > 0)
+                                @foreach ($data['customer_list'] as $customer)
+                                    <article class="p-2 rounded-4 d-flex align-items-center  gap-3 mb-3">
 
-                                    <div class="w-100 d-flex flex-column gap-2">
-                                        {{-- <h6 class="fs-14 mb-1 fw-semibold">5D Solutions</h6> --}}
-                                        <small class="light-text">
-                                            <i class="fa-solid fa-user"></i>
-                                            {{ $customer->name }}
-                                        </small>
+                                        <div class="w-100 d-flex flex-column gap-2">
+                                            {{-- <h6 class="fs-14 mb-1 fw-semibold">5D Solutions</h6> --}}
+                                            <small class="light-text">
+                                                <i class="fa-solid fa-user"></i>
+                                                {{ $customer->name }}
+                                            </small>
 
-                                        <small class="light-text">
-                                            <i class="fa-solid fa-building"></i>
-                                            {{ $customer->address }}
-                                        </small>
+                                            <small class="light-text">
+                                                <i class="fa-solid fa-building"></i>
+                                                {{ $customer->address }}
+                                            </small>
 
-                                        <small class="m-text fs-12">
-                                            Established * {{ $customer->establish_date }}
-                                        </small>
-                                    </div>
-                                </article>
-                            @endforeach
+                                            <small class="m-text fs-12">
+                                                Established * {{ $customer->establish_date }}
+                                            </small>
+                                        </div>
+                                    </article>
+                                @endforeach
+                            @else
+                                <span class="m-3 text-light">No Data Found</span>
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -13,9 +13,6 @@
     <div>
         <div class="px-3 py-4" data-page="exam">
             <div class="d-flex justify-content-between">
-                <div class="txt py-4">
-                    <h3 class="m-text fw-bold">Hello, Customer</h3>
-                </div>
                 <div>
                     <label class="mb-1">Choose Locations</label>
                     <select class="form-select" id="location_id" name="location_id" aria-label="Default select example">
@@ -26,18 +23,22 @@
 
                     </select>
                 </div>
+                <div>
+                    <div class="system-status-toggle" style="display: none">
+                        <div class="d-flex justify-content-end">
+                            <div class="m-2">
+                                System Status:
+                            </div>
+                            <div class="m-2 checkbox-wrapper form-check form-switch pt-1 p-0" style="display: none">
+                                <input class="form-check-input pointer check check-box" type="checkbox" id="myCheckbox">
+                                <label class="check-btn" for="myCheckbox"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="row mt-3">
                 <div class="col-md-12 col-12">
-                    <div class="d-flex justify-content-end">
-                        <div class="m-2">
-                            System Status:
-                        </div>
-                        <div class="m-2 checkbox-wrapper form-check form-switch pt-1 p-0" style="display: none">
-                            <input class="form-check-input pointer check check-box" type="checkbox" id="myCheckbox">
-                            <label class="check-btn" for="myCheckbox"></label>
-                        </div>
-                    </div>
 
 
                     <img class="w-100 h-100 rounded-3 opacity-100" id="imageSrc" src="" alt="image"
@@ -106,6 +107,7 @@
         function apiConfigurationDataResponse(response) {
             if (response.success == true || response.success == 'true') {
                 if (response.data) {
+                    $(".system-status-toggle").show();
                     $("#imageSrc").show();
                     $(".checkbox-wrapper").show();
                     $("#imageSrc").attr('src', response.data.image);
@@ -115,6 +117,7 @@
                         $("#myCheckbox").prop('checked', false); // Set checkbox as unchecked
                     }
                 } else {
+                    $(".system-status-toggle").hide();
                     $("#imageSrc").hide();
                     $("#imageSrc").attr('src', '');
                     $(".checkbox-wrapper").hide();
@@ -123,7 +126,8 @@
             }
         }
         // Function to handle checkbox change
-        $("#myCheckbox").on('change', function() {
+        $("#myCheckbox").on('change', function(e) {
+            e.preventDefault();
             // Set a specific value based on whether the checkbox is checked or not
             let statusValue = $(this).prop('checked') ? '1' : '0'; // 'active' if checked, 'inactive' if unchecked
 
@@ -223,9 +227,10 @@
                         $.each(subtype.parameters, function(index, param) {
                             if (param.is_switch == 1) {
                                 html += `<li class="d-flex align-items-center">${param.pre_title}:&nbsp;&nbsp;&nbsp;
-                                                        <span class="form-check form-switch pt-1">
-                                                            <input class="form-check-input" type="checkbox" role="switch" id="paramValue_${param.id}" disabled>
-                                                        </span>
+                                      <div class="m-2 checkbox-wrapper form-check form-switch pt-1 p-0" >
+                                <input class="form-check-input pointer check check-box"  type="checkbox" id="paramValue_${param.id}" disabled >
+                                <label class="check-btn" ></label>
+                            </div>  
                                                         - ${param.post_title}
                                                     </li>`;
                             } else {

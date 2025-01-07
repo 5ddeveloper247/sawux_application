@@ -12,11 +12,14 @@
     </a>
 
     <div class="navbar-logo d-flex align-items-center">
-        @if (@Auth::user()->role == 1)
+        <div class="txt py-4">
+            <h3 class="m-text fw-bold">Hello, {{Auth::user()->name}}</h3>
+        </div>
+        {{-- @if (@Auth::user()->role == '1')
             <h4>Administrator</h4>
-        @elseif(@Auth::user()->role == 2)
+        @elseif(@Auth::user()->role == '2')
             <h4>User</h4>
-        @endif
+        @endif --}}
     </div>
 
     <ul class="navbar-nav navbar-nav-icons flex-row align-items-center">

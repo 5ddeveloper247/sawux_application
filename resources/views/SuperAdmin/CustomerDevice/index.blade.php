@@ -29,6 +29,15 @@
                     <button class="py-2 px-4 m-btn text-white border-0 rounded-2 data-load">Data load</button>
                 </div>
             </div>
+            <div class="row mt-3">
+                <div class="col-md-12 col-12">
+
+
+                    <img class="w-100 h-100 rounded-3 opacity-100" id="imageSrc" src="" alt="image"
+                        style="display: none">
+
+                </div>
+            </div>
             <div class="row" id="mainContent_section">
             </div>
         </div>
@@ -114,9 +123,22 @@
                 var data = response.data;
 
                 var alltypes = data.types_list;
+                let api_image = data.api_image;
+                if (api_image) {
+                    let image = api_image.image;
+                    $("#imageSrc").show();
+                    $("#imageSrc").attr('src', "{{ url('') }}/" + image);
 
+
+                } else {
+                    $("#imageSrc").hide();
+                    $("#imageSrc").attr('src', "");
+                }
                 makeDynamicParamResultListing(alltypes);
 
+            } else {
+                $("#imageSrc").hide();
+                $("#imageSrc").attr('src', "");
             }
         }
 
@@ -148,9 +170,11 @@
                         $.each(subtype.parameters, function(index, param) {
                             if (param.is_switch == 1) {
                                 html += `<li class="d-flex align-items-center">${param.pre_title}:&nbsp;&nbsp;&nbsp;
-                                            <span class="form-check form-switch pt-1">
-                                                <input class="form-check-input" type="checkbox" role="switch" id="paramValue_${param.id}" disabled>
-                                            </span>
+                                          
+                                            <div class="m-2 checkbox-wrapper form-check form-switch pt-1 p-0" >
+                                <input class="form-check-input pointer check check-box"  type="checkbox" id="paramValue_${param.id}" disabled>
+                                <label class="check-btn" ></label>
+                            </div> 
                                             - ${param.post_title}
                                         </li>`;
                             } else {

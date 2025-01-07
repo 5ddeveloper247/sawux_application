@@ -18,9 +18,11 @@
         </div>
         <div>
             @if (Auth::check() && Auth::user()->role == '2')
-           <span> {{ Auth::user()->customer->company_name }}</span> - <span id="header_location_name">{{ session('location_name') }}</span>
+            <div class="txt py-4">
+                <h3 style="display: inline" class="m-text fw-bold"> {{ Auth::user()->customer->company_name }}</h3> - <h3 style="display: inline" class="m-text fw-bold" id="header_location_name">{{ session('location_name') }}</h3>
+            </div>
             @else
-                {{ Auth::user()->customer->company_name }} - <span id="customer_header_location_name">{{ session('location_name') }}</span>
+            <h3 style="display: inline" class="m-text fw-bold">{{ Auth::user()->customer->company_name }}</h3> - <h3 style="display: inline" class="m-text fw-bold" id="header_location_name">{{ session('location_name') }}</h3>
             @endif
         </div>
         <ul class="navbar-nav navbar-nav-icons flex-row align-items-center">

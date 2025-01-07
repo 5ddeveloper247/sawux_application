@@ -155,9 +155,11 @@
                             console.log(param);
                             if (param.is_switch == 1) {
                                 html += `<li class="d-flex align-items-center">${param.pre_title}:&nbsp;&nbsp;&nbsp;
-                                                        <span class="form-check form-switch pt-1">
-                                                            <input class="form-check-input" type="checkbox" role="switch" id="paramValue_${param.id}" disabled>
-                                                        </span>
+                                                        
+                                                        <div class="m-2 checkbox-wrapper form-check form-switch pt-1 p-0" >
+                                <input class="form-check-input pointer check check-box"  type="checkbox" id="paramValue_${param.id}" disabled>
+                                <label class="check-btn" ></label>
+                            </div> 
                                                         - ${param.post_title}
                                                     </li>`;
                             } else {
